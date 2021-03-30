@@ -1,0 +1,39 @@
+server:
+  port: 80
+  undertow:
+    io-threads: 8
+    worker-threads: 256
+    buffer-size: 1024
+    buffers-per-region: 1024
+    direct-buffers: true
+    
+logging:
+  file: /gzmpc-cloud-logs/${spring.application.name}/root.log
+  level:
+    root: INFO
+spring:
+  application:
+    name: "@artifactId@"
+  profiles:
+    active: "@profile.active@"
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+        
+tsf:
+  swagger: 
+    enabled: true
+    basePackage: com.gzmpc.microservice.wechat.controller
+        
+forest:
+  max-connections: 1000 # 连接池最大连接数，默认值为500
+  
+  
+wechat: 
+  com:
+    corpid: wx301988b65b2d020d
+    secret: e8-CFMcAbKaD6Z3eafw7vVcqODANDXn4W4D6FcvOfFY
+    
+exframework: 
+  config:
+    enable: true

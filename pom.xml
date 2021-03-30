@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.gzmpc.exframework</groupId>
+		<artifactId>exframework-support-tsf</artifactId>
+		<version>0.6.1.1</version>
+	</parent>
+	<artifactId>developer-parent</artifactId>
+	<groupId>com.gzmpc.business.developer</groupId>
+	<name>developer-parent</name>
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-archetype-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<version>1.0</version>
+
+	<repositories>
+		<repository>
+			<id>gzmpc-public</id>
+			<name>gzmpc public maven</name>
+			<url>http://maven.gzmpc.com/repository/maven-public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+			</releases>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.gzmpc.business.developer</groupId>
+				<artifactId>developer-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gzmpc.business.developer</groupId>
+				<artifactId>developer-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gzmpc.business.developer</groupId>
+				<artifactId>developer-gateway</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gzmpc.business.developer</groupId>
+				<artifactId>developer-admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+        <groupId>com.gzmpc.business.developer</groupId>
+        <artifactId>developer-wechat</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+			<dependency>
+        <groupId>org.springframework.amqp</groupId>
+        <artifactId>spring-amqp</artifactId>
+        <version>2.2.2.RELEASE</version>
+      </dependency>
+		</dependencies>
+	</dependencyManagement>
+	<modules>
+		<module>developer-core</module>
+		<module>developer-admin</module>
+		<module>developer-gateway</module>
+		<module>developer-common</module>
+		<module>developer-wechat</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+	</dependencies>
+</project>

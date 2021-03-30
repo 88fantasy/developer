@@ -1,0 +1,38 @@
+
+
+
+spring:
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      druid:
+        initial-size: 1
+        max-active: 100
+        min-idle: 0
+        max-wait: 60000
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        filters: stat,slf4j
+      datasource:
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/developer?useUnicode=true&characterEncoding=utf-8
+          username: root
+          password: localmysql
+  redis: 
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-active: 200
+      max-wait: -1
+      max-idle: 10
+      min-idle: 0
+    timeout: 1000ms
+  rabbitmq: 
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
