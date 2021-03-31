@@ -14,7 +14,7 @@ pipeline {
     stage('编译') {
       steps {
         dir("${env.DOCKER_BUILD_CONTEXT}") {
-          sh "mvn clean package -P ${env.RUNNING_ENV} -Dmaven.test.skip=true"
+          sh "mvn clean package -P ${env.RUNNING_ENV} -Dmaven.test.skip=true -X"
         }
       }
     }
