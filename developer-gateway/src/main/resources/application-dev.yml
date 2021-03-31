@@ -1,12 +1,5 @@
 
 spring: 
-  cloud:
-    gateway:
-      routes:
-      - id: wildcard_tsf_gateway
-        uri: lb://wildcard_tsf_gateway
-        predicates:
-        - Path= /**
   redis: 
     database: 0
     host: 127.0.0.1

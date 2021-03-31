@@ -106,9 +106,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>com.tencent.tsf</groupId>
 			<artifactId>spring-cloud-tsf-msgw-scg</artifactId>
+		</dependency> -->
+		<dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.tencent.tsf</groupId>
@@ -122,6 +127,10 @@
 					<groupId>com.tencent.tsf</groupId>
 					<artifactId>spring-cloud-tsf-swagger</artifactId>
 				</exclusion>
+				<exclusion>
+          <groupId>com.tencent.tsf</groupId>
+          <artifactId>spring-cloud-tsf-circuitbreaker</artifactId>
+        </exclusion>
 			</exclusions>
 		</dependency>
 

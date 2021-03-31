@@ -1,10 +1,8 @@
 package com.gzmpc.business.developer.admin.config;
 
-import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.gzmpc.business.developer.admin.bus.GatewayRouteEvent;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -20,7 +18,6 @@ import springfox.documentation.spring.web.plugins.Docket;
  *
  */
 @Configuration
-//@RemoteApplicationEventScan(basePackageClasses = GatewayRouteEvent.class)
 public class DeveloperConfig {
 
 	@Bean(value = "defaultApi")
@@ -31,7 +28,7 @@ public class DeveloperConfig {
 						.version("1.0").build())
 				.groupName("Default API").select()
 				// 这里指定Controller扫描包路径
-				.apis(RequestHandlerSelectors.basePackage("com.gzmpc.business.developer.provider.controller")).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.gzmpc.business.developer.admin.controller")).paths(PathSelectors.any())
 				.build();
 		return docket;
 	}

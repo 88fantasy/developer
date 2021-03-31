@@ -1,9 +1,25 @@
 
 
 spring:
-  data:
-    mongodb: 
-      uri: mongodb://config:config1021@172.28.2.11:27017/config?authSource=admin&readPreference=secondaryPreferred
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      druid:
+        initial-size: 1
+        max-active: 100
+        min-idle: 0
+        max-wait: 60000
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        filters: stat,slf4j
+      datasource:
+        master:
+          url: jdbc:mysql://172.28.2.3:3306/developer?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+          username: developer
+          password: developer@2021
   redis: 
     database: 15
     host: 172.28.2.16

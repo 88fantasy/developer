@@ -166,7 +166,7 @@ public class GatewayRoute {
 
 		// 名称是固定的, 路径去前缀
 		filterDefinition.setName("StripPrefix");
-		filterParams.put("_genkey_0", "1");
+		filterParams.put("_genkey_0", "2");
 		filterDefinition.setArgs(filterParams);
 
 		definition.setPredicates(Arrays.asList(predicate));
