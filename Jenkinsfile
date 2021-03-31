@@ -16,12 +16,11 @@ pipeline {
         dir("${env.DOCKER_BUILD_CONTEXT}") {
           sh "mvn clean package -P ${env.RUNNING_ENV} -Dmaven.test.skip=true"
         }
-
       }
     }
     stage('构建 Docker 镜像') {
       steps {
-        sh "docker build -t ${env.CODING_DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_VERSION} --build-arg jarpath=${env.JARPATH} ."
+        sh "docker build -t ${env.CODING_DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_VERSION} --build-arg jarpath=${env.JARPATH} ./${env.DOCKER_BUILD_CONTEXT}"
       }
     }
     stage('推送到 CODING Docker 制品库') {
