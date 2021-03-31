@@ -3,7 +3,6 @@ package com.gzmpc.business.developer.gateway.application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.tsf.circuitbreaker.config.TsfCircuitBreakerFilterAutoConfiguration;
 import org.springframework.tsf.annotation.EnableTsf;
 
 @SpringBootApplication(scanBasePackages = { "com.gzmpc.*" }, exclude = {})

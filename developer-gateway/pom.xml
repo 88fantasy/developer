@@ -122,10 +122,10 @@
 					<groupId>com.tencent.tsf</groupId>
 					<artifactId>spring-cloud-tsf-swagger</artifactId>
 				</exclusion>
-				<!-- <exclusion>
+				<exclusion>
           <groupId>com.tencent.tsf</groupId>
           <artifactId>spring-cloud-tsf-circuitbreaker</artifactId>
-        </exclusion> -->
+        </exclusion>
 			</exclusions>
 		</dependency>
 
