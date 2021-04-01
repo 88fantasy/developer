@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gzmpc.business.developer.admin.constant.DeveloperWechatAppApiConstants;
-import com.gzmpc.business.developer.admin.service.WechatAppService;
-import com.gzmpc.business.developer.common.dto.WechatAppDTO;
+import com.gzmpc.business.developer.admin.service.WechatComAppService;
 import com.gzmpc.business.developer.common.dto.WechatComAppDTO;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.rest.entity.ApiResponseData;
@@ -33,24 +31,31 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.PATCH,
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
-@RequestMapping("/wechat-app")
-@Api(value = "wechat-app", tags = "微信小程序")
-public class WechatAppController extends BaseController<WechatAppService, WechatAppDTO> {
+@RequestMapping("/wechat-com-app")
+@Api(value = "wechat-com-app", tags = "企业微信应用")
+public class WechatComAppController extends BaseController<WechatComAppService, WechatComAppDTO> {
 
 	@Autowired
-	WechatAppService wechatAppService;
+	WechatComAppService wechatComAppService;
 	
-	@ApiOperation(value = "保存微信小程序")
-	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "保存企业微信应用")
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<Boolean> update(
-			@ApiParam(required = true) @Valid @RequestBody(required = true) WechatAppDTO dto) {
-		return new ApiResponseData<Boolean>(wechatAppService.saveOrUpdateDTO(dto,null, wechatAppService.getConsumer()));
+			@ApiParam(required = true) @Valid @RequestBody(required = true) WechatComAppDTO dto) {
+		return new ApiResponseData<>(wechatComAppService.saveOrUpdateDTO(dto,null, wechatComAppService.getConsumer()));
 	}
+	
+//	@ApiOperation(value = "删除路由信息")
+//	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	public ApiResponseData<Boolean> delete(
+//			@ApiParam(required = true) @Valid @RequestBody(required = true) GatewayRouteDeleteDTO dto) {
+//		return new ApiResponseData<Boolean>(wechatAppService.delete(dto));
+//	}
 	
 	@ApiOperation(value = "刷新配置")
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public String refresh() {
-		wechatAppService.reload();
+		wechatComAppService.reload();
 		return "success";
 	}
 }

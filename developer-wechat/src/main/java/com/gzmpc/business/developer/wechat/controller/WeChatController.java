@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.core.dto.wechat.BindOpenIdRequest;
 import com.gzmpc.business.developer.core.dto.wechat.GetTokenResponse;
 import com.gzmpc.business.developer.core.dto.wechat.GetUaccountByOpenidResponse;
@@ -19,7 +20,6 @@ import com.gzmpc.business.developer.core.dto.wechat.GlobalResponse;
 import com.gzmpc.business.developer.core.dto.wechat.TokenRequest;
 import com.gzmpc.business.developer.wechat.constant.WeChatApiConstants;
 import com.gzmpc.business.developer.wechat.dto.GetAppInfoResponse;
-import com.gzmpc.business.developer.wechat.entity.AppInfo;
 import com.gzmpc.business.developer.wechat.service.AuthService;
 import com.gzmpc.business.developer.wechat.service.WeChatService;
 import com.gzmpc.support.rest.exception.ApiException;
@@ -84,7 +84,7 @@ public class WeChatController {
 			throws ApiException {
 		GetAppInfoResponse response = new GetAppInfoResponse();
 		if (!StringUtils.isEmpty(appId)) {
-			AppInfo appInfo = weChatService.getAppInfo(appId);
+			WechatAppDTO appInfo = weChatService.getAppInfo(appId);
 			if (appInfo != null) {
 				response.setErrcode(0);
 				response.setAppInfo(appInfo);

@@ -4,14 +4,22 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.gzmpc.business.developer.common.constant.DeveloperConstants;
+import com.gzmpc.business.developer.common.dto.WechatComAppDTO;
 import com.gzmpc.business.developer.core.dto.wechat.com.Code2SessionRequest;
 import com.gzmpc.business.developer.core.dto.wechat.com.Code2SessionResponse;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendImageMessageRequest;
@@ -21,16 +29,13 @@ import com.gzmpc.business.developer.core.dto.wechat.com.message.SendNewsMessageR
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextMessageRequest;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextcardMessageRequest;
 import com.gzmpc.business.developer.core.enums.WeChatSendMessageEnum;
+import com.gzmpc.business.developer.wechat.constant.WeChatComConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
+import com.gzmpc.business.developer.wechat.http.client.com.WeChatComClient;
 import com.gzmpc.business.developer.wechat.http.client.com.auth.AuthClient;
 import com.gzmpc.business.developer.wechat.http.client.com.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.http.client.com.message.MessageClient;
-import com.gzmpc.business.developer.wechat.service.AuthService;
-import com.gzmpc.microservice.config.annotation.EnableConfig;
-import com.gzmpc.microservice.config.annotation.ParamValue;
-import com.gzmpc.microservice.config.enums.ConfigParamValueTypeEnum;
-import com.gzmpc.support.redis.util.RedisUtil;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.gzmpc.support.rest.exception.ServerException;
@@ -41,14 +46,12 @@ import com.gzmpc.support.rest.exception.ServerException;
 * 企业微信 业务逻辑类
 */
 
-@EnableConfig
 @Service
 public class ComService {
 	
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@ParamValue(value = "app.secret", defaultValue = "{}", type = ConfigParamValueTypeEnum.MAP)
-	private Map<String, String> secrets;
+	private ConcurrentHashMap<String,String> coms = new ConcurrentHashMap<String,String>();
 	
 	@Autowired
 	MessageClient messageClient;
@@ -56,11 +59,53 @@ public class ComService {
 	@Autowired
 	AuthClient authClient;
 	
-	@Autowired
-	AuthService authService;
+	@Value("${wechat.com.corpid}")
+	private String corpid;
 	
 	@Autowired
-	RedisUtil redisUtil;
+	WeChatComClient weChatComClient;
+	
+	@Autowired
+	RedisTemplate<String,Object> redisTemplate;
+	
+	public void refresh( ) {
+		Map<Object, Object> infos = redisTemplate.opsForHash().entries(DeveloperConstants.WECHAT_COM_APP_KEY);
+		if( infos != null) {
+			ConcurrentHashMap<String,String> tmp = new ConcurrentHashMap<String,String>();
+			for(Entry<Object, Object> entry : infos.entrySet()) {
+				String key = entry.getKey().toString();
+				WechatComAppDTO info = JSON.parseObject(entry.getValue().toString(),WechatComAppDTO.class);
+				tmp.put(key, info.getSecret());
+				logger.info("加载微信应用 {} : {}", key, entry.getValue());
+			}
+			coms = tmp;
+		}
+	}
+	
+	public String getComToken(int agentId) {
+		String key = MessageFormat.format(WeChatComConstants.WECHAT_COM_TOKEN_BASE, corpid, agentId);
+		String token = (String) redisTemplate.opsForValue().get(key);
+		if (token == null || "".equals(token)) {
+			String agentIdString = String.valueOf(agentId);
+			if (coms != null && coms.containsKey(agentIdString)) {
+				String secret = coms.get(agentIdString);
+				com.gzmpc.business.developer.wechat.http.client.com.entity.GetTokenResponse response = weChatComClient
+						.getToken(corpid, secret);
+				Integer errcode = response.getErrcode();
+				if (errcode == 0) {
+					String accessToken = response.getAccessToken();
+					Long expires = response.getExpiresIn();
+					redisTemplate.opsForValue().setIfAbsent(key, accessToken, expires - 60, TimeUnit.SECONDS);
+					token = accessToken;
+				} else {
+					logger.error(MessageFormat.format("获取企业微信token失败[{0}]:{1}", errcode, response.getErrmsg()));
+				}
+			} else {
+				logger.error(MessageFormat.format("获取企业微信token失败[{0}]:{1}", 404, "尚未配置应用密钥,请检查配置中心配置项"));
+			}
+		}
+		return token;
+	}
 	
 	public ApiResponseData<Code2SessionResponse> code2Session(Code2SessionRequest request) {
 		Integer agentId = request.getAgentId();
@@ -68,23 +113,23 @@ public class ComService {
 		
 		if(agentId != null && !StringUtils.isEmpty(jscode)) {
 			String agentIdString = String.valueOf(agentId);
-			String secret = secrets.get(agentIdString);
+			String secret = coms.get(agentIdString);
 			
-			if(secrets != null && secret != null) {
+			if(coms != null && secret != null) {
 				String key = MessageFormat.format(WeChatMiniProgramConstants.WECHAT_MP_SESSION_BASE, agentIdString, secret, jscode);
-				Code2SessionResponse session = (Code2SessionResponse) redisUtil.get(key);
+				Code2SessionResponse session = (Code2SessionResponse) redisTemplate.opsForValue().get(key);
 				if (session == null) {
-					String token = authService.getComToken(agentId);
+					String token = getComToken(agentId);
 					GetSessionResponse response = authClient.jscode2session(token, jscode);
 					if(response != null && response.checkSuccess()) {
 						Code2SessionResponse res = new Code2SessionResponse();
 						BeanUtils.copyProperties(response, res);
-						redisUtil.set(key, res, 300);
+						redisTemplate.opsForValue().set(key, res, 300);
 						return new ApiResponseData<>(res);
 					}
 					else {
 						String detailMessage = response == null? "空值" : response.getErrcode()+":"+response.getErrmsg();
-						LOG.error(detailMessage);
+						logger.error(detailMessage);
 						return new ApiResponseData<>(ResultCode.INTERNAL_SERVER_ERROR, detailMessage, null);
 					}
 				}
@@ -187,7 +232,7 @@ public class ComService {
 				return new ApiResponseData<>(errcode == 0 ? ResultCode.OK: ResultCode.INTERNAL_SERVER_ERROR, errmsg, response);
 			}catch (Exception e) {
 				String message = MessageFormat.format(WeChatConstants.API_OPERATE_ERROR, operateName, e.getMessage(), args);
-				LOG.error(message, e);
+				logger.error(message, e);
 				StringWriter errors = new StringWriter();
 				e.printStackTrace(new PrintWriter(errors));
 				return new ApiResponseData<SendMessageResponse>(ResultCode.INTERNAL_SERVER_ERROR, message+" - "+errors.toString(), null);

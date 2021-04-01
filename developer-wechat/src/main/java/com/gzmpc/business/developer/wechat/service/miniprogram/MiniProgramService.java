@@ -9,10 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
-import com.gzmpc.business.developer.wechat.entity.AppInfo;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.service.WeChatService;
@@ -45,7 +45,7 @@ public class MiniProgramService {
 		String jscode = request.getJsCode();
 		
 		if(!StringUtils.isEmpty(appid) && !StringUtils.isEmpty(jscode)) {
-			AppInfo appInfo = weChatService.getAppInfo(appid);
+			WechatAppDTO appInfo = weChatService.getAppInfo(appid);
 			
 			if(appInfo != null) {
 			

@@ -8,7 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * @author rwe
- * @version 创建时间：Oct 7, 2020 12:10:00 PM 微信程序实体类
+ * @version 创建时间：Oct 7, 2020 12:10:00 PM 
+ * 微信程序实体类
  */
 
 @TableName("wechat_app")
@@ -22,6 +23,13 @@ public class WechatApp extends Editable {
 	@TableId
 	@NotNull
 	private String appId;
+	
+	/**
+	 * 应用 名称
+	 */
+	@TableField
+	@NotNull
+	private String name;
 
 	/**
 	 * 应用密钥
@@ -48,6 +56,14 @@ public class WechatApp extends Editable {
 
 	public void setAppId(String appId) {
 		this.appId = appId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAppSecret() {

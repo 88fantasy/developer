@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -20,32 +19,18 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.gzmpc.business.developer.core.dto.wechat.GetTokenResponse;
 import com.gzmpc.business.developer.core.dto.wechat.TokenRequest;
-import com.gzmpc.business.developer.wechat.constant.WeChatComConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
-import com.gzmpc.business.developer.wechat.http.client.com.WeChatComClient;
 import com.gzmpc.business.developer.wechat.http.client.jsapi.WeChatJsClient;
-import com.gzmpc.microservice.config.annotation.EnableConfig;
-import com.gzmpc.microservice.config.annotation.ParamValue;
-import com.gzmpc.microservice.config.enums.ConfigParamValueTypeEnum;
 
 /**
  * @author rwe
- * @version 创建时间：Feb 10, 2020 8:53:13 PM 微信相关服务
+ * @version 创建时间：Feb 10, 2020 8:53:13 PM 
+ * 微信相关服务
  */
-@EnableConfig
 @Service
 public class AuthService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-
-	@ParamValue(value = "app.secret", defaultValue = "{}", type = ConfigParamValueTypeEnum.MAP)
-	private Map<String, String> secrets;
-
-	@Value("${wechat.com.corpid}")
-	private String corpid;
-
-	@Autowired
-	WeChatComClient weChatComClient;
 
 	@Autowired
 	WeChatJsClient weChatJsClient;
@@ -71,30 +56,6 @@ public class AuthService {
 //		return or;
 //	}
 
-	public String getComToken(int agentId) {
-		String key = MessageFormat.format(WeChatComConstants.WECHAT_COM_TOKEN_BASE, corpid, agentId);
-		String token = (String) redisTemplate.opsForValue().get(key);
-		if (token == null || "".equals(token)) {
-			String agentIdString = String.valueOf(agentId);
-			if (secrets != null && secrets.containsKey(agentIdString)) {
-				String secret = secrets.get(agentIdString);
-				com.gzmpc.business.developer.wechat.http.client.com.entity.GetTokenResponse response = weChatComClient
-						.getToken(corpid, secret);
-				Integer errcode = response.getErrcode();
-				if (errcode == 0) {
-					String accessToken = response.getAccessToken();
-					Long expires = response.getExpiresIn();
-					redisValue().setIfAbsent(key, accessToken, expires - 60, TimeUnit.SECONDS);
-					token = accessToken;
-				} else {
-					LOG.error(MessageFormat.format("获取企业微信token失败[{0}]:{1}", errcode, response.getErrmsg()));
-				}
-			} else {
-				LOG.error(MessageFormat.format("获取企业微信token失败[{0}]:{1}", 404, "尚未配置应用密钥,请检查配置中心配置项"));
-			}
-		}
-		return token;
-	}
 
 	/**
 	 * 根据 openid 获取统一帐号

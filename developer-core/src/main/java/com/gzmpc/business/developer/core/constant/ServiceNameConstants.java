@@ -10,7 +10,7 @@ public interface ServiceNameConstants {
 
 	String SERVICE_NAME_GATEWAY = "developer-gateway";
 
-	String SERVICE_NAME_ADMIN = "developer-admin";
+	String SERVICE_NAME_CONFIG = "developer-config";
 	
 	String SERVICE_NAME_WECHAT = "developer-wechat";
 	

@@ -1,7 +1,7 @@
 package com.gzmpc.business.developer.wechat.dto;
 
+import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.core.dto.wechat.GlobalResponse;
-import com.gzmpc.business.developer.wechat.entity.AppInfo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,13 +16,13 @@ import io.swagger.annotations.ApiModelProperty;
 public class GetAppInfoResponse extends GlobalResponse {
 
 	@ApiModelProperty(value = "微信小程序")
-	private AppInfo appInfo;
+	private WechatAppDTO appInfo;
 
-	public AppInfo getAppInfo() {
+	public WechatAppDTO getAppInfo() {
 		return appInfo;
 	}
 
-	public void setAppInfo(AppInfo appInfo) {
+	public void setAppInfo(WechatAppDTO appInfo) {
 		this.appInfo = appInfo;
 	}
 	

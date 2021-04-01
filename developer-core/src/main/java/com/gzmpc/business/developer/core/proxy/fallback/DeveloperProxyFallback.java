@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.gzmpc.business.developer.common.dto.ParamDTO;
 import com.gzmpc.business.developer.core.entity.AccountParam;
-import com.gzmpc.business.developer.core.proxy.DeveloperProxy;
+import com.gzmpc.business.developer.core.proxy.ConfigProxy;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 
@@ -25,15 +25,15 @@ import feign.hystrix.FallbackFactory;
 */
 
 @Component
-public class DeveloperProxyFallback implements FallbackFactory<DeveloperProxy> {
+public class DeveloperProxyFallback implements FallbackFactory<ConfigProxy> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DeveloperProxyFallback.class);
 	
 	@Override
-	public DeveloperProxy create(Throwable cause) {
+	public ConfigProxy create(Throwable cause) {
 		final String msg = cause == null ? "" : cause.getMessage();
     LOG.error("ConfigProxy接口不可用,错误处理接管:"+msg, cause);
-		return new DeveloperProxy() {
+		return new ConfigProxy() {
 
 			@Override
 			public ApiResponseData<String> getParamValue(@NotEmpty String appCode, String key) {

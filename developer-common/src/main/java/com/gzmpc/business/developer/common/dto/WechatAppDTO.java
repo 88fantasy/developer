@@ -1,46 +1,42 @@
-package com.gzmpc.business.developer.wechat.entity;
+package com.gzmpc.business.developer.common.dto;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.data.annotation.Id;
-//import org.springframework.data.mongodb.core.mapping.Document;
-//import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
-* @author rwe
-* @version 创建时间：Oct 7, 2020 12:10:00 PM
-* 微信程序实体类
-*/
+ * @author rwe
+ * @version 创建时间：Oct 7, 2020 12:10:00 PM 微信程序实体类
+ */
 
-//@Document(collection = "appinfo")
-public class AppInfo {
-	
+public class WechatAppDTO {
+
 	/**
 	 * 应用 Id
 	 */
-	@Id
 	@NotNull
 	private String appId;
+
+	/**
+	 * 应用名称
+	 */
+	@NotNull
+	private String name;
 	
 	/**
 	 * 应用密钥
 	 */
-//	@Field
 	@NotNull
 	private String appSecret;
-	
+
 	/**
 	 * 商户号
 	 */
-//	@Field
 	private String payId;
-	
+
 	/**
 	 * 商户密钥
 	 */
-//	@Field
 	private String paySecret;
-	
 
 	public String getAppId() {
 		return appId;
@@ -48,6 +44,14 @@ public class AppInfo {
 
 	public void setAppId(String appId) {
 		this.appId = appId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAppSecret() {
@@ -73,5 +77,5 @@ public class AppInfo {
 	public void setPaySecret(String paySecret) {
 		this.paySecret = paySecret;
 	}
-	
+
 }

@@ -10,12 +10,18 @@ package com.gzmpc.business.developer.common.constant;
 public interface DeveloperConstants {
 	
 	String GATEWAY_ROUTES_KEY = "/developer/gateway/routes";
+	String WECHAT_COM_APP_KEY = "/developer/wechat/com/app";
+	String WECHAT_APP_KEY = "/developer/wechat/app";
 	
 	String GLOBAL_APPLICATION_CODE = "global";
 	
 	
 	String SERVICE_NAME_GATEWAY = "developer-gateway";
+
+	String SERVICE_NAME_CONFIG = "developer-config";
 	
-	String SERVICE_NAME_PROVIDER = "developer-provider";
+	String SERVICE_NAME_WECHAT = "developer-wechat";
+	
+	String SERVICE_NAME_MESSAGE = "developer-message";
 }
 

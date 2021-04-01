@@ -16,7 +16,7 @@ import com.dtflys.forest.http.ForestRequestBody;
 import com.dtflys.forest.http.ForestResponse;
 import com.dtflys.forest.http.NameValueRequestBody;
 import com.dtflys.forest.interceptor.Interceptor;
-import com.gzmpc.business.developer.wechat.service.AuthService;
+import com.gzmpc.business.developer.wechat.service.com.ComService;
 
 /**
  * @author rwe
@@ -27,7 +27,7 @@ import com.gzmpc.business.developer.wechat.service.AuthService;
 public class ComAccessTokenInterceptor implements Interceptor<Object> {
 
 	@Autowired
-	AuthService authService;
+	ComService comService;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -47,7 +47,7 @@ public class ComAccessTokenInterceptor implements Interceptor<Object> {
 		}
 		if (data.containsKey("agentid")) {
 			Integer agentid = (Integer) data.get("agentid");
-			String token = authService.getComToken(agentid);
+			String token = comService.getComToken(agentid);
 			String message = MessageFormat.format("add token [{0}] for request url: {1}", token, request.getUrl());
 			log.debug(message);
 			request.addQuery("access_token", token);

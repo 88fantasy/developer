@@ -27,8 +27,8 @@ import com.gzmpc.support.rest.entity.ApiResponseData;
  * @author pro
  *
  */
-@FeignClient(name = ServiceNameConstants.SERVICE_NAME_ADMIN, fallbackFactory = DeveloperProxyFallback.class)
-public interface DeveloperProxy {
+@FeignClient(name = ServiceNameConstants.SERVICE_NAME_CONFIG, fallbackFactory = DeveloperProxyFallback.class)
+public interface ConfigProxy {
 
 	/**
 	 * 获取参数配置项
