@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,9 @@ import com.gzmpc.business.developer.wechat.http.client.com.WeChatComClient;
 import com.gzmpc.business.developer.wechat.http.client.com.auth.AuthClient;
 import com.gzmpc.business.developer.wechat.http.client.com.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.http.client.com.message.MessageClient;
+import com.gzmpc.support.common.annotation.BuildComponent;
+import com.gzmpc.support.common.build.Buildable;
+import com.gzmpc.support.common.exception.BuildException;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.gzmpc.support.rest.exception.ServerException;
@@ -47,7 +51,8 @@ import com.gzmpc.support.rest.exception.ServerException;
 */
 
 @Service
-public class ComService {
+@BuildComponent
+public class ComService implements Buildable {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -238,5 +243,10 @@ public class ComService {
 				return new ApiResponseData<SendMessageResponse>(ResultCode.INTERNAL_SERVER_ERROR, message+" - "+errors.toString(), null);
 			}
 		}
+	}
+
+	@Override
+	public void build(ApplicationContext ac) throws BuildException {
+		refresh();
 	}
 }
