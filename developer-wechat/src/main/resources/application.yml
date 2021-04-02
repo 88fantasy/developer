@@ -19,6 +19,9 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  cloud:
+    bus:
+      destination: GatewayBus
         
 tsf:
   swagger: 

@@ -16,3 +16,8 @@ spring:
       max-idle: 10
       min-idle: 0
     timeout: 1000ms
+  rabbitmq: 
+    host: 172.28.2.15
+    port: 5672
+    username: gzmpc
+    password: rabbit@gzmpc
