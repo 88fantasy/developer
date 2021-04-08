@@ -29,7 +29,7 @@ public class WechatProxyFallback implements FallbackFactory<WechatProxy> {
 
 	@Override
 	public WechatProxy create(Throwable cause) {
-		String msg = "ComProxy接口不可用,错误处理接管:"+ (cause == null ? "" : cause.getMessage());
+		String msg = "WechatProxy接口不可用,错误处理接管:"+ (cause == null ? "" : cause.getMessage());
     LOG.error(msg, cause);
     final SendMessageResponse fallbackResponse = new SendMessageResponse();
     fallbackResponse.setErrcode(-1);

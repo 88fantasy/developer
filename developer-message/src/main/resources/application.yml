@@ -1,0 +1,44 @@
+server:
+    port: 80
+    
+logging:
+    file: /gzmpc-cloud-logs/${spring.application.name}/root.log
+    level:
+        root: INFO
+spring:
+    application:
+        name: "@artifactId@"
+    profiles:
+        active: "@profile.active@"
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+    mail:
+      host: smtp.263xmail.com
+      protocol: smtp
+      username: emailsender@gzmpc.com
+      password: ABC123
+      default-encoding: UTF-8
+      properties:
+        mail:
+          smtp:
+            auth: true
+            connectiontimeout: 30000
+            timeout: 30000
+            writetimeout: 30000
+        
+file: 
+  upload: 
+    pattern: ^(?:\\w+\\.xlsx|\\w+\\.xls|\\w+\\.csv|\\w+\\.txt)$
+    
+montnets:
+  accounts:
+    - from: jzqyyw
+      url: 61.145.229.29:7903
+      userid: J26779
+      pwd: 456985
+    - from: gzpc
+      url: 61.145.229.29:9006
+      userid: J01832
+      pwd: 633251
+      

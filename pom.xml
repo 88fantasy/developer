@@ -26,7 +26,7 @@
 		</plugins>
 	</build>
 
-	<version>1.1</version>
+	<version>1.2</version>
 
 	<repositories>
 		<repository>
@@ -60,12 +60,17 @@
 			</dependency>
 			<dependency>
 				<groupId>com.gzmpc.business.developer</groupId>
-				<artifactId>developer-admin</artifactId>
+				<artifactId>developer-portal</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
         <groupId>com.gzmpc.business.developer</groupId>
         <artifactId>developer-wechat</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.gzmpc.business.developer</groupId>
+        <artifactId>developer-message</artifactId>
         <version>${project.version}</version>
       </dependency>
 			<dependency>
@@ -77,10 +82,11 @@
 	</dependencyManagement>
 	<modules>
 		<module>developer-core</module>
-		<module>developer-admin</module>
+		<module>developer-portal</module>
 		<module>developer-gateway</module>
 		<module>developer-common</module>
 		<module>developer-wechat</module>
+		<module>developer-message</module>
 	</modules>
 
 	<dependencies>
