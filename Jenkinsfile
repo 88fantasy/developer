@@ -13,7 +13,6 @@ pipeline {
     }
     stage('编译') {
       steps {
-        sh "mv Dockerfile ./${env.DOCKER_BUILD_CONTEXT} && mv TencentCloudJvmMonitor-1.1.0-RELEASE.jar ./${env.DOCKER_BUILD_CONTEXT} && mv tsf-consul-template-docker.tar.gz ./${env.DOCKER_BUILD_CONTEXT}"
         dir("${env.DOCKER_BUILD_CONTEXT}") {
           sh "mvn clean package -P ${env.RUNNING_ENV} -Dmaven.test.skip=true"
         }
@@ -21,6 +20,7 @@ pipeline {
     }
     stage('构建 Docker 镜像') {
       steps {
+        sh "mv Dockerfile ./${env.DOCKER_BUILD_CONTEXT} && mv TencentCloudJvmMonitor-1.1.0-RELEASE.jar ./${env.DOCKER_BUILD_CONTEXT} && mv tsf-consul-template-docker.tar.gz ./${env.DOCKER_BUILD_CONTEXT}"
         sh "docker build -t ${env.CODING_DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_VERSION} --build-arg jarpath=${env.JARPATH} ./${env.DOCKER_BUILD_CONTEXT}"
       }
     }
