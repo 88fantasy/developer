@@ -12,6 +12,7 @@
   <name>developer-message</name>
 
 	<build>
+	 <finalName>developer-message</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
