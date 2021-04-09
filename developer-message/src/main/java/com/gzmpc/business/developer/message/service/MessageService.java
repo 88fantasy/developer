@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.gzmpc.business.developer.common.dto.Message;
 import com.gzmpc.business.developer.common.dto.SendEmailRequest;
-import com.gzmpc.business.developer.common.dto.SendMessageRequest;
+import com.gzmpc.business.developer.common.dto.SendSnsRequest;
 import com.gzmpc.business.developer.message.entity.MessageUnion;
 import com.gzmpc.business.developer.message.entity.MessageUnion.MessageType;
 import com.gzmpc.business.developer.message.exception.MessageException;
@@ -69,7 +69,7 @@ public class MessageService {
 		messageUnionMapper.insert(message);
 	}
 	
-	public void saveMessage(SendMessageRequest request)
+	public void saveMessage(SendSnsRequest request)
 			throws ServerException {
 		String subject = request.getSubject();
 		String target = request.getTarget();
@@ -82,7 +82,7 @@ public class MessageService {
 		messageUnionMapper.insert(message);
 	}
 	
-	public void saveWechatCom(SendMessageRequest request)
+	public void saveWechatCom(SendSnsRequest request)
 			throws ServerException {
 		String subject = request.getSubject();
 		String target = request.getTarget();

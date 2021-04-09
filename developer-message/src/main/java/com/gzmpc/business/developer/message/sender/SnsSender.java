@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.gzmpc.business.developer.common.dto.SendMessageRequest;
+import com.gzmpc.business.developer.common.dto.SendSnsRequest;
 import com.gzmpc.business.developer.common.enums.MessageFrom;
 import com.gzmpc.business.developer.core.dto.message.MessageResponse;
 import com.gzmpc.business.developer.message.config.MontnetsBean;
@@ -54,11 +54,11 @@ public class SnsSender implements Sender {
 
 	@Override
 	public void send(String json) throws MessageException {
-		SendMessageRequest request = JSON.parseObject(json, SendMessageRequest.class);
+		SendSnsRequest request = JSON.parseObject(json, SendSnsRequest.class);
 		sendMessage(request);
 	}
 	
-	public ApiResponseData<MessageResponse> sendMessage(SendMessageRequest request) {
+	public ApiResponseData<MessageResponse> sendMessage(SendSnsRequest request) {
 		ApiResponseData<MessageResponse> res = new ApiResponseData<>(null);
 		String body = request.getContent();
 		String mobile = request.getTarget();

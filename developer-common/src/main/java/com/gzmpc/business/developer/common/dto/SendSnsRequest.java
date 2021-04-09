@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 */
 
 @ApiModel(value="发送短信请求")
-public class SendMessageRequest extends Message {
+public class SendSnsRequest extends Message {
 	
 	private static final long serialVersionUID = -3814754646869548929L;
 	

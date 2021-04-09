@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gzmpc.business.developer.common.dto.SendEmailRequest;
-import com.gzmpc.business.developer.common.dto.SendMessageRequest;
+import com.gzmpc.business.developer.common.dto.SendSnsRequest;
 import com.gzmpc.business.developer.core.constant.MessageApiConstants;
 import com.gzmpc.business.developer.core.constant.ServiceNameConstants;
 import com.gzmpc.business.developer.core.dto.message.MessageResponse;
@@ -30,7 +30,7 @@ public interface MessageProxy {
 	 * @return
 	 */
 	@RequestMapping(value = MessageApiConstants.MESSAGE_EMAIL_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<MessageResponse> send(SendEmailRequest request);
+	public ApiResponseData<MessageResponse> sendEmail(SendEmailRequest request);
 	
 	/**
 	 * 发送短信
@@ -38,7 +38,7 @@ public interface MessageProxy {
 	 * @return
 	 */
 	@RequestMapping(value = MessageApiConstants.MESSAGE_SNS_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<MessageResponse> send (SendMessageRequest request);
+	public ApiResponseData<MessageResponse> sendSns(SendSnsRequest request);
 }
 
 

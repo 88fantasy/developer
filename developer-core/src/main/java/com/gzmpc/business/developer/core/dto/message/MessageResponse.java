@@ -26,4 +26,12 @@ public class MessageResponse {
 		this.msgId = msgId;
 	}
 
+	public String getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
+
 }

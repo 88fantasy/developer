@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.gzmpc.business.developer.common.dto.SendEmailRequest;
-import com.gzmpc.business.developer.common.dto.SendMessageRequest;
+import com.gzmpc.business.developer.common.dto.SendSnsRequest;
 import com.gzmpc.business.developer.core.dto.message.MessageResponse;
 import com.gzmpc.business.developer.core.proxy.MessageProxy;
 import com.gzmpc.support.rest.entity.ApiResponseData;
@@ -33,12 +33,12 @@ public class MessageProxyFallback implements FallbackFactory<MessageProxy> {
     return new MessageProxy() {
 
 			@Override
-			public ApiResponseData<MessageResponse> send(SendEmailRequest request) {
+			public ApiResponseData<MessageResponse> sendEmail(SendEmailRequest request) {
 				return fallbackResponse;
 			}
 
 			@Override
-			public ApiResponseData<MessageResponse> send(SendMessageRequest request) {
+			public ApiResponseData<MessageResponse> sendSns(SendSnsRequest request) {
 				return fallbackResponse;
 			}
 			
