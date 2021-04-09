@@ -19,7 +19,7 @@ import com.gzmpc.support.tdmq.annotation.TDMQConsumer;
  * 消息消费队列
  */
 
-//@TDMQConsumer(value = "tdmq.topic.send")
+@TDMQConsumer(value = "tdmq.topic.send")
 public class SendConsumer implements MessageListener<String> {
 
 	private static final long serialVersionUID = -8453219483294207298L;
