@@ -16,8 +16,8 @@ import com.thebeastshop.forest.springboot.annotation.ForestScan;
 	    },
 		exclude = DruidDataSourceAutoConfigure.class
 	)
-@MapperScan(basePackages = {"com.gzmpc.business.developer.message.mapper"})
-@TableEntityScan({"com.gzmpc.business.developer.message.entity"})
+@MapperScan(basePackages = {"com.gzmpc.business.developer.config.mapper"})
+@TableEntityScan({"com.gzmpc.business.developer.config.entity"})
 @EnableFeignClients(basePackages = { "com.gzmpc.*" }) // 使用Feign微服务调用时请启用
 @EnableTsf
 /**

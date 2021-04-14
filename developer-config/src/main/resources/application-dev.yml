@@ -38,10 +38,3 @@ spring:
     password: guest
     
     
-tdmq:
-  tunnel: 
-    url: 172.29.2.105:6000
-    netModel: pulsar-wzjazvkdgk/vpc-co9m0bzb/subnet-a6kdxe8i
-    secret: eyJrZXlJZCI6InB1bHNhci13emphenZrZGdrIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJkZXZlbG9wIn0.rZBDeYjTcnyvPwJ0NIwY0ieCIzFQxmbbN3Yne7M6cfU
-  topic:
-    send: pulsar-wzjazvkdgk/dev/MessageCenterSend
