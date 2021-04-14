@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.config.entity;
 
 import java.io.Serializable;
 
@@ -68,7 +68,7 @@ public class Param extends Global implements Serializable {
 		this.value = value;
 	}
 
-	public boolean isInherited() {
+	public boolean getInherited() {
 		return inherited;
 	}
 

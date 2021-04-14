@@ -15,7 +15,5 @@ public interface ConfigDictionaryApiConstants {
 	
 	public String API_DICTIONARY_DETELE = API_DICTIONARY+"/delete";
 	
-	public String API_DICTIONARY_QUERYLIST = API_DICTIONARY+"/queryList";
-	
 	public String API_DICTIONARY_FINDALL = API_DICTIONARY+"/findAll/{appCode}";
 }

@@ -1,22 +1,30 @@
 package com.gzmpc.business.developer.message.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.gzmpc.business.developer.common.dto.Message;
-import com.gzmpc.business.developer.common.dto.SendEmailRequest;
-import com.gzmpc.business.developer.common.dto.SendSnsRequest;
-import com.gzmpc.business.developer.message.entity.MessageUnion;
-import com.gzmpc.business.developer.message.entity.MessageUnion.MessageType;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
-import com.gzmpc.support.rest.exception.ServerException;
+import com.gzmpc.support.cos.client.CosClient;
+import com.gzmpc.support.rest.entity.ApiResponseData;
+import com.gzmpc.support.rest.enums.ResultCode;
+import com.qcloud.cos.exception.CosClientException;
+import com.qcloud.cos.model.UploadResult;
 
 @Service
 public class MessageService {
@@ -29,6 +37,13 @@ public class MessageService {
 	@Autowired
 	ApplicationContext applicationContext;
 	
+	@Value(value = "${file.upload.pattern}")
+	private String defaultPattern;
+	
+	private String path = "/attachment/";
+	
+	@Autowired
+	CosClient cosClient;
 	
 	public void send(String json) {
 		Message message = JSON.parseObject(json, Message.class);
@@ -41,57 +56,36 @@ public class MessageService {
 		} finally {
 			
 		}
-		
 	}
 	
-	public void saveEmail(SendEmailRequest request)
-			throws ServerException {
-		String subject = request.getSubject();
-		String target = request.getTarget();
-		String content = request.getContent();
-		String typeCode = request.getTypeCode();
-		String sourceData = request.getSourceData();
-		String[] attachments = request.getAttachments();
-		MessageUnion message = new MessageUnion(typeCode, sourceData, subject, content, target, MessageType.EMAIL);
-
-		if(attachments != null && attachments.length > 0) {
-//			String root = Const.getProjectPath();
-//			String[] attach = attachments.split(",");
-//			for(String attachment : attach) {
-//				File file = new File(root+attachment);
-//				if(!file.exists()){
-//					throw new ServerException("附件["+attachment+"]不存在");
-//				}
-//			}
-			message.setExt1(String.join(",", attachments));
+	
+	public ApiResponseData<String> upload(MultipartFile file) {
+		String filename = file.getOriginalFilename();
+		
+		Pattern p =  Pattern.compile(defaultPattern);
+    // 创建 Matcher 对象
+    Matcher m = p.matcher(filename);
+    if(!m.matches()) {
+    	return new ApiResponseData<>(ResultCode.BAD_REQUEST,"验证文件后缀失败,不允许上传此类文件", null);
+    }
+    File dest = null;
+    try {
+    	dest = File.createTempFile(filename, null);
+			file.transferTo(dest);
+		} catch (IOException e) {
+			String message = MessageFormat.format("保存文件[{0}]出现错误: {1}", filename, e.getMessage());
+			logger.error(message, e);
+			return new ApiResponseData<>(ResultCode.INTERNAL_SERVER_ERROR, message, null);
 		}
-	
-		messageUnionMapper.insert(message);
-	}
-	
-	public void saveMessage(SendSnsRequest request)
-			throws ServerException {
-		String subject = request.getSubject();
-		String target = request.getTarget();
-		String content = request.getContent();
-		String typeCode = request.getTypeCode();
-		String sourceData = request.getSourceData();
-		
-		MessageUnion message = new MessageUnion(typeCode, sourceData, subject, content, target, MessageType.EMAIL);
-	
-		messageUnionMapper.insert(message);
-	}
-	
-	public void saveWechatCom(SendSnsRequest request)
-			throws ServerException {
-		String subject = request.getSubject();
-		String target = request.getTarget();
-		String content = request.getContent();
-		String typeCode = request.getTypeCode();
-		String sourceData = request.getSourceData();
-		
-		MessageUnion message = new MessageUnion(typeCode, sourceData, subject, content, target, MessageType.EMAIL);
-	
-		messageUnionMapper.insert(message);
+    
+    try {
+    	UploadResult result = cosClient.upload(dest, path+dest.getName());
+    	return new ApiResponseData<>(result.getKey());
+		} catch (CosClientException | InterruptedException e) {
+			String message = MessageFormat.format("上传 cos[{0}]出现错误: {1}", filename, e.getMessage());
+			logger.error(message, e);
+			return new ApiResponseData<>(ResultCode.INTERNAL_SERVER_ERROR, message, null);
+		}
+    
 	}
 }

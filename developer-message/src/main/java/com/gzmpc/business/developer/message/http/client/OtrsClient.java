@@ -3,7 +3,7 @@ package com.gzmpc.business.developer.message.http.client;
 import com.dtflys.forest.annotation.Body;
 import com.dtflys.forest.annotation.DataVariable;
 import com.dtflys.forest.annotation.Post;
-import com.gzmpc.business.developer.constant.MessageConstants;
+import com.gzmpc.business.developer.message.constant.MessageConstants;
 import com.gzmpc.business.developer.message.http.client.entity.SendMessageHttpRequest;
 import com.gzmpc.business.developer.message.http.client.entity.SendMessageHttpResponse;
 

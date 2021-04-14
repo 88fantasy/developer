@@ -12,8 +12,6 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.support.doc.annotation.TableDoc;
 import com.gzmpc.support.doc.annotation.TableFieldDoc;
 
@@ -81,7 +79,6 @@ public class MessageUnion implements Serializable {
 	@TableFieldDoc("信息类型")
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private MessageType messageType;
 
 	/**

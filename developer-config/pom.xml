@@ -8,11 +8,11 @@
     <artifactId>developer-parent</artifactId>
     <version>1.2</version>
   </parent>
-  <artifactId>developer-message</artifactId>
-  <name>developer-message</name>
+  <artifactId>developer-config</artifactId>
+  <name>developer-config</name>
 
 	<build>
-	 <finalName>developer-message</finalName>
+	 <finalName>developer-config</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -124,18 +124,9 @@
 			<artifactId>exframework-support-jdbc-mysql</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.gzmpc.exframework</groupId>
-			<artifactId>exframework-support-tdmq</artifactId>
-		</dependency>
-		<dependency>
       <groupId>com.gzmpc.exframework</groupId>
-      <artifactId>exframework-support-cos</artifactId>
+      <artifactId>exframework-support-redis</artifactId>
     </dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
 
 
 

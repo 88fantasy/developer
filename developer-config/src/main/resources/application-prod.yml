@@ -1,0 +1,41 @@
+
+spring:
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      druid:
+        initial-size: 1
+        max-active: 100
+        min-idle: 0
+        max-wait: 60000
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        filters: stat,slf4j
+      datasource:
+        master:
+          url: jdbc:mysql://172.28.2.3:3306/developer?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+          username: developer
+          password: developer@2021
+  redis: 
+    database: 15
+    host: 172.28.2.16
+    port: 36379
+    password: redis@gzmpc
+    pool:
+      max-active: 200
+      max-wait: -1
+      max-idle: 10
+      min-idle: 0
+    timeout: 1000ms
+    
+tdmq:
+  tunnel: 
+    url: 172.28.1.44:6000
+    netModel: pulsar-wzjazvkdgk/vpc-8fqcmjjh/subnet-5d6jpqtu
+    secret: eyJrZXlJZCI6InB1bHNhci13emphenZrZGdrIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJwcm9kIn0.X4LJG_sUmaWgnSBDvLAI7BYhHbS6deqoo2sqz4UT2Vc
+  topic:
+    send: pulsar-wzjazvkdgk/prod/MessageCenterSend
+    

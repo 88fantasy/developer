@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gzmpc.business.developer.common.constant.DeveloperAccountParamApiConstants;
+import com.gzmpc.business.developer.common.dto.AccountParamDTO;
+import com.gzmpc.business.developer.common.dto.DictionaryDTO;
 import com.gzmpc.business.developer.common.dto.ParamDTO;
+import com.gzmpc.business.developer.core.constant.ConfigAccountParamApiConstants;
 import com.gzmpc.business.developer.core.constant.ConfigApiConstants;
+import com.gzmpc.business.developer.core.constant.ConfigDictionaryApiConstants;
 import com.gzmpc.business.developer.core.constant.ConfigParamApiConstants;
 import com.gzmpc.business.developer.core.constant.ServiceNameConstants;
-import com.gzmpc.business.developer.core.entity.AccountParam;
 import com.gzmpc.business.developer.core.proxy.fallback.DeveloperProxyFallback;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 
+
 /**
  * 微服务 proxy类
+ * 
  * @author pro
  *
  */
@@ -32,80 +37,97 @@ public interface ConfigProxy {
 
 	/**
 	 * 获取参数配置项
+	 * 
 	 * @param appCode 应用 code
-	 * @param key 键值
+	 * @param key     键值
 	 * @return
 	 */
 	@RequestMapping(value = ConfigApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<String> getParamValue(@NotEmpty @PathVariable("appCode") String appCode,@PathVariable("key") String key);
-	
+	public ApiResponseData<String> getParamValue(@NotEmpty @PathVariable("appCode") String appCode,
+			@PathVariable("key") String key);
+
 	/**
 	 * 获取参数配置项
+	 * 
 	 * @param appCode 应用 code
-	 * @param keys 键值数组
+	 * @param keys    键值数组
 	 * @return
 	 */
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_QUERY_KEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<List<ParamDTO>> queryKeys(@NotEmpty @PathVariable("appCode") String appCode,
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<List<ParamDTO>> findParamByKeys(@NotEmpty @PathVariable("appCode") String appCode,
 			@RequestBody List<String> keys);
-	
+
 	/**
 	 * 获取全部参数
+	 * 
 	 * @param appCode 应用 code
 	 * @return
 	 */
 	@RequestMapping(value = ConfigApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<List<ParamDTO>> findAllParams(@NotEmpty @PathVariable("appCode") String appCode);
-	
+
 	/**
 	 * 获取字典
+	 * 
 	 * @param appCode 应用 code
-	 * @param key 键值
+	 * @param key     键值
 	 * @return
 	 */
-//	@RequestMapping(value = ConfigApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ApiResponseData<Map<String,DictionaryItem>> getDictionaryValue(@NotEmpty @PathVariable("appCode") String appCode, @NotEmpty @PathVariable("key") String key);
-	
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<Map<String, String>> getDictionaryValue(
+			@PathVariable(value = "appCode", required = true) String appCode,
+			@PathVariable(value = "key", required = true) String key);
+
 	/**
 	 * 获取所有字典
+	 * 
 	 * @param appCode 应用 code
 	 * @return
 	 */
-//	@RequestMapping(value = ConfigApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ApiResponseData<List<DictionarySaveDTO>> findAllDictionary(@NotEmpty @PathVariable("appCode") String appCode);
-	
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<List<DictionaryDTO>> findDictionaryByKeys(
+			@PathVariable(required = true) String appCode,
+			@RequestBody(required = true) List<String> keys);
+
 	/**
 	 * 获取全部数据项
+	 * 
 	 * @param appCode 应用 code
 	 * @return
 	 */
 //	@RequestMapping(value = ConfigApiConstants.API_DATAITEM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //	public ApiResponseData<List<DataItem>> findAllDataItems(@NotEmpty @PathVariable("appCode") String appCode);
-	
-	
+
 	/**
 	 * 获取用户参数信息
+	 * 
 	 * @param appCode 应用 code
-	 * @param key 键值
+	 * @param key     键值
 	 * @param account 帐号
 	 * @return
 	 */
 	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<String> getAccountParamValue(@NotEmpty @PathVariable("appCode") String appCode, @NotEmpty @PathVariable("key") String key, @NotEmpty @PathVariable("account") String account);
-	
+	public ApiResponseData<String> getAccountParamValue(@PathVariable("appCode") String appCode,
+			@PathVariable("key") String key, @PathVariable("account") String account);
+
 	/**
-	 * 获取全部帐号参数
+	 * 获取指定帐号参数
+	 * 
 	 * @param appCode
+	 * @param account
 	 * @return
 	 */
-	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<List<AccountParam>> findAllAccountParams(@NotEmpty @PathVariable("appCode") String appCode);
-	
+	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<List<AccountParamDTO>> findAllAccountParams(
+			@PathVariable(value = "appCode", required = true) String appCode,
+			@PathVariable(value = "account", required = true) String account);
+
 	/**
 	 * 保存用户参数
+	 * 
 	 * @param dto
 	 * @return
 	 */
 	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<Boolean> saveAccountParam(@NotNull @RequestBody AccountParam dto) ;
+	public ApiResponseData<Boolean> saveAccountParam(@NotNull @RequestBody AccountParamDTO dto);
 }

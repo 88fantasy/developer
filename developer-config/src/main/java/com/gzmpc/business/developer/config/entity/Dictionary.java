@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.config.entity;
 
 import java.io.Serializable;
 
@@ -6,18 +6,17 @@ import javax.validation.constraints.NotNull;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * @author rwe
  * @version 创建时间：Oct 15, 2020 11:48:39 AM 
- * 参数数据实体
+ * 字典
  */
 
-@TableName("param")
-public class Param extends Global implements Serializable {
+public class Dictionary extends Global implements Serializable {
 
-	private static final long serialVersionUID = 7083780975464797162L;
+	private static final long serialVersionUID = 1629629206695096594L;
+
 
 	@TableId
 	private String id;
@@ -32,9 +31,6 @@ public class Param extends Global implements Serializable {
 	@TableField
 	@NotNull
 	private String value;
-
-	@TableField
-	private boolean inherited;
 
 	public String getKey() {
 		return key;
@@ -68,13 +64,5 @@ public class Param extends Global implements Serializable {
 		this.value = value;
 	}
 
-	public boolean isInherited() {
-		return inherited;
-	}
-
-	public void setInherited(boolean inherited) {
-		this.inherited = inherited;
-	}
-
-
+	
 }
