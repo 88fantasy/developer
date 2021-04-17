@@ -20,7 +20,7 @@ spring:
       destination: GatewayBus
     gateway:
       globalcors:
-        corsConfigurations:
+        cors-configurations:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods:
