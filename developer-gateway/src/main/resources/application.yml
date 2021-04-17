@@ -23,13 +23,10 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins: "*"
-            allowedMethods:
-            - GET
-            - POST
-            - PATCH
-            - PUT
-            - DELETE
-            - OPTIONS
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      default-filters:
+        - DedupeResponseHeader=Vary Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
       discovery:
         locator:
           enabled: true
