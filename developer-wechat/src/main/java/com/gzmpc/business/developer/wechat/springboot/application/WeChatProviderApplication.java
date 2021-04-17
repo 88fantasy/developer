@@ -11,7 +11,7 @@ import com.thebeastshop.forest.springboot.annotation.ForestScan;
 @SpringBootApplication(scanBasePackages = { "com.gzmpc.*" })
 @EnableFeignClients(basePackages = { "com.gzmpc.*" }) // 使用Feign微服务调用时请启用
 @EnableTsf
-@ForestScan(basePackages = "com.gzmpc.business.developer.wechat.http.client.*")
+@ForestScan(basePackages = "com.gzmpc.business.developer.wechat.http.client")
 /**
  * 微服务 启动类
  * 

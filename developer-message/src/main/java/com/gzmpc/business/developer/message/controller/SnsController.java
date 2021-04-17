@@ -31,7 +31,7 @@ import javax.validation.Valid;
 public class SnsController {
 	
 	@Autowired
-	SnsSender messageSender;
+	SnsSender snsSender;
 	
 	@Autowired
   HttpServletRequest req;
@@ -42,7 +42,7 @@ public class SnsController {
 	public ApiResponseData<MessageResponse> send (@ApiParam(required = true) @Valid @RequestBody SendSnsRequest request) {
 		request.setIp(req.getRemoteHost());
 		request.setMessageType(MessageType.SNS);
-		return messageSender.sendMessage(request);
+		return snsSender.sendMessage(request);
 	}
 	
 }

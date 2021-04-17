@@ -51,7 +51,6 @@ public class MessageUnion implements Serializable {
 	/**
 	 * 标题
 	 */
-	@NotEmpty
 	@TableFieldDoc("标题")
 	@TableField
 	private String subject;

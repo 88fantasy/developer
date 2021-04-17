@@ -3,7 +3,6 @@ package com.gzmpc.business.developer.common.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.gzmpc.business.developer.common.enums.MessageType;
 
@@ -21,12 +20,6 @@ public class Message implements Serializable {
 
 	private static final long serialVersionUID = -9200156002635902216L;
 
-	/**
-	 * 标题
-	 */
-	@NotEmpty( message = "缺少必要参数 - 标题[subject]")
-	@ApiModelProperty(value = "标题", required = true)
-	private String subject;
 	
 	/**
 	 * 内容
@@ -67,15 +60,6 @@ public class Message implements Serializable {
 	@ApiModelProperty(hidden = true)
 	private String ip;
 	
-	
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
 	public String getContent() {
 		return content;
 	}

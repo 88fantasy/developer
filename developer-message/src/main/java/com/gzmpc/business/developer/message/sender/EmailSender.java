@@ -1,7 +1,7 @@
 package com.gzmpc.business.developer.message.sender;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,14 +30,18 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.gzmpc.business.developer.common.dto.SendEmailRequest;
 import com.gzmpc.business.developer.core.dto.message.MessageResponse;
+import com.gzmpc.business.developer.message.constant.MessageConstants;
 import com.gzmpc.business.developer.message.entity.MessageUnion;
 import com.gzmpc.business.developer.message.entity.MessageUnion.MessageType;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
 import com.gzmpc.business.developer.message.service.Sender;
+import com.gzmpc.support.cos.client.CosClient;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.gzmpc.support.rest.exception.ApiException;
+import com.qcloud.cos.exception.CosClientException;
+import com.qcloud.cos.transfer.Download;
 
 /**
  * @author rwe
@@ -57,6 +61,9 @@ public class EmailSender implements Sender {
 
 	@Value("${spring.mail.username}")
 	String user;
+	
+	@Autowired
+	CosClient cosClient;
 	
 	private Pattern regex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -93,14 +100,16 @@ public class EmailSender implements Sender {
 				text.setText(content, "utf-8");
 				mp.addBodyPart(text);
 				for (int i = 0, j = attachment.length; i < j; i++) {
-					String realfile = attachment[i];
-					if (StringUtils.hasText(realfile)) {
-						File file = new File(realfile);
-						if (file.exists() && file.isFile()) {
+					String cosUrl = attachment[i];
+					if (StringUtils.hasText(cosUrl)) {
+						File target = File.createTempFile("attachment", null);
+						Download download = cosClient.download(cosUrl, target);
+						String filename = download.getObjectMetadata().getUserMetaDataOf(MessageConstants.ATTACHMENT_FILENAME_KEY);
+						if (target.exists() && target.isFile()) {
 							MimeBodyPart attach = new MimeBodyPart();
-							FileDataSource fds = new FileDataSource(realfile); // 得到数据源
+							FileDataSource fds = new FileDataSource(target); // 得到数据源
 							attach.setDataHandler(new DataHandler(fds)); // 得到附件本身并至入BodyPart
-							attach.setFileName(MimeUtility.encodeText(fds.getName(), "utf-8", null)); // 得到文件名同样至入BodyPart
+							attach.setFileName(MimeUtility.encodeText(filename, "utf-8", null)); // 得到文件名同样至入BodyPart
 							mp.addBodyPart(attach);
 						} else {
 							throw new ApiException("文件[" + attachment[i] + "]不存在");
@@ -120,7 +129,7 @@ public class EmailSender implements Sender {
 			union.setSended(true);
 			union.setSendTime(new Date());
 
-		} catch (UnsupportedEncodingException | MessagingException | ApiException e) {
+		} catch (MessagingException | ApiException | CosClientException | InterruptedException | IOException e) {
 			String message = "发送邮件失败" + e.getMessage();
 			logger.error(message, e);
 			

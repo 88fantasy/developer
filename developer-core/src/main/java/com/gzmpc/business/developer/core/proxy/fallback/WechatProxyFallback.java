@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendImageMessageRequest;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendMessageResponse;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendMiniProgramMessageRequest;
@@ -58,6 +59,14 @@ public class WechatProxyFallback implements FallbackFactory<WechatProxy> {
 			@Override
 			public SendMessageResponse sendMiniProgram(SendMiniProgramMessageRequest request) throws ApiException {
 				return fallbackResponse;
+			}
+
+			@Override
+			public WechatLoginUserInfo getUserinfo(String appid, String code) {
+				WechatLoginUserInfo info = new WechatLoginUserInfo();
+				info.setErrcode(-9999);
+				info.setErrmsg(msg);
+				return info;
 			}
     	
     };

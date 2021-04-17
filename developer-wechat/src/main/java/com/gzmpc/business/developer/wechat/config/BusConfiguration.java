@@ -10,7 +10,7 @@ import org.springframework.context.event.EventListener;
 import com.gzmpc.business.developer.common.bus.GatewayRouteEvent;
 import com.gzmpc.business.developer.common.bus.WechatAppUpdateEvent;
 import com.gzmpc.business.developer.common.bus.WechatComAppUpdateEvent;
-import com.gzmpc.business.developer.wechat.service.WeChatService;
+import com.gzmpc.business.developer.wechat.service.WechatService;
 import com.gzmpc.business.developer.wechat.service.com.ComService;
 
 /**
@@ -26,7 +26,7 @@ public class BusConfiguration {
 	private static final Logger logger = LoggerFactory.getLogger(BusConfiguration.class);
 	
 	@Autowired
-	WeChatService weChatService;
+	WechatService weChatService;
 	
 	@Autowired
 	ComService comService;

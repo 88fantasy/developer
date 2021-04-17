@@ -9,4 +9,7 @@ package com.gzmpc.business.developer.message.constant;
 public interface MessageConstants {
 
 	String OTRS_API_URL = "http://192.168.7.32/otrs/nph-genericinterface.pl/Webservice/Ticket/Ticket";
+	
+	String ATTACHMENT_FILENAME_KEY = "filename";
+	
 }

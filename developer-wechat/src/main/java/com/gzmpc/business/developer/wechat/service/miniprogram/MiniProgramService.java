@@ -15,7 +15,7 @@ import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
-import com.gzmpc.business.developer.wechat.service.WeChatService;
+import com.gzmpc.business.developer.wechat.service.WechatService;
 import com.gzmpc.support.redis.util.RedisUtil;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
@@ -35,7 +35,7 @@ public class MiniProgramService {
 	WeChatMiniprogramClient weChatMiniprogramClient;
 	
 	@Autowired
-	WeChatService weChatService;
+	WechatService weChatService;
 	
 	@Autowired
 	RedisUtil redisUtil;

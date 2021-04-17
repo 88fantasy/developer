@@ -67,13 +67,12 @@ public class SnsSender implements Sender {
 		String exno = request.getExno();
 		String[] targets = mobile.split(",");
 		
-		String subject = request.getSubject();
 		String target = request.getTarget();
 		String content = request.getContent();
 		String typeCode = request.getTypeCode();
 		String sourceData = request.getSourceData();
 		String ip = request.getIp();
-		MessageUnion union = new MessageUnion(typeCode, sourceData, subject, content, target, MessageType.SNS, ip, from.getKey(), svrtype, exno, null, null);
+		MessageUnion union = new MessageUnion(typeCode, sourceData, null, content, target, MessageType.SNS, ip, from.getKey(), svrtype, exno, null, null);
 		
 		try {
 			for (String t : targets) {

@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
+import com.gzmpc.business.developer.core.constant.WeChatApiConstants;
 import com.gzmpc.business.developer.core.dto.wechat.BindOpenIdRequest;
 import com.gzmpc.business.developer.core.dto.wechat.GetTokenResponse;
 import com.gzmpc.business.developer.core.dto.wechat.GetUaccountByOpenidResponse;
 import com.gzmpc.business.developer.core.dto.wechat.GlobalResponse;
 import com.gzmpc.business.developer.core.dto.wechat.TokenRequest;
-import com.gzmpc.business.developer.wechat.constant.WeChatApiConstants;
+import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
 import com.gzmpc.business.developer.wechat.dto.GetAppInfoResponse;
 import com.gzmpc.business.developer.wechat.service.AuthService;
-import com.gzmpc.business.developer.wechat.service.WeChatService;
+import com.gzmpc.business.developer.wechat.service.WechatService;
 import com.gzmpc.support.rest.exception.ApiException;
 
 import io.swagger.annotations.Api;
@@ -34,14 +35,14 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.OPTIONS, RequestMethod.POST })
-@Api(tags = "微信小程序 API")
+@Api(tags = "微信 API")
 public class WeChatController {
 
 	@Autowired
 	AuthService authService;
 
 	@Autowired
-	WeChatService weChatService;
+	WechatService weChatService;
 
 	@ApiOperation(value = "绑定openid")
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_BIND_OPENID, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -99,9 +100,17 @@ public class WeChatController {
 		return response;
 	}
 
-	@ApiOperation(value = "获取token")
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_TOKEN, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public GetTokenResponse getToken(@ApiParam(value = "tenantId", required = true) @Valid TokenRequest request) {
-		return authService.getToken(request);
+//	@ApiOperation(value = "获取token")
+//	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_TOKEN, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	public GetTokenResponse getToken(@ApiParam(value = "tenantId", required = true) @Valid TokenRequest request) {
+//		return authService.getToken(request);
+//	}
+	
+	@ApiOperation(value = "微信登录获取信息")
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public WechatLoginUserInfo getUserinfo(@Valid 
+			@ApiParam(value = "appid", required = true) @PathVariable String appid, 
+			@ApiParam(value = "code", required = true) @PathVariable String code) {
+		return weChatService.getUserInfo(appid, code);
 	}
 }

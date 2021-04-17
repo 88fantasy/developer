@@ -81,7 +81,7 @@ public class ComService implements Buildable {
 				String key = entry.getKey().toString();
 				WechatComAppDTO info = JSON.parseObject(entry.getValue().toString(),WechatComAppDTO.class);
 				tmp.put(key, info.getSecret());
-				logger.info("加载微信应用 {} : {}", key, entry.getValue());
+				logger.info("加载企业微信应用 {} : {}", key, entry.getValue());
 			}
 			coms = tmp;
 		}

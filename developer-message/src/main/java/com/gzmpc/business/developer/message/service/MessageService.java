@@ -6,7 +6,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.gzmpc.business.developer.common.dto.Message;
+import com.gzmpc.business.developer.message.constant.MessageConstants;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
 import com.gzmpc.support.cos.client.CosClient;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.qcloud.cos.exception.CosClientException;
+import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.UploadResult;
 
 @Service
@@ -79,7 +80,9 @@ public class MessageService {
 		}
     
     try {
-    	UploadResult result = cosClient.upload(dest, path+dest.getName());
+    	ObjectMetadata om = new ObjectMetadata();
+    	om.addUserMetadata(MessageConstants.ATTACHMENT_FILENAME_KEY, filename);
+    	UploadResult result = cosClient.upload(dest, path+dest.getName(), om);
     	return new ApiResponseData<>(result.getKey());
 		} catch (CosClientException | InterruptedException e) {
 			String message = MessageFormat.format("上传 cos[{0}]出现错误: {1}", filename, e.getMessage());
