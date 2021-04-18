@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -63,7 +64,7 @@ public class MessageDTO  {
 	 */
 	@NotNull
 	@ApiModelProperty(value = "信息类型")
-	private MessageType messageType;
+	private String messageType;
 
 	/**
 	 * 对应途径的序号(如果有)
@@ -80,8 +81,8 @@ public class MessageDTO  {
 	/**
 	 * 是否发送
 	 */
-	@ApiModelProperty(value = "是否发送")
-	private Boolean sended;
+	@ApiModelProperty(value = "发送状态")
+	private String sendState;
 
 	/**
 	 * 发送时间
@@ -170,11 +171,11 @@ public class MessageDTO  {
 		this.target = target;
 	}
 
-	public MessageType getMessageType() {
+	public String getMessageType() {
 		return messageType;
 	}
 
-	public void setMessageType(MessageType messageType) {
+	public void setMessageType(String messageType) {
 		this.messageType = messageType;
 	}
 
@@ -194,12 +195,13 @@ public class MessageDTO  {
 		this.failCount = failCount;
 	}
 
-	public Boolean getSended() {
-		return sended;
+
+	public String getSendState() {
+		return sendState;
 	}
 
-	public void setSended(Boolean sended) {
-		this.sended = sended;
+	public void setSendState(String sendState) {
+		this.sendState = sendState;
 	}
 
 	public Date getSendTime() {
@@ -251,28 +253,5 @@ public class MessageDTO  {
 		this.invalidDate = invalidDate;
 	}
 
-	public enum MessageType {
-
-		MESSAGE("message", "短信"), EMAIL("email", "邮件"), OTRS("message", "OTRS工单"), WECHAT_COM("message", "企业微信推送"),
-		LINK("message", "Link推送"),
-
-		;
-
-		private String key;
-
-		private String name;
-
-		private MessageType(String key, String name) {
-			this.key = key;
-			this.name = name;
-		}
-
-		public String getKey() {
-			return key;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
+	
 }

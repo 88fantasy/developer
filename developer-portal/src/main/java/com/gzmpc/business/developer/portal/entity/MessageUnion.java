@@ -104,11 +104,13 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 	private Integer failCount;
 
 	/**
-	 * 是否发送
+	 * 发送状态
 	 */
-	@TableFieldDoc("是否发送")
+	@TableFieldDoc("发送状态")
 	@TableField
-	private Boolean sended;
+	@EnumValue
+	@ColumnType(value = MySqlTypeConstant.VARCHAR)
+	private SendState sendState;
 
 	/**
 	 * 发送时间
@@ -199,12 +201,12 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
 			@NotEmpty String target, @NotNull MessageType messageType, String ip, String ext1, String ext2, String ext3,
 			String ext4, String ext5) {
-		this(typeCode, sourceData, subject, content, target, messageType, null, 0, false, null, null, ip, ext1, ext2, ext3,
+		this(typeCode, sourceData, subject, content, target, messageType, null, 0, SendState.WAITING, null, null, ip, ext1, ext2, ext3,
 				ext4, ext5, 0, DateUtils.addDays(new Date(), 1));
 	}
 
 	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
-			@NotEmpty String target, @NotNull MessageType messageType, String sendTargetId, Integer failCount, Boolean sended,
+			@NotEmpty String target, @NotNull MessageType messageType, String sendTargetId, Integer failCount, SendState sendState,
 			Date sendTime, String feedback, String ip, String ext1, String ext2, String ext3, String ext4, String ext5,
 			Integer priority, Date invalidDate) {
 		this.typeCode = typeCode;
@@ -215,7 +217,7 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 		this.messageType = messageType;
 		this.sendTargetId = sendTargetId;
 		this.failCount = failCount;
-		this.sended = sended;
+		this.sendState = sendState;
 		this.sendTime = sendTime;
 		this.feedback = feedback;
 		this.ip = ip;
@@ -301,12 +303,12 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 		this.failCount = failCount;
 	}
 
-	public Boolean getSended() {
-		return sended;
+	public SendState getSendState() {
+		return sendState;
 	}
 
-	public void setSended(Boolean sended) {
-		this.sended = sended;
+	public void setSendState(SendState sendState) {
+		this.sendState = sendState;
 	}
 
 	public Date getSendTime() {
@@ -398,66 +400,46 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 	}
 
 	@Dictionary( value = "messageType", name = "消息类型")
-	public enum MessageType implements DictionaryEnum<String> {
+	public enum MessageType implements DictionaryEnum {
 
-		MESSAGE("message", "短信"), EMAIL("email", "邮件"), OTRS("otrs", "OTRS工单"), WECHAT_COM("wechat_com", "企业微信推送"),
+		SNS("短信"), EMAIL("邮件"), OTRS("OTRS工单"), WECHAT_COM("企业微信推送"),
 
 		;
 
-		private String key;
+		private String label;
 
-		private String name;
-
-		private MessageType(String key, String name) {
-			this.key = key;
-			this.name = name;
+		private MessageType(String label) {
+			this.label = label;
 		}
 
-		public String getKey() {
-			return key;
-		}
 
-		public String getName() {
-			return name;
-		}
-
-		@Override
-		public String getValue() {
-			return this.key;
+		public String getLabel() {
+			return label;
 		}
 	}
 	
-	@Dictionary( value = "sendedEnum", name = "发送状态")
-	public enum SendedEnum implements DictionaryEnum<String> {
+	@Dictionary( value = "sendState", name = "发送状态")
+	public enum SendState implements DictionaryEnum {
 
-		WAITING("waiting", "等待中"), SUCCESS("success", "已发送"), FAIL("fail", "发送失败")
+		WAITING("等待中"), SUCCESS("已发送"), FAIL("发送失败")
 		;
 
-		private String key;
 
-		private String name;
+		private String label;
 
-		private SendedEnum(String key, String name) {
-			this.key = key;
-			this.name = name;
+		private SendState(String label) {
+			this.label = label;
 		}
 
-		public String getKey() {
-			return key;
+		public String getLabel() {
+			return label;
 		}
 
-		public String getName() {
-			return name;
-		}
-
-		@Override
-		public String getValue() {
-			return this.key;
-		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Class<? extends DictionaryEnum<?>>[] enums() {
-		return new Class[]{SendedEnum.class, MessageType.class};
+	public Class<? extends DictionaryEnum>[] enums() {
+		return new Class[]{SendState.class, MessageType.class};
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ import com.gzmpc.support.jdbc.service.ExBaseService;
 public class MessageService extends ExBaseService<MessageUnionMapper, MessageUnion> {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 //	public boolean saveOrUpdate(GatewayRouteDTO gatewayRouteDto) {
 //		return saveOrUpdateDTO(gatewayRouteDto, null, after);

@@ -7,17 +7,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.common.dto.WechatComAppDTO;
+import com.gzmpc.business.developer.portal.entity.WechatComApp;
 import com.gzmpc.business.developer.portal.service.WechatComAppService;
-import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.rest.entity.ApiResponseData;
-import com.gzmpc.support.rest.entity.ApiResponsePage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +31,7 @@ import io.swagger.annotations.ApiParam;
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
 @RequestMapping("/wechat-com-app")
 @Api(value = "wechat-com-app", tags = "企业微信应用")
-public class WechatComAppController extends BaseController<WechatComAppService, WechatComAppDTO> {
+public class WechatComAppController extends BaseController<WechatComAppService, WechatComAppDTO, WechatComApp> {
 
 	@Autowired
 	WechatComAppService wechatComAppService;

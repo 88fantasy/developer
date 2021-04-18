@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.portal.controller;
 
+import java.util.function.Function;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.gzmpc.business.developer.portal.constant.DeveloperGatewayApiConstants;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.common.util.BeanUtils;
 import com.gzmpc.support.jdbc.service.ExBaseService;
@@ -24,10 +25,11 @@ import io.swagger.annotations.ApiParam;
 * @author rwe
 * @version 创建时间：2021年3月30日 上午12:17:11
 * 类说明
+ * @param <T>
  * @param <M>
 */
 
-public class BaseController<S extends ExBaseService<?,?>, D> {
+public class BaseController<S extends ExBaseService<?,T>, D, T> {
 
 	@Autowired
 	protected S exBaseService;
@@ -49,7 +51,10 @@ public class BaseController<S extends ExBaseService<?,?>, D> {
 	@ApiOperation(value = "分页查询")
 	@RequestMapping(value = "query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponsePage<?> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
-		return new ApiResponsePage<>(exBaseService.getBaseMapper().query(request.getConditions(), request.getPage(), entityClass));
+		return new ApiResponsePage<>(exBaseService.getBaseMapper().query(request.getConditions(), request.getPage(), getTranslator(), entityClass));
 	}
 	
+	public Function<T,D> getTranslator() {
+		return exBaseService.getBaseMapper().getTranslator(entityClass);
+	}
 }

@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.portal.controller;
 
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.portal.dto.MessageDTO;
+import com.gzmpc.business.developer.portal.entity.MessageUnion;
 import com.gzmpc.business.developer.portal.service.MessageService;
+import com.gzmpc.support.common.util.BeanUtils;
 
 import io.swagger.annotations.Api;
 
@@ -21,10 +25,24 @@ import io.swagger.annotations.Api;
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
 @RequestMapping("/message")
 @Api(value = "message", tags = "消息")
-public class MessageController extends BaseController<MessageService, MessageDTO> {
+public class MessageController extends BaseController<MessageService, MessageDTO, MessageUnion> {
 
 	@Autowired
 	MessageService messageService;
+
+	@Override
+	public Function<MessageUnion, MessageDTO> getTranslator() {
+		return entity -> {
+			MessageDTO dto = BeanUtils.copyTo(entity, MessageDTO.class);
+			if(entity.getMessageType()!= null) {
+				dto.setMessageType(entity.getMessageType().name());
+			}
+			if( entity.getSendState() != null) {
+				dto.setSendState(entity.getSendState().name());
+			}
+			return dto;
+		};
+	}
 	
 	
 //	@ApiOperation(value = "删除路由信息")
