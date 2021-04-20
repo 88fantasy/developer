@@ -16,10 +16,13 @@ spring:
     cloud:
       bus:
         destination: GatewayBus
-#    cache: 
-#      type: jcache
-#      jcache: 
-#        config: classpath:ehcache.xml
+    ldap:
+      #urls: auth.gzmpc.com
+      urls: ldap://192.168.7.30:389
+      base: dc=gzmpc,dc=com
+      username: "uid=admin,ou=system"
+      password: gzmpcldap
+    
         
 tsf:
     swagger: 

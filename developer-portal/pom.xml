@@ -137,6 +137,16 @@
 			<groupId>com.gzmpc.exframework</groupId>
 			<artifactId>exframework-support-jdbc-mysql</artifactId>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.usthe.sureness</groupId>
+		    <artifactId>sureness-core</artifactId>
+		    <version>1.0.2</version>
+		</dependency>
+		<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-ldap</artifactId>
+    </dependency>
 
 	</dependencies>
 </project>

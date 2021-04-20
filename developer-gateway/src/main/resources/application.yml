@@ -35,14 +35,6 @@ spring:
         # The connect timeout in millis, the default is 45s.
         connectTimeout: 200
         responseTimeout: 10s
-      routes:
-      - id: api-v1
-        uri: lb://developer-wechat
-        order: 0
-        predicates:
-         - Path=/wechat/**
-        filters:
-         - StripPrefix=1
     consul:
         enabled: true
         scheme: HTTP
