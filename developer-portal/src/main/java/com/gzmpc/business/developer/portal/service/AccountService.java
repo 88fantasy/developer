@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
@@ -15,7 +14,11 @@ import org.springframework.stereotype.Service;
 import com.gzmpc.business.developer.portal.dto.CurrentUserResponse;
 import com.gzmpc.business.developer.portal.dto.LoginRequest;
 import com.gzmpc.business.developer.portal.dto.LoginResponse;
+import com.gzmpc.business.developer.portal.entity.DeveloperAccount;
 import com.gzmpc.business.developer.portal.entity.Person;
+import com.gzmpc.business.developer.portal.entity.DeveloperAccount.AccountDataSource;
+import com.gzmpc.business.developer.portal.mapper.DeveloperAccountMapper;
+import com.gzmpc.portal.metadata.sys.Account.AccountStatusTypeEnum;
 import com.usthe.sureness.provider.DefaultAccount;
 import com.usthe.sureness.provider.SurenessAccount;
 import com.usthe.sureness.util.JsonWebTokenUtil;
@@ -23,18 +26,25 @@ import com.usthe.sureness.util.JsonWebTokenUtil;
 /**
 * @author rwe
 * @version 创建时间：2021年4月19日 上午11:31:23
-* 类说明
+* 帐号业务服务
 */
 
 @Service
 public class AccountService {
 
 	@Autowired
+	DeveloperAccountMapper developerAccountMapper;
+	
+	@Autowired
   private LdapTemplate ldapTemplate;
 	
-	public SurenessAccount loadAccount(String account) {
-		Person person = loadPerson(account);
-		return toSureness(person);
+	public SurenessAccount loadSurenessAccount(String account) {
+		DeveloperAccount developerAccount = loadAccount(account);
+		DefaultAccount defaultAccount = DefaultAccount.builder(developerAccount.getAccount())
+			.setOwnRoles(Arrays.asList("admin"))
+			.setPassword(developerAccount.getPassword())
+			.build();
+		return defaultAccount;
 	}
 	
 	public CurrentUserResponse currentUser(String account) {
@@ -48,18 +58,25 @@ public class AccountService {
 	
 	public LoginResponse login(String username, String password) {
 		LoginResponse response = new LoginResponse();
-		Person person = loadPerson(username);
-		if(person != null && ldapTemplate.authenticate(person.getId(), new EqualsFilter("cn",username).encode(), password)) {
-			List<String> ownRole = Arrays.asList("admin");
-			String jwt = "Bearer "+JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), username,
-          "developer-portal", 3600l, ownRole);
-			response.setAuthority(ownRole);
-			response.setToken(jwt);
-			response.setStatus("ok");
+		response.setStatus("error");
+		DeveloperAccount account = loadAccount(username);
+		//帐号不存在时读取ldap创建帐号
+		if(account == null) {
+			Person person = loadPerson(username);
+			if(person != null && ldapTemplate.authenticate(person.getId(), new EqualsFilter("cn",username).encode(), password)) {
+				account = generateByLdap(person);
+			}
+			else {
+				return response;
+			}
 		}
-		else {
-			response.setStatus("error");
-		}
+		
+		List<String> ownRole = Arrays.asList("admin");
+		String jwt = "Bearer "+JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), username,
+        "developer-portal", 3600l, ownRole);
+		response.setAuthority(ownRole);
+		response.setToken(jwt);
+		response.setStatus("ok");
 		return response;
 	}
 	
@@ -71,10 +88,22 @@ public class AccountService {
 		}
 	}
 	
-	private SurenessAccount toSureness(Person person) {
-		return DefaultAccount.builder(person.getUid())
-				.setOwnRoles(Arrays.asList("admin"))
-				.setPassword(person.getUserPassword())
-				.build();
+	public DeveloperAccount loadAccount(String account) {
+		return developerAccountMapper.selectById(account);
+	}
+	
+	public DeveloperAccount generateByLdap(Person person) {
+		DeveloperAccount entity = new DeveloperAccount();
+		entity.setAccount(person.getCommonName());
+		entity.setAccountName(person.getDescription());
+		entity.setDataSource(AccountDataSource.LDAP);
+		entity.setEmail(person.getMail());
+		entity.setAccountStatus(AccountStatusTypeEnum.VALID);
+		developerAccountMapper.insert(entity);
+		return entity;
+	}
+	
+	public boolean authenticateByLdap(Person person, String pwd) {
+		return ldapTemplate.authenticate(person.getId(), new EqualsFilter("cn", person.getCommonName()).encode(), pwd);
 	}
 }

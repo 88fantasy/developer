@@ -15,7 +15,7 @@ import org.springframework.ldap.odm.annotations.Id;
  */
 
 @Entry(base = "ou=user,dc=gzmpc,dc=com",objectClasses="Developer")
-public class Person {
+public final class Person {
 
 	@Id
 	private Name id;

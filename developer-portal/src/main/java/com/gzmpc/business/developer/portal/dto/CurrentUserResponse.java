@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
 * @author rwe
 * @version 创建时间：2021年4月19日 下午1:35:05
-* 类说明
+* 当前登录返回
 */
 
 @ApiModel(value = "当前登录返回")
@@ -27,16 +27,31 @@ public class CurrentUserResponse {
 	@ApiModelProperty(value = "邮箱")
 	private String email;
 	
+	@ApiModelProperty(value = "岗位")
+	private String title;
+	
+	@ApiModelProperty(value = "组织架构")
+	private String group;
+	
+	
 	public CurrentUserResponse() {
 		
 	}
 
 	public CurrentUserResponse(@NotNull String userid, String name, String email) {
+		this(userid, name, email, null, null);
+	}
+	
+	
+	
+	public CurrentUserResponse(@NotNull String userid, String name, String email, String title, String group) {
 		this.userid = userid;
 		this.name = name;
 		this.email = email;
+		this.title = title;
+		this.group = group;
 	}
-	
+
 	public CurrentUserResponse(Person person) {
 		this.userid = person.getCommonName();
 		this.name = person.getDescription();
@@ -65,6 +80,22 @@ public class CurrentUserResponse {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
 
 	

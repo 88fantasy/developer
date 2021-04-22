@@ -40,7 +40,7 @@ public class DeveloperLoginService {
 	@Autowired
 	AccountService accountService;
 
-	public Person currentPerson() throws NeedLoginException {
+	public Person currentPerson() throws NeedLoginException, ForbiddenException {
 		try {
 			SubjectSum subject = SurenessSecurityManager.getInstance().checkIn(request);
 			// You can consider using SurenessContextHolder to bind subject in threadLocal

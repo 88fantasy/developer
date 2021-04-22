@@ -20,6 +20,6 @@ public class DatabaseAccountProvider implements SurenessAccountProvider {
 
     @Override
     public SurenessAccount loadAccount(String account) {
-        return accountService.loadAccount(account);
+        return accountService.loadSurenessAccount(account);
     }
 }
