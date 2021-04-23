@@ -43,13 +43,6 @@ public class WechatComAppController extends BaseController<WechatComAppService, 
 		return new ApiResponseData<>(wechatComAppService.saveOrUpdateDTO(dto,null, wechatComAppService.getConsumer()));
 	}
 	
-//	@ApiOperation(value = "删除路由信息")
-//	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ApiResponseData<Boolean> delete(
-//			@ApiParam(required = true) @Valid @RequestBody(required = true) GatewayRouteDeleteDTO dto) {
-//		return new ApiResponseData<Boolean>(wechatAppService.delete(dto));
-//	}
-	
 	@ApiOperation(value = "刷新配置")
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public String refresh() {

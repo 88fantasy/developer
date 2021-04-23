@@ -106,4 +106,8 @@ public class AccountService {
 	public boolean authenticateByLdap(Person person, String pwd) {
 		return ldapTemplate.authenticate(person.getId(), new EqualsFilter("cn", person.getCommonName()).encode(), pwd);
 	}
+	
+	public void test() {
+		
+	}
 }

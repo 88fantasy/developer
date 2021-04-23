@@ -3,7 +3,6 @@ package com.gzmpc.business.developer.portal.controller;
 
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
-import com.gzmpc.business.developer.portal.constant.DeveloperWechatAppApiConstants;
 import com.gzmpc.business.developer.portal.entity.WechatApp;
 import com.gzmpc.business.developer.portal.service.WechatAppService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
@@ -38,7 +36,7 @@ public class WechatAppController extends BaseController<WechatAppService, Wechat
 	WechatAppService wechatAppService;
 	
 	@ApiOperation(value = "保存微信小程序")
-	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<Boolean> update(
 			@ApiParam(required = true) @Valid @RequestBody(required = true) WechatAppDTO dto) {
 		return new ApiResponseData<Boolean>(wechatAppService.saveOrUpdateDTO(dto,null, wechatAppService.getConsumer()));

@@ -77,6 +77,9 @@ public interface IRedisConfig<E extends RemoteApplicationEvent, T> {
 	}
 	
 	default Consumer<T> getConsumer() {
-		return entity -> saveToRedis(entity);
+		return entity -> {
+			saveToRedis(entity);
+			reload();
+		};
 	}
 }
