@@ -3,7 +3,7 @@ package com.gzmpc.business.developer.portal.dto;
 
 import javax.validation.constraints.NotNull;
 
-import com.gzmpc.business.developer.portal.entity.Person;
+import com.gzmpc.business.developer.portal.entity.DeveloperAccount;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -52,10 +52,10 @@ public class CurrentUserResponse {
 		this.group = group;
 	}
 
-	public CurrentUserResponse(Person person) {
-		this.userid = person.getCommonName();
-		this.name = person.getDescription();
-		this.email = person.getMail();
+	public CurrentUserResponse(DeveloperAccount account) {
+		this.userid = account.getAccount();
+		this.name = account.getAccountName();
+		this.email = account.getEmail();
 	}
 
 	public String getUserid() {

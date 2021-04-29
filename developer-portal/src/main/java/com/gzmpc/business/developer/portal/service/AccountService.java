@@ -47,10 +47,6 @@ public class AccountService {
 		return defaultAccount;
 	}
 	
-	public CurrentUserResponse currentUser(String account) {
-		Person person = loadPerson(account);
-		return new CurrentUserResponse(person);
-	}
 	
 	public LoginResponse login(LoginRequest login) {
 		return login(login.getUserName(),login.getPassword());

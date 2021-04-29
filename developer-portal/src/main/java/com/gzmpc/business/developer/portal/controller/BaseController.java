@@ -49,7 +49,7 @@ public class BaseController<S extends ExBaseService<?,T>, D, T> {
 	}
 	
 	@ApiOperation(value = "分页查询")
-	@RequestMapping(value = "query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponsePage<?> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return new ApiResponsePage<>(exBaseService.getBaseMapper().query(request.getConditions(), request.getPage(), getTranslator(), entityClass));
 	}

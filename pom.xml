@@ -73,6 +73,11 @@
         <artifactId>developer-message</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.gzmpc.business.developer</groupId>
+        <artifactId>developer-rule</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 			<dependency>
         <groupId>org.springframework.amqp</groupId>
         <artifactId>spring-amqp</artifactId>
@@ -87,6 +92,7 @@
 		<module>developer-common</module>
 		<module>developer-wechat</module>
 		<module>developer-message</module>
+		<module>developer-rule</module>
 	</modules>
 
 	<dependencies>

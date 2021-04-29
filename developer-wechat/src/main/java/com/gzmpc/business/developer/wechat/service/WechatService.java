@@ -18,12 +18,14 @@ import com.gzmpc.business.developer.common.constant.DeveloperConstants;
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
+import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
+import com.gzmpc.business.developer.wechat.entity.GetTokenResponse;
+import com.gzmpc.business.developer.wechat.entity.NotFoundException;
 import com.gzmpc.business.developer.wechat.http.client.WeChatClient;
 import com.gzmpc.business.developer.wechat.http.client.entity.GetLoginCallBackTokenResponse;
 import com.gzmpc.support.common.annotation.BuildComponent;
 import com.gzmpc.support.common.build.Buildable;
 import com.gzmpc.support.common.exception.BuildException;
-import com.gzmpc.support.rest.exception.ApiException;
 
 /**
 * @author rwe
@@ -59,8 +61,13 @@ public class WechatService  implements Buildable {
 		}
 	}
 	
-	public WechatAppDTO getAppInfo(String appId) {
-		return apps.get(appId);
+	public WechatAppDTO getAppInfo(String appId) throws NotFoundException {
+		if(apps.contains(appId)) {
+			return apps.get(appId);
+		}
+		else {
+			throw new NotFoundException("appId 尚未注册");
+		}
 	}
 
 	@Override
@@ -70,26 +77,39 @@ public class WechatService  implements Buildable {
 	
 	public WechatLoginUserInfo getUserInfo(String appid, String code) {
 		WechatAppDTO app = getAppInfo(appid);
-		if(app != null) {
-			String key = MessageFormat.format(WeChatConstants.WECHAT_LOGIN_CODE_KEY, code);
-			GetLoginCallBackTokenResponse token = null;
-			if(!redisTemplate.hasKey(key)) {
-				GetLoginCallBackTokenResponse tokenResponse = weChatClient.getLoginToken(app.getAppId(), app.getAppSecret(), code);
-				if(tokenResponse.checkSuccess()) {
-					token = tokenResponse;
-					long expires = tokenResponse.getExpiresIn();
-					redisTemplate.opsForValue().set(key, tokenResponse, expires, TimeUnit.SECONDS);
-				}
+		String key = MessageFormat.format(WeChatConstants.WECHAT_LOGIN_CODE_KEY, code);
+		GetLoginCallBackTokenResponse token = null;
+		if(!redisTemplate.hasKey(key)) {
+			GetLoginCallBackTokenResponse tokenResponse = weChatClient.getLoginToken(app.getAppId(), app.getAppSecret(), code);
+			if(tokenResponse.checkSuccess()) {
+				token = tokenResponse;
+				long expires = tokenResponse.getExpiresIn();
+				redisTemplate.opsForValue().set(key, tokenResponse, expires, TimeUnit.SECONDS);
 			}
-			else {
-				token = (GetLoginCallBackTokenResponse) redisTemplate.opsForValue().get(key);
-			}
-			
-			return weChatClient.getUserInfo(token.getAccessToken(), token.getOpenid());
 		}
 		else {
-			throw new ApiException("appid未维护");
+			token = (GetLoginCallBackTokenResponse) redisTemplate.opsForValue().get(key);
 		}
+		
+		return weChatClient.getUserInfo(token.getAccessToken(), token.getOpenid());
 	}
 	
+	public String getAppToken(String appId) {
+		WechatAppDTO appInfo = getAppInfo(appId);
+		String key = MessageFormat.format(WeChatMiniProgramConstants.WECHAT_MP_TOKEN_BASE, appId, appInfo.getAppSecret());
+		String token = (String) redisTemplate.opsForValue().get(key);
+		if (token == null || "".equals(token)) {
+			GetTokenResponse response = weChatClient.getAccessToken(appId, appInfo.getAppSecret());
+			Integer errcode = response.getErrcode();
+			if (errcode == 0) {
+				String accessToken = response.getAccessToken();
+				Long expires = response.getExpiresIn();
+				redisTemplate.opsForValue().setIfAbsent(key, accessToken, expires - 60, TimeUnit.SECONDS);
+				token = accessToken;
+			} else {
+				logger.error(MessageFormat.format("获取微信应用token失败[{0}]:{1}", errcode, response.getErrmsg()));
+			}
+		}
+		return token;
+	}
 }

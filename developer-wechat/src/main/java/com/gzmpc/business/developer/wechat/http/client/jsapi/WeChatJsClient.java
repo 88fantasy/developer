@@ -3,7 +3,7 @@ package com.gzmpc.business.developer.wechat.http.client.jsapi;
 import com.dtflys.forest.annotation.DataVariable;
 import com.dtflys.forest.annotation.Get;
 import com.gzmpc.business.developer.wechat.constant.WeChatJsConstants;
-import com.gzmpc.business.developer.wechat.http.client.com.entity.GetTokenResponse;
+import com.gzmpc.business.developer.wechat.entity.GetTokenResponse;
 
 /**
  * @author rwe

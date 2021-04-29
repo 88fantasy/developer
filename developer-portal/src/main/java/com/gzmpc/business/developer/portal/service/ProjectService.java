@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.portal.dto.ProjectResponse;
-import com.gzmpc.business.developer.portal.entity.Person;
+import com.gzmpc.business.developer.portal.entity.DeveloperAccount;
 import com.gzmpc.business.developer.portal.entity.Project;
 import com.gzmpc.business.developer.portal.entity.ProjectMember;
 import com.gzmpc.business.developer.portal.mapper.ProjectMapper;
@@ -41,9 +41,8 @@ public class ProjectService extends ExBaseService<ProjectMapper, Project> {
 	AccountService accountService;
 		
 	public ApiResponsePage<ProjectResponse> pageProjectsByCurrent(PostConditionQueryRequest request) {
-		Person person = developerLoginService.currentPerson();
-		String account = person.getCommonName();
-		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account));
+		DeveloperAccount account = developerLoginService.currentPerson();
+		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account.getAccount()));
 		if(members.size() > 0) {
 			List<String> projectIds = members.stream().map(ProjectMember::getProjectId).collect(Collectors.toList());
 			PageModel<ProjectResponse> model = getBaseMapper().query(request.getPage(), Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator, ProjectResponse.class);
@@ -55,9 +54,8 @@ public class ProjectService extends ExBaseService<ProjectMapper, Project> {
 	}
 	
 	public ApiResponseData<List<ProjectResponse>> getProjectsByCurrent() {
-		Person person = developerLoginService.currentPerson();
-		String account = person.getCommonName();
-		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account));
+		DeveloperAccount account = developerLoginService.currentPerson();
+		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account.getAccount()));
 		if(members.size() > 0) {
 			List<String> projectIds = members.stream().map(ProjectMember::getProjectId).collect(Collectors.toList());
 			return new ApiResponseData<>(getBaseMapper().list(Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator, ProjectResponse.class));

@@ -11,11 +11,11 @@ import com.gzmpc.portal.metadata.entity.EntityScan;
 import com.gzmpc.support.jdbc.annotation.TableEntityScan;
 
 @SpringBootApplication(scanBasePackages = { "com.gzmpc.*",
-		"com.gitee.sunchenbin.mybatis.actable.manager.*" }, exclude = DruidDataSourceAutoConfigure.class)
-@EnableFeignClients(basePackages = { "com.gzmpc.*" }) // 使用Feign微服务调用时请启用
+		"com.gitee.sunchenbin.mybatis.actable.manager.*" }, exclude = {DruidDataSourceAutoConfigure.class})
+//@EnableFeignClients(basePackages = { "com.gzmpc.*" }) // 使用Feign微服务调用时请启用
 @EnableTsf
 @MapperScan(basePackages = { "com.gzmpc.business.developer.portal.mapper","com.gzmpc.portal.jdbc.mapper.*", "com.gitee.sunchenbin.mybatis.actable.dao.*" })
-@EntityScan({ "com.gzmpc.portal.metadata", "com.gzmpc.portal.web.entity.*", "com.gzmpc.portal.admin.entity.*", "com.gzmpc.business.developer.portal.*" })
+@EntityScan({ "com.gzmpc.portal.metadata", "com.gzmpc.portal.web.entity.*", "com.gzmpc.portal.admin.entity.*", "com.gzmpc.business.developer.portal.*", "com.gzmpc.business.developer.rule.entity" })
 @TableEntityScan({ "com.gzmpc.portal.jdbc.entity" })
 /**
  * 微服务 启动类

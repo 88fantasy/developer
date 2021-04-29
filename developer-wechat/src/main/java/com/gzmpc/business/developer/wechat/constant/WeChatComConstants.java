@@ -15,7 +15,7 @@ public interface WeChatComConstants {
 	
 	public String WECHAT_COM_API_TOKEN = WECHAT_COM_API_BASE+"/gettoken?corpid=${id}&corpsecret=${secret}";
 	
-	public String WECHAT_COM_API_MESSAGE = "/message/send";
+	public String WECHAT_COM_API_MESSAGE = WECHAT_COM_API_BASE+"/message/send";
 	
-	public String WECHAT_COM_API_CODE2SESSION = "/miniprogram/jscode2session?access_token=${token}&js_code=${jscode}&grant_type=authorization_code";
+	public String WECHAT_COM_API_CODE2SESSION = WECHAT_COM_API_BASE+"/miniprogram/jscode2session?access_token=${token}&js_code=${jscode}&grant_type=authorization_code";
 }

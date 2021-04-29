@@ -4,6 +4,7 @@ import com.dtflys.forest.annotation.DataVariable;
 import com.dtflys.forest.annotation.Get;
 import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
+import com.gzmpc.business.developer.wechat.entity.GetTokenResponse;
 import com.gzmpc.business.developer.wechat.http.client.entity.GetLoginCallBackTokenResponse;
 
 /**
@@ -19,4 +20,8 @@ public interface WeChatClient {
 	
 	@Get(url = WeChatConstants.WECHAT_LOGIN_USERINFO, dataType = "json")
 	WechatLoginUserInfo getUserInfo(@DataVariable("token") String token, @DataVariable("openid") String openid);
+
+	@Get(url = WeChatConstants.WECHAT_API_TOKEN, dataType = "json")
+	GetTokenResponse getAccessToken(@DataVariable("appid") String appid, @DataVariable("secret") String secret);
+	
 }

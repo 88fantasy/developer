@@ -34,9 +34,7 @@ import com.gzmpc.business.developer.wechat.constant.WeChatComConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
 import com.gzmpc.business.developer.wechat.http.client.com.WeChatComClient;
-import com.gzmpc.business.developer.wechat.http.client.com.auth.AuthClient;
 import com.gzmpc.business.developer.wechat.http.client.com.entity.GetSessionResponse;
-import com.gzmpc.business.developer.wechat.http.client.com.message.MessageClient;
 import com.gzmpc.support.common.annotation.BuildComponent;
 import com.gzmpc.support.common.build.Buildable;
 import com.gzmpc.support.common.exception.BuildException;
@@ -57,12 +55,6 @@ public class ComService implements Buildable {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private ConcurrentHashMap<String,String> coms = new ConcurrentHashMap<String,String>();
-	
-	@Autowired
-	MessageClient messageClient;
-	
-	@Autowired
-	AuthClient authClient;
 	
 	@Value("${wechat.com.corpid}")
 	private String corpid;
@@ -94,7 +86,7 @@ public class ComService implements Buildable {
 			String agentIdString = String.valueOf(agentId);
 			if (coms != null && coms.containsKey(agentIdString)) {
 				String secret = coms.get(agentIdString);
-				com.gzmpc.business.developer.wechat.http.client.com.entity.GetTokenResponse response = weChatComClient
+				com.gzmpc.business.developer.wechat.entity.GetTokenResponse response = weChatComClient
 						.getToken(corpid, secret);
 				Integer errcode = response.getErrcode();
 				if (errcode == 0) {
@@ -125,7 +117,7 @@ public class ComService implements Buildable {
 				Code2SessionResponse session = (Code2SessionResponse) redisTemplate.opsForValue().get(key);
 				if (session == null) {
 					String token = getComToken(agentId);
-					GetSessionResponse response = authClient.jscode2session(token, jscode);
+					GetSessionResponse response = weChatComClient.jscode2session(token, jscode);
 					if(response != null && response.checkSuccess()) {
 						Code2SessionResponse res = new Code2SessionResponse();
 						BeanUtils.copyProperties(response, res);
@@ -158,7 +150,7 @@ public class ComService implements Buildable {
 		return sender.send(new SendFunction() {
 			@Override
 			public SendMessageResponse doWork(Object... args) {
-				return messageClient.sendText(request, WeChatSendMessageEnum.TEXT.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
+				return weChatComClient.sendText(request, WeChatSendMessageEnum.TEXT.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
 			}
 		});
 	}
@@ -169,7 +161,7 @@ public class ComService implements Buildable {
 		return sender.send(new SendFunction() {
 			@Override
 			public SendMessageResponse doWork(Object... args) {
-				return messageClient.sendTextcard(request, WeChatSendMessageEnum.TEXTCARD.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
+				return weChatComClient.sendTextcard(request, WeChatSendMessageEnum.TEXTCARD.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
 			}
 		});
 	}
@@ -180,7 +172,7 @@ public class ComService implements Buildable {
 		return sender.send(new SendFunction() {
 			@Override
 			public SendMessageResponse doWork(Object... args) {
-				return messageClient.sendNews(request, WeChatSendMessageEnum.NEWS.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
+				return weChatComClient.sendNews(request, WeChatSendMessageEnum.NEWS.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
 			}
 		});
 	}
@@ -191,7 +183,7 @@ public class ComService implements Buildable {
 		return sender.send(new SendFunction() {
 			@Override
 			public SendMessageResponse doWork(Object... args) {
-				return messageClient.sendImage(request, WeChatSendMessageEnum.IMAGE.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
+				return weChatComClient.sendImage(request, WeChatSendMessageEnum.IMAGE.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
 			}
 		});
 	}
@@ -202,7 +194,7 @@ public class ComService implements Buildable {
 		return sender.send(new SendFunction() {
 			@Override
 			public SendMessageResponse doWork(Object... args) {
-				return messageClient.sendMiniProgram(request, WeChatSendMessageEnum.MINIPROGRAM.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
+				return weChatComClient.sendMiniProgram(request, WeChatSendMessageEnum.MINIPROGRAM.value(), request.getEnableIdTrans(), request.getDuplicateCheckInterval());
 			}
 		});
 	}

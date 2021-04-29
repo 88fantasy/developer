@@ -1,6 +1,6 @@
 package com.gzmpc.business.developer.wechat.http.client.entity;
 
-import com.gzmpc.business.developer.wechat.http.client.com.entity.GetTokenResponse;
+import com.gzmpc.business.developer.wechat.entity.GetTokenResponse;
 
 /**
  * @author rwe

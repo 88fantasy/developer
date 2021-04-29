@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.wechat.http.client.com.entity;
+package com.gzmpc.business.developer.wechat.entity;
 
 import java.io.Serializable;
 
