@@ -95,11 +95,12 @@ public class MessageUnion implements Serializable {
 	private Integer failCount;
 
 	/**
-	 * 是否发送
+	 * 发送状态
 	 */
-	@TableFieldDoc("是否发送")
+	@TableFieldDoc("发送状态")
 	@TableField
-	private Boolean sended;
+	@EnumValue
+	private SendState sendState;
 
 	/**
 	 * 发送时间
@@ -181,11 +182,6 @@ public class MessageUnion implements Serializable {
 	public MessageUnion() {
 		
 	}
-
-	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
-			@NotEmpty String target, @NotNull MessageType messageType) {
-		this(typeCode, sourceData, subject, content, target, messageType, null, null, null, null, null, null);
-	}
 	
 	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
 			@NotEmpty String target, @NotNull MessageType messageType, String ip) {
@@ -193,21 +189,19 @@ public class MessageUnion implements Serializable {
 	}
 
 	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
-			@NotEmpty String target, @NotNull MessageType messageType, String ip, String ext1, String ext2, String ext3,
-			String ext4, String ext5) {
-		this(typeCode, sourceData, subject, content, target, messageType, null, 0, false, null,
-				null, ip, ext1, ext2, ext3, ext4, ext5, 0, DateUtils.addDays(new Date(), 1));
-	}
-	
-	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
-			@NotEmpty String target, @NotNull MessageType messageType, String sendTargetId, Integer failCount, Boolean sended,
-			Date sendTime, String feedback, String ip, String ext1, String ext2, String ext3, String ext4, String ext5) {
-		this(typeCode, sourceData, subject, content, target, messageType, sendTargetId, failCount, sended, sendTime,
-				feedback, ip, ext1, ext2, ext3, ext4, ext5, 0, DateUtils.addDays(new Date(), 1));
+			@NotEmpty String target, @NotNull MessageType messageType) {
+		this(typeCode, sourceData, subject, content, target, messageType, null, null, null, null, null, null);
 	}
 
 	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
-			@NotEmpty String target, @NotNull MessageType messageType, String sendTargetId, Integer failCount, Boolean sended,
+			@NotEmpty String target, @NotNull MessageType messageType, String ip, String ext1, String ext2, String ext3,
+			String ext4, String ext5) {
+		this(typeCode, sourceData, subject, content, target, messageType, null, 0, SendState.WAITING, null, null, ip, ext1, ext2, ext3,
+				ext4, ext5, 0, DateUtils.addDays(new Date(), 1));
+	}
+
+	public MessageUnion(String typeCode, String sourceData, @NotEmpty String subject, @NotEmpty String content,
+			@NotEmpty String target, @NotNull MessageType messageType, String sendTargetId, Integer failCount, SendState sendState,
 			Date sendTime, String feedback, String ip, String ext1, String ext2, String ext3, String ext4, String ext5,
 			Integer priority, Date invalidDate) {
 		this.typeCode = typeCode;
@@ -218,7 +212,7 @@ public class MessageUnion implements Serializable {
 		this.messageType = messageType;
 		this.sendTargetId = sendTargetId;
 		this.failCount = failCount;
-		this.sended = sended;
+		this.sendState = sendState;
 		this.sendTime = sendTime;
 		this.feedback = feedback;
 		this.ip = ip;
@@ -303,13 +297,14 @@ public class MessageUnion implements Serializable {
 	public void setFailCount(Integer failCount) {
 		this.failCount = failCount;
 	}
+	
 
-	public Boolean getSended() {
-		return sended;
+	public SendState getSendState() {
+		return sendState;
 	}
 
-	public void setSended(Boolean sended) {
-		this.sended = sended;
+	public void setSendState(SendState sendState) {
+		this.sendState = sendState;
 	}
 
 	public Date getSendTime() {
@@ -400,28 +395,39 @@ public class MessageUnion implements Serializable {
 		this.invalidDate = invalidDate;
 	}
 
-	public enum MessageType {
+	public enum MessageType  {
 
-		SNS("sns", "短信"), EMAIL("email", "邮件"), OTRS("message", "OTRS工单"), WECHAT_COM("message", "企业微信推送"),
-		LINK("message", "Link推送"),
+		SNS("短信"), EMAIL("邮件"), OTRS("OTRS工单"), WECHAT_COM("企业微信推送"),
 
 		;
 
-		private String key;
+		private String label;
 
-		private String name;
-
-		private MessageType(String key, String name) {
-			this.key = key;
-			this.name = name;
+		private MessageType(String label) {
+			this.label = label;
 		}
 
-		public String getKey() {
-			return key;
+
+		public String getLabel() {
+			return label;
+		}
+	}
+	
+	public enum SendState  {
+
+		WAITING("等待中"), SUCCESS("已发送"), FAIL("发送失败")
+		;
+
+
+		private String label;
+
+		private SendState(String label) {
+			this.label = label;
 		}
 
-		public String getName() {
-			return name;
+		public String getLabel() {
+			return label;
 		}
+
 	}
 }

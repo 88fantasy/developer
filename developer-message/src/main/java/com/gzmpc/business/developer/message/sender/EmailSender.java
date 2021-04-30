@@ -33,6 +33,7 @@ import com.gzmpc.business.developer.core.dto.message.MessageResponse;
 import com.gzmpc.business.developer.message.constant.MessageConstants;
 import com.gzmpc.business.developer.message.entity.MessageUnion;
 import com.gzmpc.business.developer.message.entity.MessageUnion.MessageType;
+import com.gzmpc.business.developer.message.entity.MessageUnion.SendState;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
 import com.gzmpc.business.developer.message.service.Sender;
@@ -126,14 +127,14 @@ public class EmailSender implements Sender {
 			}
 	
 			javaMailSender.send(newMessage);
-			union.setSended(true);
+			union.setSendState(SendState.SUCCESS);
 			union.setSendTime(new Date());
 
 		} catch (MessagingException | ApiException | CosClientException | InterruptedException | IOException e) {
 			String message = "发送邮件失败" + e.getMessage();
 			logger.error(message, e);
 			
-			union.setSended(false);
+			union.setSendState(SendState.FAIL);
 			union.setFeedback(e.getMessage());
 			union.setFailCount(1);
 			res = ApiException.class.isAssignableFrom(e.getClass())? new ApiResponseData<>(ResultCode.BAD_REQUEST, e.getMessage(), null) : new ApiResponseData<>();

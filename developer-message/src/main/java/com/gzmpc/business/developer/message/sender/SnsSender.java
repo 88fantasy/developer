@@ -19,6 +19,7 @@ import com.gzmpc.business.developer.message.config.MontnetsBean;
 import com.gzmpc.business.developer.message.entity.MessageUnion;
 import com.gzmpc.business.developer.message.entity.MontnetsAccount;
 import com.gzmpc.business.developer.message.entity.MessageUnion.MessageType;
+import com.gzmpc.business.developer.message.entity.MessageUnion.SendState;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.http.client.MessageClient;
 import com.gzmpc.business.developer.message.http.client.entity.SendMessageHttpRequest;
@@ -90,7 +91,7 @@ public class SnsSender implements Sender {
 				}
 				else {
 					union.setSendTargetId(response.getMsgid().toString());
-					union.setSended(true);
+					union.setSendState(SendState.SUCCESS);
 					union.setSendTime(new Date());
 					union.setFeedback(JSON.toJSONString(response));
 				}
@@ -100,7 +101,7 @@ public class SnsSender implements Sender {
 			}
 		} catch ( Exception e) {
 			logger.error("发送短信失败[{}], 内容: {}", e.getMessage(), JSON.toJSONString(request));
-			union.setSended(false);
+			union.setSendState(SendState.FAIL);;
 			union.setFeedback(e.getMessage());
 			union.setFailCount(1);
 			res = ApiException.class.isAssignableFrom(e.getClass())? new ApiResponseData<>(ResultCode.BAD_REQUEST, e.getMessage(), null) : new ApiResponseData<>();
