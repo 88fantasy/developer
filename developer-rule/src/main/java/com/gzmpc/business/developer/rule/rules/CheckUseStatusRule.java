@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.rules.entity.PubCompany;
 import com.gzmpc.business.developer.rule.rules.entity.PubCustomer;
 import com.gzmpc.business.developer.rule.rules.entity.PubSupplyer;
@@ -24,7 +25,8 @@ import com.gzmpc.business.developer.rule.rules.mapper.PubSupplyerMapper;
 * 检查主数据使用状态
 */
 
-@Rule(name = "检查主数据使用状态", description = "输入customid 或 supplyid 或 conpanyid")
+@RuleProperties(input = "customid 或 supplyid 或 conpanyid", tags = {"主数据"})
+@Rule(name = "检查主数据使用状态", description = "检查 usestatus")
 public class CheckUseStatusRule {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

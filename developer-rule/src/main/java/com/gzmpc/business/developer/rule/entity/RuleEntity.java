@@ -39,6 +39,24 @@ public class RuleEntity implements Serializable {
 	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleType type;
 	
+	/**
+	 * 输入
+	 */
+	@TableField
+	private String input;
+	
+	/**
+	 * 输出
+	 */
+	@TableField
+	private String output;
+	
+	/**
+	 * 标签
+	 */
+	@TableField
+	private String tags;
+	
 	@TableField
 	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String expression;
@@ -114,6 +132,36 @@ public class RuleEntity implements Serializable {
 
 	public void setType(RuleType type) {
 		this.type = type;
+	}
+
+
+	public String getInput() {
+		return input;
+	}
+
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+
+	public String getOutput() {
+		return output;
+	}
+
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
+
+
+	public String getTags() {
+		return tags;
+	}
+
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 

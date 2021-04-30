@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.entity.RulePackage;
+import com.gzmpc.business.developer.portal.entity.RulePackageInstance;
 import com.gzmpc.business.developer.portal.service.DeveloperRuleService;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.rest.entity.ApiResponsePage;
@@ -43,6 +44,12 @@ public class RuleController extends BaseController<DeveloperRuleService, RulePac
 	@RequestMapping(value = "/queryRules", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponsePage<RuleDTO> queryRules(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryRules(request);
+	}
+	
+	@ApiOperation(value = "分页查询规则库")
+	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponsePage<RulePackageInstance> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
+		return developerRuleService.queryPackageInstances(request);
 	}
 
 	@Override

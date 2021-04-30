@@ -65,6 +65,10 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 			return dto;
 		}, RuleDTO.class));
 	}
+	
+	public ApiResponsePage<RulePackageInstance> queryPackageInstances(PostConditionQueryRequest request) {
+		return new ApiResponsePage<>(rulePackageInstanceMapper.query(request.getConditions(), request.getPage(), rule -> rule, RulePackageInstance.class));
+	}
 
 	public Function<RulePackage, RulePackageListResponse> getTranslator() {
 		return entity -> {

@@ -8,6 +8,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Repository;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.entity.RuleEntity;
 import com.gzmpc.business.developer.rule.mapper.RuleMapper;
 
@@ -18,6 +20,7 @@ import com.gzmpc.business.developer.rule.mapper.RuleMapper;
 */
 
 @Repository
+@DS("developer")
 public class RuleAnnotationRefreshListener implements ApplicationListener<ApplicationReadyEvent> {
 
 	@Autowired
@@ -29,20 +32,24 @@ public class RuleAnnotationRefreshListener implements ApplicationListener<Applic
 		for(Map.Entry<String,Object> entry : beans.entrySet()) {
 			String key = entry.getKey();
 			Object o = entry.getValue();
-			Rule rule = o.getClass().getAnnotation(Rule.class);
+			Class<?> clazz = o.getClass();
+			Rule rule = clazz.getAnnotation(Rule.class);
 			String ruleName = rule.name();
 			String ruleDesc = rule.description();
 			int rulePriority = rule.priority();
+			
 			
 			RuleEntity entity = ruleMapper.selectById(key);
 			if(entity != null) {
 				entity.setName(ruleName);
 				entity.setDescription(ruleDesc);
 				entity.setPriority(rulePriority);
+				setProperties(entity, clazz);
 				ruleMapper.updateById(entity);
 			}
 			else {
 				entity = new RuleEntity(key, ruleName, ruleDesc, rulePriority, RuleEntity.RuleType.CODE);
+				setProperties(entity, clazz);
 				ruleMapper.insert(entity);
 			}
 			
@@ -50,4 +57,12 @@ public class RuleAnnotationRefreshListener implements ApplicationListener<Applic
 		
 	}
 
+	private void setProperties(RuleEntity entity, Class<?> clazz) {
+		if(clazz.isAnnotationPresent(RuleProperties.class)) {
+			RuleProperties properties = clazz.getAnnotation(RuleProperties.class);
+			entity.setInput(properties.input());
+			entity.setOutput(properties.output());
+			entity.setTags(String.join(" ", properties.tags()));
+		}
+	}
 }

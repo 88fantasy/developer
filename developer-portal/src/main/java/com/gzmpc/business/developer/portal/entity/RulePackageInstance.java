@@ -13,6 +13,7 @@ import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.portal.metadata.dict.Dictionary;
 import com.gzmpc.portal.metadata.dict.DictionaryEnum;
 import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
+import com.gzmpc.portal.metadata.entity.EntityClass;
 
 /**
 * @author rwe
@@ -20,6 +21,7 @@ import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
 * 规则运算实例
 */
 
+@EntityClass
 @TableName("rule_package_instance")
 public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	

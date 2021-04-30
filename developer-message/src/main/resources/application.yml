@@ -51,4 +51,8 @@ montnets:
       url: 61.145.229.29:9006
       userid: J01832
       pwd: 633251
+    - from: czl
+      url: 61.145.229.29:8892
+      userid: JH4085
+      pwd: 121200
       

@@ -11,6 +11,7 @@ import org.jeasy.rules.api.Facts;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.rules.entity.PubCompanyLicense;
 import com.gzmpc.business.developer.rule.rules.mapper.PubCompanyLicenseMapper;
 
@@ -20,7 +21,8 @@ import com.gzmpc.business.developer.rule.rules.mapper.PubCompanyLicenseMapper;
 * 进货合同，进货退出时检查证照
 */
 
-@Rule(name = "进货合同，进货退出时检查证照", description = "输入supplyid, 超过有效期置licenseInvalidFlag = true")
+@RuleProperties(input = "supplyid", output = "licenseInvalidFlag", tags = {"进货合同", "采购", "证照"})
+@Rule(name = "进货合同，进货退出时检查证照", description = "超过有效期置licenseInvalidFlag = true")
 public class CheckSupplyLicenseRule {
 	
 	@Autowired

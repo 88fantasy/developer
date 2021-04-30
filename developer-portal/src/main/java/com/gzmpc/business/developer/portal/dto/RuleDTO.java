@@ -25,8 +25,16 @@ public class RuleDTO {
 
 	@NotNull
 	private RuleType type;
+	
+	private String input;
+	
+	private String output;
+	
+	private String tags;
 
 	private String expression;
+	
+	private String action;
 
 	public String getCode() {
 		return code;
@@ -68,12 +76,44 @@ public class RuleDTO {
 		this.type = type;
 	}
 
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	public String getOutput() {
+		return output;
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
 	public String getExpression() {
 		return expression;
 	}
 
 	public void setExpression(String expression) {
 		this.expression = expression;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 }

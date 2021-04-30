@@ -13,6 +13,7 @@ import org.jeasy.rules.api.Facts;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.constant.RuleConstants;
 import com.gzmpc.business.developer.rule.rules.entity.PubCompanyLicense;
 import com.gzmpc.business.developer.rule.rules.entity.PubDdl;
@@ -26,7 +27,8 @@ import com.gzmpc.business.developer.rule.rules.mapper.PubSupplyerMapper;
  * @version 创建时间：2021年4月24日 下午10:39:39 进货合同，进货退出时检查证照
  */
 
-@Rule(name = "进货合同，进货退出时检查证照", description = "输入supplyid, 供应商性质不是\"非药品生产企业\"或\"非药品经营企业\"的，"
+@RuleProperties(input = "supplyid", tags = {"进货合同", "采购", "证照"})
+@Rule(name = "进货合同，进货退出时检查证照", description = "供应商性质不是\"非药品生产企业\"或\"非药品经营企业\"的，"
 		+ "需同时具备证照类型为《税务登记证》、《相关印章样式》、《随货同行单（票）样式》和《开户信息》才能进行购进业务")
 public class CheckPurchaseLicenseRule {
 

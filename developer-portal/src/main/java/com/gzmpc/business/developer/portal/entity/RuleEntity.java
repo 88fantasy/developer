@@ -1,12 +1,14 @@
 package com.gzmpc.business.developer.portal.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.portal.metadata.dict.Dictionary;
@@ -44,6 +46,24 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 	@TableField
 	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String description;
+	
+	/**
+	 * 输入
+	 */
+	@TableField
+	private String input;
+	
+	/**
+	 * 输出
+	 */
+	@TableField
+	private String output;
+	
+	/**
+	 * 标签
+	 */
+	@TableField
+	private String tags;
 	
 	/**
 	 * 优先级
@@ -122,6 +142,36 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
+	public String getInput() {
+		return input;
+	}
+
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+
+	public String getOutput() {
+		return output;
+	}
+
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
 
 	public Integer getPriority() {
 		return priority;
