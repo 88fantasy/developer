@@ -73,6 +73,11 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 				rule.setType(e.getType());
 				return rule;
 			}, RuleDTO.class);
+			rules.sort((rule1, rule2) -> {
+				Integer priority1 = tactics.stream().filter(tactic -> rule1.getCode().equals(tactic.getRuleCode())).findFirst().get().getPriority()
+				, priority2 = tactics.stream().filter(tactic -> rule2.getCode().equals(tactic.getRuleCode())).findFirst().get().getPriority();
+				return priority1.compareTo(priority2);
+			});
 			result.setRules(rules);
 		}
 		return result;
