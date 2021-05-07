@@ -18,13 +18,11 @@ import com.gzmpc.business.developer.portal.dto.RuleDTO;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
 import com.gzmpc.business.developer.portal.dto.RuleStatisticResponse;
-import com.gzmpc.business.developer.portal.dto.RuleTypeCountResponse;
 import com.gzmpc.business.developer.portal.entity.RulePackage;
 import com.gzmpc.business.developer.portal.entity.RulePackageInstance;
 import com.gzmpc.business.developer.portal.service.DeveloperRuleService;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.common.entity.FilterCondition;
-import com.gzmpc.support.common.util.BeanUtils;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.entity.ApiResponsePage;
 
