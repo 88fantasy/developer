@@ -21,5 +21,14 @@ public interface PubCompanyLicenseMapper extends ExBaseMapper<PubCompanyLicense>
 	
 //	@Select(" select * from pub_company_license o, pub_ddl d  ${ew.customSqlSegment}")
 //	List<PubSupplyer> listPubSupplyer(@Param(Constants.WRAPPER) Wrapper<PubSupplyer> wrapper);
-	
+
+//    //检查是否有法人委托书
+//    @Select("SELECT count(1) FROM zx_supply_license t1 WHERE t1.companyid = #{companyId}  and t1.licenseid = 35")
+//    Integer countLicenseNumByCompanyId (@Param("companyId")Long companyId);
+//
+//    //检查法人委托书是否效期内
+//    @Select("SELECT count(1) FROM zx_supply_license WHERE t1.companyid = #{companyId} AND t1.licenseend >= trunc(sysdate, 'dd')and t1.licenseid = 35")
+//    Integer countLicenseNumInvalidByCompanyId(@Param("companyId")Long companyId);
+
+
 }

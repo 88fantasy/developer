@@ -10,6 +10,8 @@ package com.gzmpc.business.developer.rule.constant;
 public interface RuleConstants {
 
 	String RULE_ERROR_MESSAGE_KEY = "__error";
+
+	String RULE_TIPS_MESSAGE_KEY = "__tips";
 	
 	
 }
