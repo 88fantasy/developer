@@ -1,5 +1,6 @@
 package com.gzmpc.business.developer.rule.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -9,7 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
-import com.gzmpc.business.developer.rule.enums.RuleStatus;
 
 /**
 * @author rwe
@@ -17,9 +17,9 @@ import com.gzmpc.business.developer.rule.enums.RuleStatus;
 * 规则运算实例
 */
 @TableName("rule_package_instance")
-public class RulePackageInstance {
+public class RulePackageInstance implements Serializable {
 	
-	private static final long serialVersionUID = 2855509679952227823L;
+	private static final long serialVersionUID = 5717159824437721715L;
 
 	@TableId(type = IdType.ASSIGN_ID)
 	private String id;
@@ -55,6 +55,9 @@ public class RulePackageInstance {
 	
 	@TableField
 	private Date endTime;
+	
+	@TableField
+	private String ip;
 
 	public String getId() {
 		return id;
@@ -143,6 +146,48 @@ public class RulePackageInstance {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	
 
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	
+	public enum RuleStatus {
+
+		/**
+		 * 初始
+		 */
+		INIT("初始"),
+
+		/**
+		 * 进行中
+		 */
+		PROCESSING("进行中"),
+
+		/**
+		 * 完成
+		 */
+		FINISHED("完成"),
+		
+		/**
+		 * 失败
+		 */
+		FAILED("失败"),
+
+		;
+
+		private String label;
+
+		private RuleStatus(String label) {
+				this.label = label;
+			}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
 }

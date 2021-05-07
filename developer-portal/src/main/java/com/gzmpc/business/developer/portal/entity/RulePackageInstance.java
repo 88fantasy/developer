@@ -61,6 +61,9 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	
 	@TableField
 	private Date endTime;
+	
+	@TableField
+	private String ip;
 
 	public String getId() {
 		return id;
@@ -150,6 +153,14 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 		this.endTime = endTime;
 	}
 	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	@Dictionary( value = "ruleStatus", name = "规则实例状态")
 	public enum RuleStatus implements DictionaryEnum {
 

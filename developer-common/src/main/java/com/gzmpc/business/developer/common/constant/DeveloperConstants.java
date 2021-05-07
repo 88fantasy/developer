@@ -26,4 +26,6 @@ public interface DeveloperConstants {
 	String SERVICE_NAME_WECHAT = "developer-wechat";
 
 	String SERVICE_NAME_MESSAGE = "developer-message";
+	
+	String SERVICE_NAME_RULE = "developer-rule";
 }

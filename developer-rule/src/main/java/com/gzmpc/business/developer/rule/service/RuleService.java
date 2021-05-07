@@ -2,9 +2,6 @@ package com.gzmpc.business.developer.rule.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import org.jeasy.rules.annotation.Rule;
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngineListener;
@@ -13,7 +10,6 @@ import org.jeasy.rules.core.DefaultRulesEngine;
 import org.jeasy.rules.mvel.MVELRule;
 import org.jeasy.rules.spel.SpELRule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -22,17 +18,14 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.rule.entity.RulePackage;
 import com.gzmpc.business.developer.rule.entity.RulePackageInstance;
+import com.gzmpc.business.developer.rule.entity.RulePackageInstance.RuleStatus;
 import com.gzmpc.business.developer.rule.entity.RulePackageTactics;
-import com.gzmpc.business.developer.rule.enums.RuleStatus;
 import com.gzmpc.business.developer.rule.entity.RuleEntity;
 import com.gzmpc.business.developer.rule.entity.RuleEntity.RuleType;
 import com.gzmpc.business.developer.rule.mapper.RuleMapper;
 import com.gzmpc.business.developer.rule.mapper.RulePackageInstanceMapper;
 import com.gzmpc.business.developer.rule.mapper.RulePackageMapper;
 import com.gzmpc.business.developer.rule.mapper.RulePackageTacticsMapper;
-import com.gzmpc.support.common.annotation.BuildComponent;
-import com.gzmpc.support.common.build.Buildable;
-import com.gzmpc.support.common.exception.BuildException;
 import com.gzmpc.support.common.util.SpringContextUtils;
 import com.gzmpc.support.rest.exception.ApiException;
 
@@ -58,7 +51,7 @@ public class RuleService  {
 	@Autowired
 	RulePackageInstanceMapper rulePackageInstanceMapper;
 	
-	public String firePackage(String packageCode, String json) {
+	public String submit(String packageCode, String json) {
 		RulePackage pack = rulePackageMapper.selectById(packageCode);
 		if(pack != null ) {
 			JSONObject o = JSON.parseObject(json);
