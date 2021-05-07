@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.gzmpc.business.developer.rule.rules.CheckSupplyMsgRule;
 import com.gzmpc.business.developer.rule.rules.CheckUseStatusRule;
 import com.gzmpc.business.developer.rule.springboot.application.DeveloperRuleApplication;
 
@@ -39,6 +40,9 @@ public class ProviderApplicationTest {
 	
 	@Autowired
 	CheckUseStatusRule checkUsestateRule;
+	
+	@Autowired
+	CheckSupplyMsgRule checkSupplyMsgRule;
 
 	@Before
 	public void setUp() throws Exception {
@@ -55,13 +59,15 @@ public class ProviderApplicationTest {
 	@Test
 	public void test() throws Exception {
 		Facts facts = new Facts();
-    facts.put("supplyid", 2009l);
+	//facts.put("supplyid", 2009l);
+    facts.put("supplyid", 111389);
     
     Rules rules = new Rules();
-    rules.register(checkUsestateRule);
+    //rules.register(checkUsestateRule);
+    rules.register(checkSupplyMsgRule);
     
     RulesEngineParameters parameters = new RulesEngineParameters().skipOnFirstAppliedRule(true);
-		RulesEngine rulesEngine = new DefaultRulesEngine();
+	RulesEngine rulesEngine = new DefaultRulesEngine();
     rulesEngine.fire(rules, facts);
 
 	}
