@@ -49,6 +49,7 @@ public class RuleAnnotationRefreshListener implements ApplicationListener<Applic
 			}
 			else {
 				entity = new RuleEntity(key, ruleName, ruleDesc, rulePriority, RuleEntity.RuleType.CODE);
+				entity.setAction(key);
 				setProperties(entity, clazz);
 				ruleMapper.insert(entity);
 			}
