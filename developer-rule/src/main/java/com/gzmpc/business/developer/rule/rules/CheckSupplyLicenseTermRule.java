@@ -39,14 +39,14 @@ public class CheckSupplyLicenseTermRule {
 	PubCompanyLicenseMapper pubCompanyLicenseMapper;
 
 	@Condition
-    public boolean isInvalid(@Fact("supplyid") long supplyid,Facts facts) {
+    public boolean isInvalid(@Fact("supplyid") long supplyId,Facts facts) {
 		boolean licenseTermFlag = false;
 		//1 校验供应商编码
-		Integer supply = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>lambdaQuery().eq(PubCompanyLicense::getCompanyid, supplyid));
+		Integer supply = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>lambdaQuery().eq(PubCompanyLicense::getCompanyid, supplyId));
 		if (supply != null && supply >0) {
 			//2 查询经营期限
 			Integer count = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>lambdaQuery()
-					.eq(PubCompanyLicense::getCompanyid, supplyid)
+					.eq(PubCompanyLicense::getCompanyid, supplyId)
 					.in(PubCompanyLicense::getLicenseid, Arrays.asList(0,1,2,4,36,35,41))
 					.isNull(PubCompanyLicense::getLicenseend));
 			if(count > 0) {
@@ -60,12 +60,12 @@ public class CheckSupplyLicenseTermRule {
 				Date renow = cal.getTime();
 				
 				Integer sysdateCount = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>lambdaQuery()
-						.eq(PubCompanyLicense::getCompanyid, supplyid)
+						.eq(PubCompanyLicense::getCompanyid, supplyId)
 						.in(PubCompanyLicense::getLicenseid, Arrays.asList(0,1,2,4,36,35,41))
 						.lt(PubCompanyLicense::getLicenseend, now));
 				
 				Integer endDateCount = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>lambdaQuery()
-						.eq(PubCompanyLicense::getCompanyid, supplyid)
+						.eq(PubCompanyLicense::getCompanyid, supplyId)
 						.in(PubCompanyLicense::getLicenseid, Arrays.asList(0,1,2,4,36,35,41))
 						.lt(PubCompanyLicense::getLicenseend, renow));
 				if(sysdateCount > 0) {
