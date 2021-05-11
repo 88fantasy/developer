@@ -1,8 +1,5 @@
 package com.gzmpc.business.developer.rule.rules;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.jeasy.rules.annotation.Action;
 import org.jeasy.rules.annotation.Condition;
 import org.jeasy.rules.annotation.Fact;
@@ -10,15 +7,11 @@ import org.jeasy.rules.annotation.Rule;
 import org.jeasy.rules.api.Facts;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.constant.RuleConstants;
-import com.gzmpc.business.developer.rule.rules.entity.BmsSuConDoc;
 import com.gzmpc.business.developer.rule.rules.entity.BmsSuConDtl;
-import com.gzmpc.business.developer.rule.rules.entity.PubCompanyLicense;
 import com.gzmpc.business.developer.rule.rules.mapper.BmsSuConDtlMapper;
 import com.gzmpc.business.developer.rule.rules.mapper.PubCompanyLicenseMapper;
-import com.gzmpc.business.developer.rule.rules.mapper.PubSupplyerMapper;
 import com.gzmpc.business.developer.rule.util.FactsUtil;
 
 /**
@@ -45,19 +38,21 @@ public class CheckSupplyHistoryDocuRule {
     public boolean isInvalid(@Fact("supplyid") long supplyId, @Fact("goodsid") long goodsId ,Facts facts) {
 		boolean inItemUnitFlag = false;
 		
-		List<BmsSuConDtl> dtls = bmsSuConDtlMapper.CheckSupplyHistoryDocu(supplyId, goodsId);
-		if(dtls != null && dtls.size()!=0) {
-			for(BmsSuConDtl dtl: dtls) {
-				if(dtl.getWtps_dtlid() != null) {					
-					facts.put("wtps_dtlid", dtl.getWtps_dtlid());
+		BmsSuConDtl dtl = bmsSuConDtlMapper.CheckSupplyHistoryDocu(supplyId, goodsId);
+		if(dtl != null) {
+			if(dtl.getWtpsDtlid() == 0) {
+				inItemUnitFlag = true;
+			}else {
+				if(dtl.getWtpsDtlid() != null) {
+					facts.put("wtps_dtlid", dtl.getWtpsDtlid());
 				}
 				if(dtl.getRealrgcompany() != null) {
 					facts.put("realrgcompany", dtl.getRealrgcompany());	
 				}
+				inItemUnitFlag = true;
 			}
-			inItemUnitFlag = true;
 		}else {
-			factsUtil.setMessage(facts,RuleConstants.RULE_TIPS_MESSAGE_KEY,"历史进货合同的数据为空, 请重新查询");
+			factsUtil.setMessage(facts,RuleConstants.RULE_ERROR_MESSAGE_KEY,"历史进货合同的数据为空!");
 		}
 		
 		return inItemUnitFlag;

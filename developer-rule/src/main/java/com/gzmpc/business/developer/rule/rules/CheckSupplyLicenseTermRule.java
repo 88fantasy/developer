@@ -81,7 +81,7 @@ public class CheckSupplyLicenseTermRule {
 				}
 			}
         }else {
-        	factsUtil.setMessage(facts,RuleConstants.RULE_TIPS_MESSAGE_KEY,"供应商编码无效!");
+        	factsUtil.setMessage(facts,RuleConstants.RULE_ERROR_MESSAGE_KEY,"供应商编码无效!");
         }
 		return licenseTermFlag;
 	}

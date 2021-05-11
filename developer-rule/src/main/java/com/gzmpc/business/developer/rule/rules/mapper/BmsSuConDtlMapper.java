@@ -1,7 +1,5 @@
 package com.gzmpc.business.developer.rule.rules.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,10 +14,9 @@ import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 
 public interface BmsSuConDtlMapper extends ExBaseMapper<BmsSuConDtl>{
 	
-	//@Select(" select *from bms_su_con_doc t , bms_su_con_dtl d ${ew.customSqlSegment}")
-	@Select(" select *from bms_su_con_doc t , bms_su_con_dtl d "
+	@Select("select * from (select d.realrgcompany, d.wtps_dtlid from bms_su_con_doc t , bms_su_con_dtl d "
 			+ "where t.supplyid = #{supplyId} and d.goodsid = #{goodsId} and t.suconid = d.suconid "
-			+ "and d.realrgcompany is not null order by t.signdate desc")
-	List<BmsSuConDtl> CheckSupplyHistoryDocu(@Param("supplyId")Long supplyId, @Param("goodsId")Long goodsId);
+			+ "and d.realrgcompany is not null order by t.signdate desc) where rownum < 2")
+	BmsSuConDtl CheckSupplyHistoryDocu(@Param("supplyId")Long supplyId, @Param("goodsId")Long goodsId);
 
 }
