@@ -61,7 +61,7 @@ public class CheckLegalSupply {
     @Autowired
     PubCompanyLicenseMapper pubCompanyLicenseMapper;
 
-    /*@Condition
+    @Condition
     public boolean isInvalid(Facts facts) {
         Map<String, Object> map = facts.asMap();
         if (map.containsKey("supplyid")) {
@@ -111,7 +111,7 @@ public class CheckLegalSupply {
 
         }
         return true;
-    }*/
+    }
     
     @Condition
     public boolean checkLegal(@Fact("supplyid") long supplyId, @Fact("goodsid") long goodsId, Facts facts) {
