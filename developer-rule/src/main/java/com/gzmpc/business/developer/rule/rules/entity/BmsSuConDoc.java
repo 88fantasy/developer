@@ -2,6 +2,7 @@ package com.gzmpc.business.developer.rule.rules.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author yjf
  * @since 2021-05-11
  */
+@TableName("BMS_SU_CON_DOC")
 public class BmsSuConDoc implements Serializable {
 
     private static final long serialVersionUID = 1L;

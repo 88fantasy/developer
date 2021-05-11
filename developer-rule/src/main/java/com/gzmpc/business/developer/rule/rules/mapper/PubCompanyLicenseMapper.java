@@ -40,14 +40,17 @@ public interface PubCompanyLicenseMapper extends ExBaseMapper<PubCompanyLicense>
     List<Long> getCheckLicenseId(@Param("companyId") Long companyId, @Param("companyType") Integer companyType, @Param("noChkLicenseId") Integer noChkLicenseId);
 
 
-     @Select(
-    " select b.ddlname licensename,decode(a.licenseid,null,'无证照记录',decode(licenseinvalidate,null,'证照有效期为空','证照过期')) memo,a.licenseend ,a.licenseinvalidate "+
-            "from (select * from pub_company_license where companyid =  #{companyId} ) a,"+
-            "(select * from pub_ddl where keyword = 'ZX_PUB_COMPANY_LICENSE') b"+
-            " where b.ddlid = a.licenseid(+)  and b.ddlid in ("
-            +"<foreach collection='licenseIds' separator=',' item='licenseId'>"
-            + "#{licenseId} " + "</foreach> "+") " +
-            " and (trunc(nvl(a.licenseend,sysdate-1)) < trunc(sysdate) or trunc(nvl(a.licenseinvalidate,sysdate-1)) < trunc(sysdate))"
+    @Select(
+    "<script>" +
+            " select b.ddlname licensename,decode(a.licenseid,null,'无证照记录',decode(licenseinvalidate,null,'证照有效期为空','证照过期')) memo,a.licenseend,a.licenseinvalidate "+
+            " from (select * from pub_company_license where companyid =  #{companyId} ) a,"+
+            " (select * from pub_ddl where keyword = 'ZX_PUB_COMPANY_LICENSE') b"+
+            " where b.ddlid = a.licenseid(+)  and b.ddlid in "
+            +" <foreach collection='licenseIds' open='(' close=')' separator=',' item='value'>"
+            + " ${value} "
+            + " </foreach> " +
+            " and (trunc(nvl(a.licenseend,sysdate-1)) &lt; trunc(sysdate) or trunc(nvl(a.licenseinvalidate,sysdate-1)) &lt;trunc(sysdate)) " +
+            " </script> "
     )
     List<HashMap> getCheckLicenseInfo(@Param("companyId") Long companyId,@Param("licenseIds") List<Long> licenseIds);
 }
