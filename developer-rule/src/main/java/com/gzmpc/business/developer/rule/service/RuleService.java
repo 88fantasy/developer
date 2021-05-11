@@ -115,7 +115,7 @@ public class RuleService  {
 				Object r = null;
 				switch(type) {
 					case CODE:
-						r = SpringContextUtils.getBeanById(code);
+						r = SpringContextUtils.getBeanById(action);
 						break;
 					case SPEL:
 						r = new SpELRule()
