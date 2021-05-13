@@ -1,5 +1,10 @@
 package com.gzmpc.business.developer.rule.rules.mapper;
 
+import java.util.HashMap;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import com.gzmpc.business.developer.rule.rules.entity.PubGoods;
 import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 
@@ -11,4 +16,6 @@ import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 
 public interface ZxPubGoodsMsgMapper extends ExBaseMapper<PubGoods> {
 
+	@Select("SELECT no01,nvl(chkjyfwflag,0) as chkjyfwflag,goodsname FROM pub_goods Where goodsid = #{goodsid}")
+	HashMap SelectChkJyfwFlagByGoodsid(@Param("goodsid")Long goodsid);
 }
