@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class FactsUtil {
@@ -18,5 +19,16 @@ public class FactsUtil {
         }
     }
 
+    public boolean checkInput(Facts facts,List<String> inputs){
+        boolean flag = true;
+       Map map = facts.asMap();
+        for (String key :inputs){
+           if(!map.containsKey(key)){
+               flag = false;
+               setMessage(facts,RuleConstants.RULE_ERROR_MESSAGE_KEY,"缺少必要参数-"+key );
+           }
+        }
+        return flag;
+    }
 
 }
