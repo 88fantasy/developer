@@ -18,7 +18,12 @@ public interface ZxBusiControlDefDocMapper extends ExBaseMapper<ZxBusiControlDef
 	
 	@Select("select t.docid,t.columnname,t.controlflag,t.jyfwmsg,c.compsubtype as optype,t.companytype,t.approvemanid "
 			+ "FROM SYS_OP o, ZX_BUSICONTROL_DEF_DOC t, SYS_COMP c WHERE o.opid = t.opid AND o.COMPID = c.COMPID "
-			+ "and t.opid =  #{opid} AND t.flag = 0 order by t.companytype;")
+			+ "and t.opid =  #{opid} AND t.flag = 0 order by t.companytype")
 	List<ZxBusiControlDefDoc> SelectZxBusiControlDefDocByOpid(@Param("opid")Long opid);
+	
+	@Select("select t.docid,t.columnname,t.controlflag,t.msg,c.compsubtype as optype "
+			+ "FROM SYS_OP o, ZX_BUSICONTROL_DEF_DOC t, SYS_COMP c WHERE o.opid = t.opid AND o.COMPID = c.COMPID "
+			+ "and t.opid =  #{opid} AND t.flag = 1")
+	ZxBusiControlDefDoc SelectGzmpcZxBusiControlDefDocByOpid(@Param("opid")Long opid);
 
 }

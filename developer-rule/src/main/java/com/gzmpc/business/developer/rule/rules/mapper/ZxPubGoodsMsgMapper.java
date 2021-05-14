@@ -18,4 +18,7 @@ public interface ZxPubGoodsMsgMapper extends ExBaseMapper<PubGoods> {
 
 	@Select("SELECT no01,nvl(chkjyfwflag,0) as chkjyfwflag,goodsname FROM pub_goods Where goodsid = #{goodsid}")
 	HashMap SelectChkJyfwFlagByGoodsid(@Param("goodsid")Long goodsid);
+	
+	@Select("select count(*) from pub_goods where #{jyfw} = (select #{jyfw} from zx_company_jyfw where jyfwid = #{jyfwid}) and goodsid = #{goodsid}")
+	Integer SelectPubGoodsByGoodsid(@Param("jyfw")String jyfw, @Param("jyfwid")Long jyfwid, @Param("goodsid")Long goodsid);
 }

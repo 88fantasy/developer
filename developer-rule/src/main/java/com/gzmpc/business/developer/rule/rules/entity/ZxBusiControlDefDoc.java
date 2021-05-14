@@ -28,6 +28,9 @@ public class ZxBusiControlDefDoc implements Serializable {
 	private String jyfwmsg;
 	
 	@TableField
+	private String msg;
+	
+	@TableField
 	private Integer optype;
 	
 	@TableField
@@ -58,6 +61,14 @@ public class ZxBusiControlDefDoc implements Serializable {
 
 	public void setJyfwmsg(String jyfwmsg) {
 		this.jyfwmsg = jyfwmsg;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 	public Integer getOptype() {
