@@ -62,7 +62,7 @@ public class WechatService  implements Buildable {
 	}
 	
 	public WechatAppDTO getAppInfo(String appId) throws NotFoundException {
-		if(apps.contains(appId)) {
+		if(apps.containsKey(appId)) {
 			return apps.get(appId);
 		}
 		else {
