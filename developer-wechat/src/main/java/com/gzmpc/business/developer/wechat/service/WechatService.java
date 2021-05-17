@@ -26,6 +26,7 @@ import com.gzmpc.business.developer.wechat.http.client.entity.GetLoginCallBackTo
 import com.gzmpc.support.common.annotation.BuildComponent;
 import com.gzmpc.support.common.build.Buildable;
 import com.gzmpc.support.common.exception.BuildException;
+import com.gzmpc.support.rest.exception.ApiException;
 
 /**
 * @author rwe
@@ -86,6 +87,10 @@ public class WechatService  implements Buildable {
 				long expires = tokenResponse.getExpiresIn();
 				redisTemplate.opsForValue().set(key, tokenResponse, expires, TimeUnit.SECONDS);
 			}
+			else {
+				logger.info("微信返回信息 {} : {}",  code, JSON.toJSONString(tokenResponse));
+				throw new ApiException(tokenResponse.getErrmsg());
+			}
 		}
 		else {
 			token = (GetLoginCallBackTokenResponse) redisTemplate.opsForValue().get(key);
@@ -107,7 +112,7 @@ public class WechatService  implements Buildable {
 				redisTemplate.opsForValue().setIfAbsent(key, accessToken, expires - 60, TimeUnit.SECONDS);
 				token = accessToken;
 			} else {
-				logger.error(MessageFormat.format("获取微信应用token失败[{0}]:{1}", errcode, response.getErrmsg()));
+				logger.error("获取微信应用token失败[{}]:{}", errcode, response.getErrmsg());
 			}
 		}
 		return token;
