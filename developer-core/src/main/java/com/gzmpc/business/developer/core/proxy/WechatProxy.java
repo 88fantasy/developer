@@ -1,7 +1,5 @@
 package com.gzmpc.business.developer.core.proxy;
 
-import javax.validation.Valid;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,7 +84,7 @@ public interface WechatProxy {
 	 * @return
 	 */
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public WechatLoginUserInfo getUserinfo(@PathVariable String appid, @PathVariable String code);
+	public WechatLoginUserInfo getUserinfo(@PathVariable("appid") String appid, @PathVariable("code") String code);
 
 }
 

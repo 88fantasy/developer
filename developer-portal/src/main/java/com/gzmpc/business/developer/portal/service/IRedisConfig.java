@@ -40,6 +40,8 @@ public interface IRedisConfig<E extends RemoteApplicationEvent, T> {
 	
 	String getRedisKey();
 
+	E getRemoteApplicationEvent(String instanceId);
+
 	default void reload() {
 		Logger logger = LoggerFactory.getLogger(this.getClass());
 		ApplicationContext ac = SpringContextUtils.getApplicationContext();
@@ -56,7 +58,7 @@ public interface IRedisConfig<E extends RemoteApplicationEvent, T> {
 		
 		//广播所有网关实例进行刷新
 		String instanceId = busProperties.getId();
-		WechatComAppUpdateEvent event = new WechatComAppUpdateEvent(UUID.randomUUID().toString(), instanceId, DeveloperConstants.SERVICE_NAME_WECHAT);
+		E event = getRemoteApplicationEvent(instanceId);
 		publisher.publishEvent(event);
     
 		logger.info("更新{}配置结束", this.getClass());
@@ -82,4 +84,5 @@ public interface IRedisConfig<E extends RemoteApplicationEvent, T> {
 			reload();
 		};
 	}
+	
 }
