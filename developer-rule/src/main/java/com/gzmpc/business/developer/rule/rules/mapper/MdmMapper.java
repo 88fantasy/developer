@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.gzmpc.business.developer.rule.rules.entity.PubCompany;
 import com.gzmpc.business.developer.rule.rules.entity.PubCustomer;
+import com.gzmpc.business.developer.rule.rules.entity.PubGoods;
 import com.gzmpc.business.developer.rule.rules.entity.PubSupplyer;
 
 /**
@@ -27,4 +28,7 @@ public interface MdmMapper {
 	
 	@Select(" select * from pub_company o  ${ew.customSqlSegment}")
 	List<PubCompany> listPubCompany(@Param(Constants.WRAPPER) Wrapper<PubCompany> wrapper);
+	
+	@Select(" select * from pub_goods o  ${ew.customSqlSegment}")
+	List<PubGoods> listPubGoods(@Param(Constants.WRAPPER) Wrapper<PubGoods> wrapper);
 }

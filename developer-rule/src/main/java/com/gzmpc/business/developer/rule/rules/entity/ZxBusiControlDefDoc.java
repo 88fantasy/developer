@@ -25,6 +25,9 @@ public class ZxBusiControlDefDoc implements Serializable {
 	private Integer controlflag;
 	
 	@TableField
+	private Integer msgdetailflag;
+	
+	@TableField
 	private String jyfwmsg;
 	
 	@TableField
@@ -93,6 +96,14 @@ public class ZxBusiControlDefDoc implements Serializable {
 
 	public void setControlflag(Integer controlflag) {
 		this.controlflag = controlflag;
+	}
+
+	public Integer getMsgdetailflag() {
+		return msgdetailflag;
+	}
+
+	public void setMsgdetailflag(Integer msgdetailflag) {
+		this.msgdetailflag = msgdetailflag;
 	}
 
 	public Integer getCompanytype() {

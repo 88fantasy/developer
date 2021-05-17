@@ -28,6 +28,9 @@ public class PubCustomer implements Serializable {
 	
 	@TableField
 	private Integer usestatus;
+	
+	@TableField
+	private String no01;
 
 	public Long getCustomid() {
 		return customid;
@@ -35,6 +38,14 @@ public class PubCustomer implements Serializable {
 
 	public void setCustomid(Long customid) {
 		this.customid = customid;
+	}
+	
+	public String getNo01() {
+		return no01;
+	}
+
+	public void setNo01(String no01) {
+		this.no01 = no01;
 	}
 
 	public String getCustomopcode() {
