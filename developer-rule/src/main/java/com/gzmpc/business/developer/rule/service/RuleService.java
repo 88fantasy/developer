@@ -19,15 +19,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.rule.entity.RulePackage;
 import com.gzmpc.business.developer.rule.entity.RulePackageInstance;
 import com.gzmpc.business.developer.rule.entity.RulePackageInstance.RuleStatus;
-import com.gzmpc.business.developer.rule.entity.RulePackageTactics;
 import com.gzmpc.business.developer.rule.entity.RuleEntity;
 import com.gzmpc.business.developer.rule.entity.RuleEntity.RuleType;
 import com.gzmpc.business.developer.rule.mapper.RuleMapper;
 import com.gzmpc.business.developer.rule.mapper.RulePackageInstanceMapper;
 import com.gzmpc.business.developer.rule.mapper.RulePackageMapper;
-import com.gzmpc.business.developer.rule.mapper.RulePackageTacticsMapper;
+import com.gzmpc.support.common.util.BeanUtils;
 import com.gzmpc.support.common.util.SpringContextUtils;
 import com.gzmpc.support.rest.exception.ApiException;
+import com.gzmpc.support.rest.exception.ServerException;
 
 /**
 * @author rwe
@@ -41,9 +41,6 @@ public class RuleService  {
 	
 	@Autowired
 	RuleMapper ruleMapper;
-	
-	@Autowired
-	RulePackageTacticsMapper rulePackageTacticsMapper;
 	
 	@Autowired
 	RulePackageMapper rulePackageMapper;
@@ -98,40 +95,55 @@ public class RuleService  {
 			});
 			
 			Rules rules = new Rules();
+			List<String> tactics = pack.getTactics();
+			if (tactics == null || tactics.size() == 0) {
+				throw new ServerException("规则集中没有定义规则");
+			}
+			List<RuleEntity> ruleEntities = ruleMapper.selectList(Wrappers.<RuleEntity>lambdaQuery().in(RuleEntity::getCode, tactics));
+			ruleEntities.sort((rule1, rule2) -> {
+				Integer priority1 = tactics.indexOf(rule1.getCode()), priority2 = tactics.indexOf(rule2.getCode());
+				return priority1.compareTo(priority2);
+			});
 			
-			List<RulePackageTactics> tactics = rulePackageTacticsMapper.selectList(Wrappers.<RulePackageTactics>lambdaQuery().eq(RulePackageTactics::getRuleCode, packageCode));
-			List<RuleEntity> ruleEntities = ruleMapper.selectList(Wrappers.<RuleEntity>lambdaQuery().in(RuleEntity::getCode, tactics.stream().map(RulePackageTactics::getRuleCode)));
-			ruleEntities.forEach(entity -> {
-				String code = entity.getCode();
+			int priority = 1;
+			for(RuleEntity entity : ruleEntities){
+//				String code = entity.getCode();
 				String name = entity.getName();
 				String desc = entity.getDescription();
 				
-				RulePackageTactics tmp = new RulePackageTactics();
-				tmp.setPriority(entity.getPriority());
-				Integer priority = tactics.stream().filter(tactic -> tactic.getRuleCode().equals(code)).findFirst().orElse(tmp).getPriority();
 				String condition = entity.getExpression();
-				String action = entity.getAction();
+				List<String> actions = entity.getAction();
+				if(actions == null || actions.size() == 0) {
+					continue;
+				}
 				RuleType type = entity.getType();
 				Object r = null;
 				switch(type) {
 					case CODE:
-						r = SpringContextUtils.getBeanById(action);
+						r = SpringContextUtils.getBeanById(actions.get(0));
 						break;
 					case SPEL:
-						r = new SpELRule()
+						SpELRule spel = new SpELRule()
 								.name(name)
 								.description(desc)
 								.priority(priority)
-								.when(condition)
-								.then(action);
+								.when(condition);
+						for(String action : actions) {
+							spel = spel.then(action);
+						}
+						r = spel;
 						break;
 					case MVEL:
-						r = new MVELRule()
+						MVELRule mvel = new MVELRule()
 							.name(name)
 							.description(desc)
 							.priority(priority)
-							.when(condition)
-							.then(action);
+							.when(condition);
+						for(String action : actions) {
+							mvel = mvel.then(action);
+						}
+						r = mvel;
+						break;
 					case GROUP:
 						
 					default:
@@ -140,9 +152,10 @@ public class RuleService  {
 				if(r != null) {
 					rules.register(r);
 				}
-			});
+				priority++;
+			}
 			rulesEngine.fire(rules, facts);
-			
+
 			return JSON.toJSONString(facts);
 		}
 		throw new ApiException("找不到规则包");

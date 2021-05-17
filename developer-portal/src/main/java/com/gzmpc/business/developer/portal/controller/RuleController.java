@@ -59,7 +59,7 @@ public class RuleController extends BaseController<DeveloperRuleService, RulePac
 		return developerRuleService.queryRules(request);
 	}
 	
-	@ApiOperation(value = "分页查询规则库")
+	@ApiOperation(value = "分页查询规则实例")
 	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponsePage<RulePackageInstance> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryPackageInstances(request);
@@ -74,7 +74,7 @@ public class RuleController extends BaseController<DeveloperRuleService, RulePac
 	@ApiOperation(value = "保存规则集")
 	@RequestMapping(value = "saveRulePackage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<Boolean> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) RulePackageSaveDTO request) {
-		developerRuleService.saveRulePackage(request, true);
+		developerRuleService.saveRulePackage(request);
 		return new ApiResponseData<>(true);
 	}
 	

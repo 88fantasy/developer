@@ -28,7 +28,7 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	private static final long serialVersionUID = 2855509679952227823L;
 
 	@TableId(type = IdType.ASSIGN_ID)
-	private String id;
+	private Long id;
 	
 	@TableField
 	private String code;
@@ -57,19 +57,21 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	private RuleStatus status;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date startTime;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
 	
 	@TableField
 	private String ip;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

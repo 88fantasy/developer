@@ -18,7 +18,7 @@ spring:
         filters: stat,slf4j
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/developer?useUnicode=true&characterEncoding=utf-8
+          url: jdbc:mysql://127.0.0.1:3306/developer?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
           username: root
           password: localmysql
   redis: 

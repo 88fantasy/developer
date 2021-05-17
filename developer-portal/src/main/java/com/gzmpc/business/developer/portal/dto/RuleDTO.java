@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.portal.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.gzmpc.business.developer.portal.entity.RuleEntity.RuleType;
@@ -34,7 +36,7 @@ public class RuleDTO {
 
 	private String expression;
 	
-	private String action;
+	private List<String> action;
 
 	public String getCode() {
 		return code;
@@ -108,12 +110,13 @@ public class RuleDTO {
 		this.expression = expression;
 	}
 
-	public String getAction() {
+	public List<String> getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	public void setAction(List<String> action) {
 		this.action = action;
 	}
+
 
 }

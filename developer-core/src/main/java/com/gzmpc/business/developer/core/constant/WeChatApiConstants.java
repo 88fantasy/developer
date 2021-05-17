@@ -19,5 +19,5 @@ public interface WeChatApiConstants {
 	
 	String WECHAT_API_LOGIN_CALLBACK = WECHAT_API_BASE+"/login/callback";
 
-	String WECHAT_API_LOGIN_USERINFO = WECHAT_API_BASE+"/login/userinfo";
+	String WECHAT_API_LOGIN_USERINFO = WECHAT_API_BASE+"/login/userinfo/{appid}/{code}";
 }

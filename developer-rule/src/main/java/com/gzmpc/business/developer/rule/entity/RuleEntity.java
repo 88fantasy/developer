@@ -1,14 +1,14 @@
 package com.gzmpc.business.developer.rule.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 
 /**
 * @author rwe
@@ -16,7 +16,7 @@ import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 * 规则
 */
 
-@TableName("rule")
+@TableName(value = "rule", autoResultMap = true)
 public class RuleEntity implements Serializable {
 
 	private static final long serialVersionUID = 1164183277078920803L;
@@ -28,7 +28,6 @@ public class RuleEntity implements Serializable {
 	private String name;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String description;
 	
 	@TableField
@@ -36,7 +35,6 @@ public class RuleEntity implements Serializable {
 	
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleType type;
 	
 	/**
@@ -58,12 +56,10 @@ public class RuleEntity implements Serializable {
 	private String tags;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String expression;
 	
-	@TableField
-	@ColumnType(value = MySqlTypeConstant.TEXT)
-	private String action;
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	private List<String> action;
 	
 	public RuleEntity() {
 	}
@@ -74,7 +70,7 @@ public class RuleEntity implements Serializable {
 	}
 
 
-	public RuleEntity(String code, String name, String description, Integer priority, RuleType type, String expression, String action) {
+	public RuleEntity(String code, String name, String description, Integer priority, RuleType type, String expression, List<String> action) {
 		this.code = code;
 		this.name = name;
 		this.description = description;
@@ -175,12 +171,12 @@ public class RuleEntity implements Serializable {
 	}
 
 
-	public String getAction() {
+	public List<String> getAction() {
 		return action;
 	}
 
 
-	public void setAction(String action) {
+	public void setAction(List<String> action) {
 		this.action = action;
 	}
 

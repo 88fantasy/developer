@@ -3,20 +3,21 @@ package com.gzmpc.business.developer.rule.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.jeasy.rules.api.Facts;
+
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 
 /**
 * @author rwe
 * @version 创建时间：2021年4月28日 下午2:16:37
 * 规则运算实例
 */
-@TableName("rule_package_instance")
+@TableName(value = "rule_package_instance", autoResultMap = true)
 public class RulePackageInstance implements Serializable {
 	
 	private static final long serialVersionUID = 5717159824437721715L;
@@ -47,7 +48,6 @@ public class RulePackageInstance implements Serializable {
 	
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleStatus status;
 	
 	@TableField
@@ -58,6 +58,12 @@ public class RulePackageInstance implements Serializable {
 	
 	@TableField
 	private String ip;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	private Facts input;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	private Facts output;
 
 	public String getId() {
 		return id;
@@ -155,6 +161,22 @@ public class RulePackageInstance implements Serializable {
 		this.ip = ip;
 	}
 	
+	public Facts getInput() {
+		return input;
+	}
+
+	public void setInput(Facts input) {
+		this.input = input;
+	}
+
+	public Facts getOutput() {
+		return output;
+	}
+
+	public void setOutput(Facts output) {
+		this.output = output;
+	}
+
 	public enum RuleStatus {
 
 		/**
