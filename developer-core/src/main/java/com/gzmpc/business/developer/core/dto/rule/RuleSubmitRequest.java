@@ -15,6 +15,10 @@ import io.swagger.annotations.ApiModelProperty;
 public class RuleSubmitRequest {
 
 	@NotEmpty
+	@ApiModelProperty(value = "业务单据 ID", required = true)
+	private String  sourceId;
+	
+	@NotEmpty
 	@ApiModelProperty(value = "规则集代码", required = true)
 	private String  packageCode;
 	
@@ -24,6 +28,14 @@ public class RuleSubmitRequest {
 	
 	@ApiModelProperty(value = "ip", hidden = true)
 	private String  ip;
+
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
 
 	public String getPackageCode() {
 		return packageCode;

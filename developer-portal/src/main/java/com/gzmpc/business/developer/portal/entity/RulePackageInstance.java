@@ -2,12 +2,14 @@ package com.gzmpc.business.developer.portal.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.portal.metadata.dict.Dictionary;
@@ -22,7 +24,7 @@ import com.gzmpc.portal.metadata.entity.EntityClass;
 */
 
 @EntityClass
-@TableName("rule_package_instance")
+@TableName( value = "rule_package_instance", autoResultMap = true)
 public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	
 	private static final long serialVersionUID = 2855509679952227823L;
@@ -66,6 +68,17 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	
 	@TableField
 	private String ip;
+	
+	@TableField
+	private String sourceId;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
+	private Map<String,Object> input;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
+	private Map<String,Object> output;
 
 	public Long getId() {
 		return id;
@@ -161,6 +174,30 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public Map<String, Object> getInput() {
+		return input;
+	}
+
+	public void setInput(Map<String, Object> input) {
+		this.input = input;
+	}
+
+	public Map<String, Object> getOutput() {
+		return output;
+	}
+
+	public void setOutput(Map<String, Object> output) {
+		this.output = output;
 	}
 
 	@Dictionary( value = "ruleStatus", name = "规则实例状态")

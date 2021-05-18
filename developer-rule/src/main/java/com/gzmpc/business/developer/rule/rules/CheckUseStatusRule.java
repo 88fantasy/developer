@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.rule.annotation.RuleProperties;
 import com.gzmpc.business.developer.rule.rules.entity.PubCompany;
@@ -39,7 +40,7 @@ public class CheckUseStatusRule {
 	
 	@Autowired
 	PubSupplyerMapper pubSupplyerMapper;
-	
+
 	@Condition
   public boolean containsKey(Facts facts) {
 		Map<String, Object> map = facts.asMap();
@@ -55,7 +56,7 @@ public class CheckUseStatusRule {
 			}
 		}
 		if(map.containsKey("supplyid")) {
-			Long supplyid = (Long) map.get("supplyid");
+			String supplyid = map.get("supplyid").toString();
 			PubSupplyer supply = pubSupplyerMapper.selectOne(Wrappers.<PubSupplyer>lambdaQuery().eq(PubSupplyer::getSupplyid, supplyid));
 			if(supply != null) {
 				useStatus = supply.getUsestatus();

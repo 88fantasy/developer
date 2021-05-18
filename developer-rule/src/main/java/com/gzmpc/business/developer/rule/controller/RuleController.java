@@ -39,7 +39,7 @@ public class RuleController {
 	@RequestMapping(value = RuleApiConstants.RULE_SUBMIT_INSTANCE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<String> submit(@ApiParam(required = true) @Valid @RequestBody RuleSubmitRequest request) {
 		request.setIp(req.getRemoteHost());
-		return new ApiResponseData<>(ruleService.submit(request.getPackageCode(),	request.getJson()));
+		return new ApiResponseData<>(ruleService.submit(request.getSourceId(), request.getPackageCode(),	request.getJson()));
 	}
 	
 }

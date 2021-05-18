@@ -2,8 +2,7 @@ package com.gzmpc.business.developer.rule.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import org.jeasy.rules.api.Facts;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -59,11 +58,14 @@ public class RulePackageInstance implements Serializable {
 	@TableField
 	private String ip;
 	
-	@TableField(typeHandler = FastjsonTypeHandler.class)
-	private Facts input;
+	@TableField
+	private String sourceId;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	private Facts output;
+	private Map<String,Object> input;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	private Map<String,Object> output;
 
 	public String getId() {
 		return id;
@@ -160,22 +162,31 @@ public class RulePackageInstance implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
-	public Facts getInput() {
+
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public Map<String, Object> getInput() {
 		return input;
 	}
 
-	public void setInput(Facts input) {
+	public void setInput(Map<String, Object> input) {
 		this.input = input;
 	}
 
-	public Facts getOutput() {
+	public Map<String, Object> getOutput() {
 		return output;
 	}
 
-	public void setOutput(Facts output) {
+	public void setOutput(Map<String, Object> output) {
 		this.output = output;
 	}
+
 
 	public enum RuleStatus {
 
