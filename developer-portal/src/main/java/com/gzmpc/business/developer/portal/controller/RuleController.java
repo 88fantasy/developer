@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gzmpc.business.developer.portal.dependency.RulePackage;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
+import com.gzmpc.business.developer.portal.dto.RulePackageInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
 import com.gzmpc.business.developer.portal.dto.RuleStatisticResponse;
-import com.gzmpc.business.developer.portal.entity.RulePackage;
-import com.gzmpc.business.developer.portal.entity.RulePackageInstance;
 import com.gzmpc.business.developer.portal.service.DeveloperRuleService;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.common.entity.FilterCondition;
@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiParam;
 /**
 * @author rwe
 * @version 创建时间：2021年4月25日 下午2:53:30
-* 类说明
+* 规则相关
 */
 
 @RestController
@@ -61,7 +61,7 @@ public class RuleController extends BaseController<DeveloperRuleService, RulePac
 	
 	@ApiOperation(value = "分页查询规则实例")
 	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponsePage<RulePackageInstance> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
+	public ApiResponsePage<RulePackageInstanceListResponse> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryPackageInstances(request);
 	}
 	

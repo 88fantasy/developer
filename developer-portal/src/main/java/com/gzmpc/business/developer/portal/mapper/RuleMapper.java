@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Select;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.gzmpc.business.developer.portal.dependency.RuleEntity;
 import com.gzmpc.business.developer.portal.dto.RuleTypeCountResponse;
-import com.gzmpc.business.developer.portal.entity.RuleEntity;
 import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 
 /**

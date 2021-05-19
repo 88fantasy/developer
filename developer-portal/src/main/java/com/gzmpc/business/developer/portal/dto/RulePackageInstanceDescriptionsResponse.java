@@ -1,52 +1,54 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.portal.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
+import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleStatus;
 
 /**
 * @author rwe
-* @version 创建时间：2021年4月25日 下午1:37:29
-* 规则包
+* @version 创建时间：2021年5月19日 上午11:40:33
+* 类说明
 */
 
-@TableName(value = "rule_package", autoResultMap = true)
-public class RulePackage implements Serializable {
+public class RulePackageInstanceDescriptionsResponse {
 
-	private static final long serialVersionUID = 1043835579030499358L;
+	private Long id;
 	
-	@TableId(type = IdType.INPUT)
 	private String code;
 	
-	@TableField
 	private String name;
 	
-	@TableField
 	private String description;
 	
-	@TableField
 	private Boolean skipOnFirstAppliedRule;
 	
-	@TableField
 	private Boolean skipOnFirstFailedRule;
 	
-	@TableField
 	private Boolean skipOnFirstNonTriggeredRule;
 	
-	@TableField
 	private Integer rulePriorityThreshold;
 	
-	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
-	private List<String> tactics;
+	private RuleStatus status;
+	
+	private Date startTime;
+	
+	private Date endTime;
+	
+	private String ip;
+	
+	private String sourceId;
+	
+	private String input;
+	
+	private String output;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getCode() {
 		return code;
@@ -103,12 +105,60 @@ public class RulePackage implements Serializable {
 	public void setRulePriorityThreshold(Integer rulePriorityThreshold) {
 		this.rulePriorityThreshold = rulePriorityThreshold;
 	}
-	
-	public List<String> getTactics() {
-		return tactics == null ? new ArrayList<>() : tactics;
+
+	public RuleStatus getStatus() {
+		return status;
 	}
 
-	public void setTactics(List<String> tactics) {
-		this.tactics = tactics == null ? new ArrayList<>() : tactics;
+	public void setStatus(RuleStatus status) {
+		this.status = status;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	public String getOutput() {
+		return output;
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.gzmpc.business.developer.portal.entity.RuleEntity.RuleType;
+import com.gzmpc.business.developer.portal.dependency.RuleEntity.RuleType;
 
 
 /**

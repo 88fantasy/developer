@@ -16,20 +16,20 @@ import com.gzmpc.business.developer.rule.enums.RuleStatus;
 
 /**
 * @author rwe
-* @version 创建时间：2021年4月28日 下午2:16:37
-* 规则运算实例
+* @version 创建时间：2021年5月18日 下午5:35:27
+* 类说明
 */
 
-@TableName( value = "rule_package_instance", autoResultMap = true)
-public class RulePackageInstance implements Serializable {
-	
-	private static final long serialVersionUID = 2855509679952227823L;
+@TableName(value = "rule_instance", autoResultMap = true)
+public class RuleInstance  implements Serializable {
+
+	private static final long serialVersionUID = -1670268842529871692L;
 
 	@TableId(type = IdType.ASSIGN_ID)
 	private Long id;
 	
 	@TableField
-	private String code;
+	private Long packageInstanceId;
 	
 	@TableField
 	private String name;
@@ -38,16 +38,7 @@ public class RulePackageInstance implements Serializable {
 	private String description;
 	
 	@TableField
-	private Boolean skipOnFirstAppliedRule;
-	
-	@TableField
-	private Boolean skipOnFirstFailedRule;
-	
-	@TableField
-	private Boolean skipOnFirstNonTriggeredRule;
-	
-	@TableField
-	private Integer rulePriorityThreshold;
+	private Integer priority;
 	
 	@TableField
 	@EnumValue
@@ -61,12 +52,6 @@ public class RulePackageInstance implements Serializable {
 	@TableField
 	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
-	
-	@TableField
-	private String ip;
-	
-	@TableField
-	private String sourceId;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
 	@ColumnType(value = MySqlTypeConstant.JSON)
@@ -84,12 +69,12 @@ public class RulePackageInstance implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public Long getPackageInstanceId() {
+		return packageInstanceId;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setPackageInstanceId(Long packageInstanceId) {
+		this.packageInstanceId = packageInstanceId;
 	}
 
 	public String getName() {
@@ -108,36 +93,12 @@ public class RulePackageInstance implements Serializable {
 		this.description = description;
 	}
 
-	public Boolean getSkipOnFirstAppliedRule() {
-		return skipOnFirstAppliedRule;
+	public Integer getPriority() {
+		return priority;
 	}
 
-	public void setSkipOnFirstAppliedRule(Boolean skipOnFirstAppliedRule) {
-		this.skipOnFirstAppliedRule = skipOnFirstAppliedRule;
-	}
-
-	public Boolean getSkipOnFirstFailedRule() {
-		return skipOnFirstFailedRule;
-	}
-
-	public void setSkipOnFirstFailedRule(Boolean skipOnFirstFailedRule) {
-		this.skipOnFirstFailedRule = skipOnFirstFailedRule;
-	}
-
-	public Boolean getSkipOnFirstNonTriggeredRule() {
-		return skipOnFirstNonTriggeredRule;
-	}
-
-	public void setSkipOnFirstNonTriggeredRule(Boolean skipOnFirstNonTriggeredRule) {
-		this.skipOnFirstNonTriggeredRule = skipOnFirstNonTriggeredRule;
-	}
-
-	public Integer getRulePriorityThreshold() {
-		return rulePriorityThreshold;
-	}
-
-	public void setRulePriorityThreshold(Integer rulePriorityThreshold) {
-		this.rulePriorityThreshold = rulePriorityThreshold;
+	public void setPriority(Integer priority) {
+		this.priority = priority;
 	}
 
 	public RuleStatus getStatus() {
@@ -163,22 +124,6 @@ public class RulePackageInstance implements Serializable {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public String getSourceId() {
-		return sourceId;
-	}
-
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
-	}
 
 	public Map<String, Object> getInput() {
 		return input;
@@ -195,5 +140,6 @@ public class RulePackageInstance implements Serializable {
 	public void setOutput(Map<String, Object> output) {
 		this.output = output;
 	}
-
+	
+	
 }

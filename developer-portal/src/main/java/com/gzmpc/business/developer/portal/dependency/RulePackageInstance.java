@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.portal.dependency;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,8 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.portal.metadata.dict.Dictionary;
 import com.gzmpc.portal.metadata.dict.DictionaryEnum;
 import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
@@ -55,15 +53,12 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleStatus status;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date startTime;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
 	
 	@TableField
@@ -73,11 +68,9 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	private String sourceId;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> input;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> output;
 
 	public Long getId() {

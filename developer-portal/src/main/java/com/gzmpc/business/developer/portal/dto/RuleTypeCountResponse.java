@@ -1,6 +1,6 @@
 package com.gzmpc.business.developer.portal.dto;
 
-import com.gzmpc.business.developer.portal.entity.RuleEntity.RuleType;
+import com.gzmpc.business.developer.portal.dependency.RuleEntity.RuleType;
 
 /**
 * @author rwe

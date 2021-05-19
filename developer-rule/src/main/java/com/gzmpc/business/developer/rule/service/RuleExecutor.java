@@ -14,7 +14,7 @@ import com.gzmpc.business.developer.rule.PackageWorker;
 
 @Service
 @DS("master")
-public class RuleExcutor {
+public class RuleExecutor {
 
 	public String excute(PackageWorker worker) {
 		worker.getEngine().fire(worker.getRules(), worker.getFacts());

@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.rule.entity;
+package com.gzmpc.business.developer.portal.dependency;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 
 /**
 * @author rwe
@@ -45,7 +43,6 @@ public class RulePackage implements Serializable {
 	private Integer rulePriorityThreshold;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private List<String> tactics;
 
 	public String getCode() {

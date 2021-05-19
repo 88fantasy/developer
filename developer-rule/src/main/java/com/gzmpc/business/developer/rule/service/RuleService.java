@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gzmpc.business.developer.rule.entity.RulePackage;
+import com.gzmpc.business.developer.rule.listener.RuleExecuteListener;
 import com.gzmpc.business.developer.rule.listener.RulePackageListener;
 import com.gzmpc.business.developer.rule.PackageWorker;
 import com.gzmpc.business.developer.rule.entity.RuleEntity;
@@ -46,10 +47,13 @@ public class RuleService {
 
 	
 	@Autowired
-	RuleExcutor ruleExcutor;
+	RuleExecutor ruleExcutor;
 	
 	@Autowired
 	RulePackageListener rulePackageListener;
+	
+	@Autowired
+	RuleExecuteListener ruleExecuteListener;
 
 	public String submit(String sourceId, String packageCode, String json) {
 		PackageWorker worker = getWorker(sourceId, packageCode, json);
@@ -69,6 +73,7 @@ public class RuleService {
 		rulePackageListener.setPack(pack);
 		rulePackageListener.setSourceId(sourceId);
 		rulesEngine.registerRulesEngineListener(rulePackageListener);
+		rulesEngine.registerRuleListener(ruleExecuteListener);
 		
 		JSONObject o = JSON.parseObject(json);
 		Facts facts = new Facts();

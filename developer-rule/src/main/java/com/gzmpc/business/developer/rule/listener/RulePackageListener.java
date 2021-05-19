@@ -6,13 +6,14 @@ import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngineListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.gzmpc.business.developer.rule.entity.RulePackage;
 import com.gzmpc.business.developer.rule.entity.RulePackageInstance;
-import com.gzmpc.business.developer.rule.entity.RulePackageInstance.RuleStatus;
+import com.gzmpc.business.developer.rule.enums.RuleStatus;
 import com.gzmpc.business.developer.rule.mapper.RulePackageInstanceMapper;
 
 /**
@@ -22,9 +23,11 @@ import com.gzmpc.business.developer.rule.mapper.RulePackageInstanceMapper;
 */
 
 @Component
-@Scope("prototype")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @DS("developer")
 public class RulePackageListener implements RulesEngineListener {
+	
+	public final static String PACKAGE_INSTANCE_ID_FACT_KEY = "__packageInstanceId";
 
 	@Autowired
 	RulePackageInstanceMapper rulePackageInstanceMapper;
@@ -66,6 +69,7 @@ public class RulePackageListener implements RulesEngineListener {
 		instance.setSourceId(sourceId);
 		instance.setInput(facts.asMap());
 		rulePackageInstanceMapper.insert(instance);
+		facts.put(PACKAGE_INSTANCE_ID_FACT_KEY, instance.getId());
 		ins = instance;
 	}
 

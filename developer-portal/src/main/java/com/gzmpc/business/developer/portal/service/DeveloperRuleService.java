@@ -17,17 +17,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.gzmpc.business.developer.portal.dependency.RuleEntity;
+import com.gzmpc.business.developer.portal.dependency.RulePackage;
+import com.gzmpc.business.developer.portal.dependency.RulePackageInstance;
+import com.gzmpc.business.developer.portal.dependency.RuleEntity.RuleType;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
+import com.gzmpc.business.developer.portal.dto.RulePackageInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
 import com.gzmpc.business.developer.portal.dto.RuleStatisticResponse;
 import com.gzmpc.business.developer.portal.dto.RuleTagCountResponse;
 import com.gzmpc.business.developer.portal.dto.RuleTypeCountResponse;
-import com.gzmpc.business.developer.portal.entity.RuleEntity;
-import com.gzmpc.business.developer.portal.entity.RuleEntity.RuleType;
-import com.gzmpc.business.developer.portal.entity.RulePackage;
-import com.gzmpc.business.developer.portal.entity.RulePackageInstance;
 import com.gzmpc.business.developer.portal.entity.RulePackageVersion;
 import com.gzmpc.business.developer.portal.mapper.RuleMapper;
 import com.gzmpc.business.developer.portal.mapper.RulePackageInstanceMapper;
@@ -168,9 +170,13 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 		}, RuleDTO.class));
 	}
 
-	public ApiResponsePage<RulePackageInstance> queryPackageInstances(PostConditionQueryRequest request) {
+	public ApiResponsePage<RulePackageInstanceListResponse> queryPackageInstances(PostConditionQueryRequest request) {
 		return new ApiResponsePage<>(rulePackageInstanceMapper.query(request.getConditions(), request.getPage(),
-				rule -> rule, RulePackageInstance.class));
+				instance -> {
+					RulePackageInstanceListResponse res = BeanUtils.copyTo(instance, RulePackageInstanceListResponse.class);
+					res.setStatus(instance.getStatus());
+					return res;
+				}, RulePackageInstanceListResponse.class));
 	}
 
 	public ApiResponseData<RuleStatisticResponse> postRuleStatistic(List<FilterCondition> conditions) {
