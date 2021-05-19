@@ -1,5 +1,6 @@
 package com.gzmpc.business.developer.rule.listener;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.jeasy.rules.annotation.Rule;
@@ -44,12 +45,13 @@ public class RuleAnnotationRefreshListener implements ApplicationListener<Applic
 				entity.setName(ruleName);
 				entity.setDescription(ruleDesc);
 				entity.setPriority(rulePriority);
+				entity.setAction(Arrays.asList(key));
 				setProperties(entity, clazz);
 				ruleMapper.updateById(entity);
 			}
 			else {
 				entity = new RuleEntity(key, ruleName, ruleDesc, rulePriority, RuleEntity.RuleType.CODE);
-				entity.setAction(key);
+				entity.setAction(Arrays.asList(key));
 				setProperties(entity, clazz);
 				ruleMapper.insert(entity);
 			}

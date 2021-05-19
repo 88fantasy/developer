@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.portal.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -38,6 +40,11 @@ public class WechatAppService extends DeveloperBaseService<WechatAppMapper, Wech
 	@Override
 	public ApplicationEventPublisher getApplicationEventPublisher() {
 		return publisher;
+	}
+
+	@Override
+	public WechatAppUpdateEvent getRemoteApplicationEvent(String instanceId) {
+		return new WechatAppUpdateEvent(UUID.randomUUID().toString(), instanceId, DeveloperConstants.SERVICE_NAME_WECHAT);
 	}
 
 }

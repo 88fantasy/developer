@@ -1,6 +1,8 @@
 package com.gzmpc.business.developer.portal.service;
 
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,11 @@ public class WechatComAppService extends DeveloperBaseService<WechatComAppMapper
 	@Override
 	public ApplicationEventPublisher getApplicationEventPublisher() {
 		return publisher;
+	}
+
+	@Override
+	public WechatComAppUpdateEvent getRemoteApplicationEvent(String instanceId) {
+		return new WechatComAppUpdateEvent(UUID.randomUUID().toString(), instanceId, DeveloperConstants.SERVICE_NAME_WECHAT);
 	}
 
 	

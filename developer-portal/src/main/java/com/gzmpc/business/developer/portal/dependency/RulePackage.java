@@ -1,11 +1,14 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.portal.dependency;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 
 /**
 * @author rwe
@@ -13,12 +16,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 * 规则包
 */
 
-@TableName("rule_package")
+@TableName(value = "rule_package", autoResultMap = true)
 public class RulePackage implements Serializable {
 
 	private static final long serialVersionUID = 1043835579030499358L;
-
-	@TableId(type = IdType.ASSIGN_ID)
+	
+	@TableId(type = IdType.INPUT)
 	private String code;
 	
 	@TableField
@@ -38,6 +41,9 @@ public class RulePackage implements Serializable {
 	
 	@TableField
 	private Integer rulePriorityThreshold;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	private List<String> tactics;
 
 	public String getCode() {
 		return code;
@@ -95,5 +101,11 @@ public class RulePackage implements Serializable {
 		this.rulePriorityThreshold = rulePriorityThreshold;
 	}
 	
-	
+	public List<String> getTactics() {
+		return tactics == null ? new ArrayList<>() : tactics;
+	}
+
+	public void setTactics(List<String> tactics) {
+		this.tactics = tactics == null ? new ArrayList<>() : tactics;
+	}
 }

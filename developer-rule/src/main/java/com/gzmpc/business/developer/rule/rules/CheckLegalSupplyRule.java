@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 @RuleProperties(input = " supplyid 或 conpanyid", tags = {"证照"})
 @Rule(name = "检查是否有法人委托书和证照是否过期", description = "1检查是否有法人委托书。2检查是否存在有效期内的法人委托书，有委托书且在有效期内通过。3 检查30日内过期的证照 判断过期的证照中是否有与货品关联的证照 。4 有不关联货品的证照失效，判断是否需要限制，需要限制且过期则不通过。")
-public class CheckLegalSupply {
+public class CheckLegalSupplyRule {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

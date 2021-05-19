@@ -1,75 +1,52 @@
-package com.gzmpc.business.developer.portal.entity;
+package com.gzmpc.business.developer.portal.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
-import com.gzmpc.portal.metadata.dict.Dictionary;
-import com.gzmpc.portal.metadata.dict.DictionaryEnum;
-import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
-import com.gzmpc.portal.metadata.entity.EntityClass;
+import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleStatus;
 
 /**
 * @author rwe
-* @version 创建时间：2021年4月28日 下午2:16:37
-* 规则运算实例
+* @version 创建时间：2021年5月19日 上午11:40:33
+* 类说明
 */
 
-@EntityClass
-@TableName("rule_package_instance")
-public class RulePackageInstance implements Serializable, DictionaryEnumClass {
-	
-	private static final long serialVersionUID = 2855509679952227823L;
+public class RulePackageInstanceDescriptionsResponse {
 
-	@TableId(type = IdType.ASSIGN_ID)
-	private String id;
+	private Long id;
 	
-	@TableField
 	private String code;
 	
-	@TableField
 	private String name;
 	
-	@TableField
 	private String description;
 	
-	@TableField
 	private Boolean skipOnFirstAppliedRule;
 	
-	@TableField
 	private Boolean skipOnFirstFailedRule;
 	
-	@TableField
 	private Boolean skipOnFirstNonTriggeredRule;
 	
-	@TableField
 	private Integer rulePriorityThreshold;
 	
-	@TableField
-	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleStatus status;
 	
-	@TableField
 	private Date startTime;
 	
-	@TableField
 	private Date endTime;
 	
-	@TableField
 	private String ip;
+	
+	private String sourceId;
+	
+	private String input;
+	
+	private String output;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -152,7 +129,7 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	
+
 	public String getIp() {
 		return ip;
 	}
@@ -161,47 +138,27 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 		this.ip = ip;
 	}
 
-	@Dictionary( value = "ruleStatus", name = "规则实例状态")
-	public enum RuleStatus implements DictionaryEnum {
-
-		/**
-		 * 初始
-		 */
-		INIT("初始"),
-
-		/**
-		 * 进行中
-		 */
-		PROCESSING("进行中"),
-
-		/**
-		 * 完成
-		 */
-		FINISHED("完成"),
-		
-		/**
-		 * 失败
-		 */
-		FAILED("失败"),
-
-		;
-
-		private String label;
-
-		private RuleStatus(String label) {
-				this.label = label;
-			}
-
-		public String getLabel() {
-			return label;
-		}
-
+	public String getSourceId() {
+		return sourceId;
 	}
 
-	@Override
-	public Class<? extends DictionaryEnum>[] enums() {
-		return new Class[] {RuleStatus.class};
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
 	}
-	
 
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	public String getOutput() {
+		return output;
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
 }

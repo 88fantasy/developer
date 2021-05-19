@@ -1,6 +1,7 @@
 package com.gzmpc.business.developer.rule.springboot.test;
 
 import java.net.URL;
+import java.util.UUID;
 
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
@@ -17,8 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.alibaba.fastjson.JSON;
 import com.gzmpc.business.developer.rule.rules.CheckSupplyMsgRule;
 import com.gzmpc.business.developer.rule.rules.CheckUseStatusRule;
+import com.gzmpc.business.developer.rule.service.RuleService;
 import com.gzmpc.business.developer.rule.springboot.application.DeveloperRuleApplication;
 
 
@@ -30,19 +33,16 @@ import com.gzmpc.business.developer.rule.springboot.application.DeveloperRuleApp
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DeveloperRuleApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProviderApplicationTest {
-	private static final Logger logger = LoggerFactory.getLogger(ProviderApplicationTest.class);
+public class DeveloperRuleApplicationTest {
+	private static final Logger logger = LoggerFactory.getLogger(DeveloperRuleApplicationTest.class);
 	
 	@LocalServerPort
 	private int port;
 
 	private URL base;
-	
+
 	@Autowired
-	CheckUseStatusRule checkUsestateRule;
-	
-	@Autowired
-	CheckSupplyMsgRule checkSupplyMsgRule;
+	RuleService ruleService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,16 +59,9 @@ public class ProviderApplicationTest {
 	@Test
 	public void test() throws Exception {
 		Facts facts = new Facts();
-	//facts.put("supplyid", 2009l);
-    facts.put("supplyid", 111389);
-    
-    Rules rules = new Rules();
-    //rules.register(checkUsestateRule);
-    rules.register(checkSupplyMsgRule);
-    
-    RulesEngineParameters parameters = new RulesEngineParameters().skipOnFirstAppliedRule(true);
-	RulesEngine rulesEngine = new DefaultRulesEngine();
-    rulesEngine.fire(rules, facts);
-
+    facts.put("supplyid", 111389l);
+    String json = JSON.toJSONString(facts.asMap());
+    String result = ruleService.submit(UUID.randomUUID().toString(),"SuContract", json);
+    logger.info(result);
 	}
 }

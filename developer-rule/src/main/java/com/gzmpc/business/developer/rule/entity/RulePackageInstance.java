@@ -2,27 +2,31 @@ package com.gzmpc.business.developer.rule.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
+import com.gzmpc.business.developer.rule.enums.RuleStatus;
 
 /**
 * @author rwe
 * @version 创建时间：2021年4月28日 下午2:16:37
 * 规则运算实例
 */
-@TableName("rule_package_instance")
+
+@TableName( value = "rule_package_instance", autoResultMap = true)
 public class RulePackageInstance implements Serializable {
 	
-	private static final long serialVersionUID = 5717159824437721715L;
+	private static final long serialVersionUID = 2855509679952227823L;
 
 	@TableId(type = IdType.ASSIGN_ID)
-	private String id;
+	private Long id;
 	
 	@TableField
 	private String code;
@@ -51,19 +55,32 @@ public class RulePackageInstance implements Serializable {
 	private RuleStatus status;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date startTime;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
 	
 	@TableField
 	private String ip;
+	
+	@TableField
+	private String sourceId;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
+	private Map<String,Object> input;
+	
+	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
+	private Map<String,Object> output;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -146,7 +163,7 @@ public class RulePackageInstance implements Serializable {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-
+	
 	public String getIp() {
 		return ip;
 	}
@@ -154,40 +171,29 @@ public class RulePackageInstance implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
-	public enum RuleStatus {
 
-		/**
-		 * 初始
-		 */
-		INIT("初始"),
-
-		/**
-		 * 进行中
-		 */
-		PROCESSING("进行中"),
-
-		/**
-		 * 完成
-		 */
-		FINISHED("完成"),
-		
-		/**
-		 * 失败
-		 */
-		FAILED("失败"),
-
-		;
-
-		private String label;
-
-		private RuleStatus(String label) {
-				this.label = label;
-			}
-
-		public String getLabel() {
-			return label;
-		}
-
+	public String getSourceId() {
+		return sourceId;
 	}
+
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public Map<String, Object> getInput() {
+		return input;
+	}
+
+	public void setInput(Map<String, Object> input) {
+		this.input = input;
+	}
+
+	public Map<String, Object> getOutput() {
+		return output;
+	}
+
+	public void setOutput(Map<String, Object> output) {
+		this.output = output;
+	}
+
 }
