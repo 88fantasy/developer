@@ -17,13 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.gzmpc.business.developer.rule.rules.CheckCustomerListRule;
-import com.gzmpc.business.developer.rule.rules.CheckGoodsInfoRule;
-import com.gzmpc.business.developer.rule.rules.CheckGzmpcManageRangeRule;
-import com.gzmpc.business.developer.rule.rules.CheckLegalSupply;
-import com.gzmpc.business.developer.rule.rules.CheckManageRangeRule;
-import com.gzmpc.business.developer.rule.rules.CheckSupplyHistoryDocuRule;
-import com.gzmpc.business.developer.rule.rules.CheckSupplyLicenseTermRule;
 import com.gzmpc.business.developer.rule.rules.CheckSupplyMsgRule;
 import com.gzmpc.business.developer.rule.rules.CheckUseStatusRule;
 import com.gzmpc.business.developer.rule.springboot.application.DeveloperRuleApplication;
@@ -50,27 +43,6 @@ public class ProviderApplicationTest {
 	
 	@Autowired
 	CheckSupplyMsgRule checkSupplyMsgRule;
-	
-	@Autowired
-	CheckLegalSupply checkLegalSupply;
-	
-	@Autowired
-	CheckGoodsInfoRule checkGoodsInfoRule;
-	
-	@Autowired
-	CheckManageRangeRule checkManageRangeRule;
-	
-	@Autowired
-	CheckCustomerListRule checkCustomerListRule;
-	
-	@Autowired
-	CheckSupplyHistoryDocuRule checkSupplyHistoryDocuRule;
-	
-	@Autowired
-	CheckGzmpcManageRangeRule checkGzmpcManageRangeRule;
-	
-	@Autowired
-	CheckSupplyLicenseTermRule checkSupplyLicenseTermRule;
 
 	@Before
 	public void setUp() throws Exception {
@@ -87,25 +59,12 @@ public class ProviderApplicationTest {
 	@Test
 	public void test() throws Exception {
 		Facts facts = new Facts();
-	facts.put("supplyid", 207395);
-    //facts.put("supplyid", 1347l);
-    //facts.put("goodsid", 1000000003);
-    //facts.put("cpid", 8461);
-    //facts.put("no01", "01");
-    //facts.put("companyid", 2683);
-    //facts.put("customid", 339846l);
+	//facts.put("supplyid", 2009l);
+    facts.put("supplyid", 111389);
     
     Rules rules = new Rules();
-    //rules.register(checkSupplyMsgRule);
     //rules.register(checkUsestateRule);
-    rules.register(checkSupplyLicenseTermRule);
-    //rules.register(checkSupplyHistoryDocuRule);
-    //rules.register(checkLegalSupply);
-    //rules.register(checkGoodsInfoRule);
-    //rules.register(checkManageRangeRule);
-    //rules.register(checkGzmpcManageRangeRule);
-    //rules.register(checkCustomerListRule);
-    
+    rules.register(checkSupplyMsgRule);
     
     RulesEngineParameters parameters = new RulesEngineParameters().skipOnFirstAppliedRule(true);
 	RulesEngine rulesEngine = new DefaultRulesEngine();

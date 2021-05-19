@@ -45,13 +45,13 @@ public interface ZxBusiControlDefDocMapper extends ExBaseMapper<ZxBusiControlDef
 
 	
 	@Select("select pf_license_need_chk(#{companyid}, #{licenseid}, #{rowsid}, #{companytype}) from dual")
-	Integer SelectChkFlagFromDual(@Param("companyid")Long companyid, @Param("licenseid")Long licenseid, @Param("rowsid")Long rowsid, @Param("companytype")Long companytype);
+	Integer SelectChkFlagFromDual(@Param("companyid")Long companyid, @Param("licenseid")Long licenseid, @Param("rowsid")Long rowsid, @Param("companytype")Integer companytype);
 
 	@Select("select count(*) from pub_goods where #{goodsno} = (select #{goodsno} from zx_license_to_goods where rowsid = #{rowsid}) and goodsid = #{goodsid}")
 	Integer SelectCountFromPubGoodsById(@Param("goodsno")String goodsno, @Param("rowsid")Long rowsid, @Param("goodsid")Long goodsid);
 
-	@Select("select count(*) from (select * from pub_ddl where keyword = 'ZX_PUB_COMPANY_LICENSE') a,(select * from pub_company_license where companyid = #{companyid}) b where a.ddlid = b.licenseid"
-			+ " and a.ddlid in (#{slicenseid}) and (trunc(nvl(b.licenseinvalidate,sysdate-1)) < trunc(sysdate)")
-	Integer selectpubDdlByCompanyId(long companyid, String slicenseid);	
+	@Select("select count(*) from (select * from pub_ddl where keyword = 'ZX_PUB_COMPANY_LICENSE') a,(select * from pub_company_license where companyid = #{companyid}) b where a.ddlid = b.licenseid(+)"
+			+ " and a.ddlid in (#{slicenseid}) and (trunc(nvl(b.licenseinvalidate,sysdate-1)) < trunc(sysdate) #(sql)")
+	Integer selectpubDdlByCompanyId(long companyid, String slicenseid, String sql);	
 
 }

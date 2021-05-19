@@ -44,15 +44,14 @@ public class CheckManageRangeRule {
 	ZxBusiControlDefDocMapper zxBusiControlDefDocMapper;
 	
 	@Condition
-    public boolean isUse(@Fact("cpid") long cpid, Facts facts) {
-		boolean useStatus = false;Long companyType = null;
+    public boolean isUse(@Fact("cpid") long cpid, @Fact("opid") long opid, Facts facts) {
+		boolean useStatus = false;
 		Map<String, Object> activeMap = facts.asMap();
-		SysCp sysCp = sysCpMapper.selectOne(Wrappers.<SysCp>lambdaQuery()
-                .eq(SysCp::getCpid, cpid));
+		SysCp sysCp = sysCpMapper.selectOne(Wrappers.<SysCp>lambdaQuery().eq(SysCp::getCpid, cpid));
 		
 		if(sysCp !=null && sysCp.getOpid() != null) {
 			List<ZxBusiControlDefDoc> zxs = zxBusiControlDefDocMapper.SelectZxBusiControlDefDocByOpid(sysCp.getOpid());
-			if(zxs != null && zxs.size()>0) {				
+			if(zxs != null && zxs.size()>0) {
 				for(ZxBusiControlDefDoc zx : zxs) {
 					if(zx.getOptype() == 1) {
 						if(activeMap.containsKey("usestatus")) {
@@ -79,30 +78,34 @@ public class CheckManageRangeRule {
 								chkjyfwflag = (Integer) retMap.get(key);
 							}
 						}
-						if(zx.getCompanytype() == 2) {
+						if(zx.getCompanytype() == 2) {//客户
 							if(chkjyfwflag == 1 || chkjyfwflag == 3) {
 								continue;
 							}
-						}else if(zx.getCompanytype() == 1) {
+						}else if(zx.getCompanytype() == 1) {//供应商
 							if(chkjyfwflag == 2 || chkjyfwflag == 3) {
 								continue;
 							}
 						}
-						//客户经大众开票时，按大众商场的经营范围检查证照 zfx 2010-1-27
-						/*boolean pfChkJyfw = false;
-						if(!pfChkJyfw(goodsid,)) {
-							useStatus = true;
-						}*/
+						
+						if(opid == 818947) {
+							Integer storageid = null;Long customid = null;
+							if(activeMap.containsKey("storageid")) {
+								storageid = (Integer) activeMap.get("storageid");
+							}
+							if(activeMap.containsKey("customid")) {
+								customid = (Long) activeMap.get("customid");
+							}
+							Integer count = zxBusiControlDefDocMapper.SelectCountFromPubCustomerSetDtlByCustomId(customid);
+							if(count > 0 && (storageid == 99956 || storageid == 10565 || storageid == 100006)) {
+								continue;
+							}
+						}
 					}
+					//客户经大众开票时，按大众商场的经营范围检查证照 zfx 2010-1-27
 				}
 			}
 		}
-		
-		// 以下是检查检验范围，对应证照的函数
-		if(activeMap.containsKey("salesdtlid")) {
-			Long salesdtlid = (Long) activeMap.get("salesdtlid");
-	    }
-		
 		
 		return useStatus;
 	}
