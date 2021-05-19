@@ -30,6 +30,9 @@ public class PubSupplyer implements Serializable {
 	private Integer usestatus;
 	
 	@TableField
+	private String no01;
+	
+	@TableField
 	private String no05;
 
 	public Long getSupplyid() {
@@ -62,6 +65,14 @@ public class PubSupplyer implements Serializable {
 
 	public void setUsestatus(Integer usestatus) {
 		this.usestatus = usestatus;
+	}
+
+	public String getNo01() {
+		return no01;
+	}
+
+	public void setNo01(String no01) {
+		this.no01 = no01;
 	}
 
 	public String getNo05() {

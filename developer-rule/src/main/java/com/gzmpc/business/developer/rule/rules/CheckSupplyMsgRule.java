@@ -31,7 +31,7 @@ public class CheckSupplyMsgRule {
 
 	@Condition
     public boolean isControl(@Fact("supplyid") long supplyid) {
-		boolean controlStatus;
+		boolean controlStatus = false;
 		PubSupplyerControlMsg control = pubSupplyerControlMsgMapper.selectOne(Wrappers.<PubSupplyerControlMsg>lambdaQuery()
 				.eq(PubSupplyerControlMsg::getSupplyid, supplyid)
 		);

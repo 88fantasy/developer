@@ -13,6 +13,7 @@ import com.gzmpc.business.developer.rule.util.FactsUtil;
 import io.swagger.models.auth.In;
 import org.jeasy.rules.annotation.Action;
 import org.jeasy.rules.annotation.Condition;
+import org.jeasy.rules.annotation.Fact;
 import org.jeasy.rules.annotation.Rule;
 import org.jeasy.rules.api.Facts;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ import java.util.stream.Collectors;
  * @author yjf
  * @version 创建时间：2021年5月7日 下午5:27:37
  * 检查是否有法人委托书，检查是否存在有效期内的法人委托书，有委托书且在有效期内通过
+ * 
+ * 1检查该品种无符合的法人委托书及受托人身份证的证照，不能做进货合同。
+ * 2该品种最新的法人委托书及受托人身份证，已过证照有效日期，不能做进货合。
  */
 
 @RuleProperties(input = " supplyid 或 conpanyid", tags = {"证照"})
@@ -107,6 +111,21 @@ public class CheckLegalSupplyRule {
 
         }
         return true;
+    }
+    
+    @Condition
+    public boolean checkLegal(@Fact("supplyid") long supplyId, @Fact("goodsid") long goodsId, Facts facts) {
+		boolean checkLegalFlag = true;
+		Integer ret = suCheckMapper.checkLegal(supplyId, goodsId);
+		if(ret == 0) {
+			checkLegalFlag = false;
+			factsUtil.setMessage(facts, RuleConstants.RULE_ERROR_MESSAGE_KEY, "该品种无符合的法人委托书及受托人身份证的证照，不能做进货合同");
+		}else if(ret == 2) {
+			checkLegalFlag = false;
+			factsUtil.setMessage(facts,RuleConstants.RULE_ERROR_MESSAGE_KEY, "该品种最新的法人委托书及受托人身份证，已过证照有效日期，不能做进货合同");
+		}
+		
+		return checkLegalFlag;
     }
 
     @Action
