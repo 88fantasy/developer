@@ -13,6 +13,7 @@ import com.gzmpc.business.developer.rule.util.FactsUtil;
 import io.swagger.models.auth.In;
 import org.jeasy.rules.annotation.Action;
 import org.jeasy.rules.annotation.Condition;
+import org.jeasy.rules.annotation.Fact;
 import org.jeasy.rules.annotation.Rule;
 import org.jeasy.rules.api.Facts;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,9 @@ import java.util.stream.Collectors;
  * @author yjf
  * @version 创建时间：2021年5月7日 下午5:27:37
  * 检查是否有法人委托书，检查是否存在有效期内的法人委托书，有委托书且在有效期内通过
+ * 
+ * 1检查该品种无符合的法人委托书及受托人身份证的证照，不能做进货合同。
+ * 2该品种最新的法人委托书及受托人身份证，已过证照有效日期，不能做进货合。
  */
 
 @RuleProperties(input = " supplyid 或 conpanyid", tags = {"证照"})
@@ -73,7 +78,7 @@ public class CheckLegalSupplyRule {
                 //检查是否存在有效期内的法人委托书
                 Integer invalidFlag = zxSupplyLicenseMapper.selectCount(Wrappers.<ZxSupplyLicense>lambdaQuery()
                         .eq(ZxSupplyLicense::getLicenseid, 35)
-                        .eq(ZxSupplyLicense::getCompanyid, supplyid).ge(ZxSupplyLicense::getLicenseend, new Date().getDate()));
+                        .eq(ZxSupplyLicense::getCompanyid, supplyid).ge(ZxSupplyLicense::getLicenseend, LocalDate.now()));
                 if (invalidFlag > 0) {
                     factsUtil.setMessage(facts, RuleConstants.RULE_ERROR_MESSAGE_KEY, "该品种最新的法人委托书及受托人身份证，已过证照有效日期，不能做进货合同");
                     return false;
@@ -86,14 +91,15 @@ public class CheckLegalSupplyRule {
             Integer rowcount = zxCompanyLoseLicenseMapper.selectCount(Wrappers.<ZxCompanyLoseLicense>lambdaQuery()
                     .eq(ZxCompanyLoseLicense::getCompanyid, supplyid).eq(ZxCompanyLoseLicense::getCompanyflag, companyType).ne(ZxCompanyLoseLicense::getLicenseid, noChkLicenseId));
 
+
             //30日内过期的证照 add by gzw 20141208
             Integer rowcount2 = pubCompanyLicenseMapper.selectCount(Wrappers.<PubCompanyLicense>query().eq("companyid", supplyid)
                     .notIn("licenseid", Arrays.asList(35, 52))
-                    .ne("licenseid", noChkLicenseId).le("trunc(nvl(licenseinvalidate,sysdate-1)", "trunc(sysdate)+30)"));
+                    .ne("licenseid", noChkLicenseId).le("trunc(nvl(licenseinvalidate,sysdate-1))", LocalDate.now().plusDays(30)));
 
             Integer rowcount3 = zxSupplyLicenseMapper.selectCount(Wrappers.<ZxSupplyLicense>query().eq("companyid", supplyid)
                     .in("licenseid", Arrays.asList(35, 52))
-                    .ne("licenseid", noChkLicenseId).between("(trunc(licenseinvalidate)", "trunc(sysdate)-180", "trunc(sysdate)+30"));
+                    .ne("licenseid", noChkLicenseId).between("(trunc(licenseinvalidate))", LocalDate.now().plusDays(-180), LocalDate.now().plusDays(30)));
 
 
             //判断过期的证照中是否有与货品关联的证照
@@ -102,11 +108,26 @@ public class CheckLegalSupplyRule {
             if (rowcount > 0 || rowcount2 > 0 || rowcount3 > 0) {
                 List<Long> licenseIds = pubCompanyLicenseMapper.getCheckLicenseId(supplyid, companyType, noChkLicenseId);
                 List licenseInfo = licenseIds != null && licenseIds.size() > 0 ? pubCompanyLicenseMapper.getCheckLicenseInfo(supplyid, licenseIds) : null;
-                facts.put("licenseInfo",licenseInfo);
+                facts.put("licenseInvalidInfo",licenseInfo);
             }
 
         }
         return true;
+    }
+    
+    @Condition
+    public boolean checkLegal(@Fact("supplyid") long supplyId, @Fact("goodsid") long goodsId, Facts facts) {
+		boolean checkLegalFlag = true;
+		Integer ret = suCheckMapper.checkLegal(supplyId, goodsId);
+		if(ret == 0) {
+			checkLegalFlag = false;
+			factsUtil.setMessage(facts, RuleConstants.RULE_ERROR_MESSAGE_KEY, "该品种无符合的法人委托书及受托人身份证的证照，不能做进货合同");
+		}else if(ret == 2) {
+			checkLegalFlag = false;
+			factsUtil.setMessage(facts,RuleConstants.RULE_ERROR_MESSAGE_KEY, "该品种最新的法人委托书及受托人身份证，已过证照有效日期，不能做进货合同");
+		}
+		
+		return checkLegalFlag;
     }
 
     @Action

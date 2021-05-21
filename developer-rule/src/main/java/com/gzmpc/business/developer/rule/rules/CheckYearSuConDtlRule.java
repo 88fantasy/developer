@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import static sun.security.krb5.Confounder.longValue;
 
 /**
- * @author rwe
- * @version 创建时间：2021年4月24日 下午10:39:39 进货合同，进货退出时检查证照
+ * @author yjf
+ * @version 创建时间：2021年5月16日
  */
 
 @RuleProperties(input = "supplyid,contracttype,signdate,List<BmsSuConDtl>", tags = {"进货合同", "采购", "年度合同"})
@@ -59,6 +59,7 @@ public class CheckYearSuConDtlRule {
         //商品合同以外，不需勾对年度合同
         if (contractType != 1) {
             return true;
+
         }
         for (int row = 0; row < bmsSuConDtls.size(); row++) {
             Long ySuConId = zxBmsSuConYearMapper.getYearSuConId(supplyId,  signDate);
