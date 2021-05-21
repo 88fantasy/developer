@@ -1,21 +1,24 @@
 package com.gzmpc.business.developer.portal.dto;
 
 import java.util.Date;
+
 import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleStatus;
 
 /**
 * @author rwe
-* @version 创建时间：2021年5月19日 上午10:33:36
-* 规则执行记录列表返回
+* @version 创建时间：2021年5月19日 下午5:23:22
+* 类说明
 */
 
-public class RulePackageInstanceListResponse {
-
+public class RuleInstanceListResponse {
+	
 	private String id;
-	
-	private String code;
-	
+
 	private String name;
+	
+	private String description;
+	
+	private Integer priority;
 	
 	private RuleStatus status;
 	
@@ -23,9 +26,9 @@ public class RulePackageInstanceListResponse {
 	
 	private Date endTime;
 	
-	private String ip;
+	private String input;
 	
-	private String sourceId;
+	private String output;
 
 	public String getId() {
 		return id;
@@ -35,14 +38,6 @@ public class RulePackageInstanceListResponse {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -50,6 +45,23 @@ public class RulePackageInstanceListResponse {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+
 	public RuleStatus getStatus() {
 		return status;
 	}
@@ -74,20 +86,20 @@ public class RulePackageInstanceListResponse {
 		this.endTime = endTime;
 	}
 
-	public String getIp() {
-		return ip;
+	public String getInput() {
+		return input;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setInput(String input) {
+		this.input = input;
 	}
 
-	public String getSourceId() {
-		return sourceId;
+	public String getOutput() {
+		return output;
 	}
 
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
+	public void setOutput(String output) {
+		this.output = output;
 	}
 	
 	

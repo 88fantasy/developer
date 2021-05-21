@@ -1,6 +1,7 @@
 package com.gzmpc.business.developer.portal.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,10 @@ import com.gzmpc.business.developer.portal.dependency.RuleEntity;
 import com.gzmpc.business.developer.portal.dependency.RulePackage;
 import com.gzmpc.business.developer.portal.dependency.RulePackageInstance;
 import com.gzmpc.business.developer.portal.dependency.RuleEntity.RuleType;
+import com.gzmpc.business.developer.portal.dependency.RuleInstance;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
+import com.gzmpc.business.developer.portal.dto.RuleInstanceListResponse;
+import com.gzmpc.business.developer.portal.dto.RulePackageInstanceDescriptionsResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
@@ -31,6 +35,7 @@ import com.gzmpc.business.developer.portal.dto.RuleStatisticResponse;
 import com.gzmpc.business.developer.portal.dto.RuleTagCountResponse;
 import com.gzmpc.business.developer.portal.dto.RuleTypeCountResponse;
 import com.gzmpc.business.developer.portal.entity.RulePackageVersion;
+import com.gzmpc.business.developer.portal.mapper.RuleInstanceMapper;
 import com.gzmpc.business.developer.portal.mapper.RuleMapper;
 import com.gzmpc.business.developer.portal.mapper.RulePackageInstanceMapper;
 import com.gzmpc.business.developer.portal.mapper.RulePackageMapper;
@@ -38,6 +43,7 @@ import com.gzmpc.business.developer.portal.mapper.RulePackageVersionMapper;
 import com.gzmpc.portal.exception.NotFoundException;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.common.entity.FilterCondition;
+import com.gzmpc.support.common.entity.FilterCondition.FilterConditionOper;
 import com.gzmpc.support.common.util.BeanUtils;
 import com.gzmpc.support.jdbc.service.ExBaseService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
@@ -59,6 +65,9 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 
 	@Autowired
 	RulePackageInstanceMapper rulePackageInstanceMapper;
+	
+	@Autowired
+	RuleInstanceMapper ruleInstanceMapper;
 	
 	@Autowired
 	RulePackageVersionMapper rulePackageVersionMapper;
@@ -175,8 +184,40 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 				instance -> {
 					RulePackageInstanceListResponse res = BeanUtils.copyTo(instance, RulePackageInstanceListResponse.class);
 					res.setStatus(instance.getStatus());
+					res.setId(instance.getId().toString());
 					return res;
 				}, RulePackageInstanceListResponse.class));
+	}
+	
+	public ApiResponseData<RulePackageInstanceDescriptionsResponse> getPackageInstance(Long id) {
+		RulePackageInstance instance = rulePackageInstanceMapper.selectById(id);
+		if(instance == null) {
+			throw new NotFoundException("找不到此实例");
+		}
+		RulePackageInstanceDescriptionsResponse desc = BeanUtils.copyTo(instance, RulePackageInstanceDescriptionsResponse.class);
+		desc.setInput(JSON.toJSONString(instance.getInput()));
+		desc.setOutput(JSON.toJSONString(instance.getOutput()));
+		desc.setStatus(instance.getStatus());
+		return new ApiResponseData<>(desc);
+	}
+	
+	private Function<RuleInstance,RuleInstanceListResponse> ruleInstanceTranslator = instance -> {
+		RuleInstanceListResponse res = BeanUtils.copyTo(instance, RuleInstanceListResponse.class);
+		res.setStatus(instance.getStatus());
+		res.setInput(JSON.toJSONString(instance.getInput()));
+		res.setOutput(JSON.toJSONString(instance.getOutput()));
+		res.setId(instance.getId().toString());
+		return res;
+	};
+	
+	public ApiResponsePage<RuleInstanceListResponse> queryRuleInstances(PostConditionQueryRequest request) {
+		return new ApiResponsePage<>(ruleInstanceMapper.query(request.getConditions(), request.getPage(), new String[] {"priority+"},
+				ruleInstanceTranslator,  RuleInstanceListResponse.class));
+	}
+	
+	public ApiResponseData<List<RuleInstanceListResponse>> listRuleInstances(Long packgeInstanceId) {
+		return new ApiResponseData<>(ruleInstanceMapper.list(Arrays.asList(new FilterCondition("packageInstanceId",FilterConditionOper.EQUAL, packgeInstanceId)), Arrays.asList("priority+"),
+				ruleInstanceTranslator,  RuleInstanceListResponse.class));
 	}
 
 	public ApiResponseData<RuleStatisticResponse> postRuleStatistic(List<FilterCondition> conditions) {

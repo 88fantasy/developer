@@ -42,7 +42,7 @@ public class RuleExecuteListener implements RuleListener {
 		instance.setName(rule.getName());
 		instance.setDescription(rule.getDescription());
 		instance.setPriority(rule.getPriority());
-		instance.setStatus(RuleStatus.INIT);
+		instance.setStatus(RuleStatus.START);
 		instance.setInput(facts.asMap());
 		instance.setStartTime(new Date());
 		
@@ -51,11 +51,13 @@ public class RuleExecuteListener implements RuleListener {
 		return true;
 	}
 
-//	@Override
-//	public void afterEvaluate(Rule rule, Facts facts, boolean evaluationResult) {
-//		// TODO Auto-generated method stub
-//		RuleListener.super.afterEvaluate(rule, facts, evaluationResult);
-//	}
+	@Override
+	public void afterEvaluate(Rule rule, Facts facts, boolean evaluationResult) {
+		if(instance != null && !evaluationResult) {
+			instance.setStatus(RuleStatus.NEEDNOT);
+			ruleInstanceMapper.updateById(instance);
+		}
+	}
 
 	@Override
 	public void onEvaluationError(Rule rule, Facts facts, Exception exception) {

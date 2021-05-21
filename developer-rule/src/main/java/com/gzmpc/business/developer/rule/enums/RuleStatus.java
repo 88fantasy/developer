@@ -9,9 +9,14 @@ package com.gzmpc.business.developer.rule.enums;
 public enum RuleStatus {
 
 	/**
-	 * 初始
+	 *  开始
 	 */
-	INIT("初始"),
+	START("开始"),
+	
+	/**
+	 * 不执行
+	 */
+	NEEDNOT("不执行"),
 
 	/**
 	 * 进行中

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.portal.dependency.RulePackage;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
+import com.gzmpc.business.developer.portal.dto.RuleInstanceListResponse;
+import com.gzmpc.business.developer.portal.dto.RulePackageInstanceDescriptionsResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
@@ -59,10 +61,30 @@ public class RuleController extends BaseController<DeveloperRuleService, RulePac
 		return developerRuleService.queryRules(request);
 	}
 	
-	@ApiOperation(value = "分页查询规则实例")
+	@ApiOperation(value = "分页查询规则集实例")
 	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponsePage<RulePackageInstanceListResponse> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryPackageInstances(request);
+	}
+	
+	@ApiOperation(value = "获取规则集实例详情")
+	@RequestMapping(value = "/getPackageInstance/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<RulePackageInstanceDescriptionsResponse> getPackageInstance(
+			@ApiParam(value = "Id", required = true)  @PathVariable( value = "id", required = true) Long id) {
+		return developerRuleService.getPackageInstance(id);
+	}
+	
+	@ApiOperation(value = "分页查询规则实例")
+	@RequestMapping(value = "/queryRuleInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponsePage<RuleInstanceListResponse> queryRuleInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
+		return developerRuleService.queryRuleInstances(request);
+	}
+	
+	@ApiOperation(value = "查询规则实例")
+	@RequestMapping(value = "/listRuleInstances/{packgeInstanceId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<List<RuleInstanceListResponse>> listRuleInstances(
+			@ApiParam(value = "执行记录Id", required = true)  @PathVariable( value = "packgeInstanceId", required = true) Long packgeInstanceId) {
+		return developerRuleService.listRuleInstances(packgeInstanceId);
 	}
 	
 	@ApiOperation(value = "按规则分类统计规则")

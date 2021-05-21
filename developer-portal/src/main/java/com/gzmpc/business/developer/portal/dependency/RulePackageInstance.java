@@ -197,9 +197,14 @@ public class RulePackageInstance implements Serializable, DictionaryEnumClass {
 	public enum RuleStatus implements DictionaryEnum {
 
 		/**
-		 * 初始
+		 *  开始
 		 */
-		INIT("初始"),
+		START("开始"),
+		
+		/**
+		 * 不执行
+		 */
+		NEEDNOT("不执行"),
 
 		/**
 		 * 进行中
