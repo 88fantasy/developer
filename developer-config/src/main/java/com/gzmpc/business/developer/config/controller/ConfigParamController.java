@@ -1,6 +1,7 @@
 package com.gzmpc.business.developer.config.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -62,9 +63,9 @@ public class ConfigParamController {
 
 	@ApiOperation(value = "获取app指定参数")
 	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<List<ParamDTO>> findKeys(
+	public ApiResponseData<Map<String,ParamDTO>> findKeys(
 			@ApiParam(value = "系统编号", required = true) @PathVariable(required = true) String appCode,
 			@RequestBody(required = true) List<String> keys) {
-		return new ApiResponseData<List<ParamDTO>>(paramService.findByKeys(appCode, keys.toArray(new String[keys.size()])));
+		return new ApiResponseData<>(paramService.findByKeys(appCode, keys.toArray(new String[keys.size()])));
 	}
 }

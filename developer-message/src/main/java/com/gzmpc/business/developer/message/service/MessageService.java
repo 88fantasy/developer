@@ -20,7 +20,7 @@ import com.gzmpc.business.developer.common.dto.Message;
 import com.gzmpc.business.developer.message.constant.MessageConstants;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
-import com.gzmpc.support.cos.client.CosClient;
+import com.gzmpc.spring.boot.autoconfigure.cos.CosClient;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.qcloud.cos.exception.CosClientException;

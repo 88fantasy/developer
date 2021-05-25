@@ -13,10 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gzmpc.business.developer.common.dto.SendEmailRequest;
 import com.gzmpc.business.developer.common.enums.MessageType;
+import com.gzmpc.business.developer.core.builder.CosClientBuilder;
 import com.gzmpc.business.developer.core.constant.MessageApiConstants;
 import com.gzmpc.business.developer.core.dto.message.MessageResponse;
 import com.gzmpc.business.developer.message.sender.EmailSender;
 import com.gzmpc.business.developer.message.service.MessageService;
+import com.gzmpc.spring.boot.autoconfigure.cos.CosClient;
+import com.gzmpc.spring.boot.autoconfigure.cos.CosProperties;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,4 +58,16 @@ public class EmailController {
 		return messageService.upload(file);
 	}
 
+	@Autowired
+	CosClientBuilder cosClientBuilder;
+	
+	@Autowired
+	private CosProperties cosProperties;
+	
+	@ApiOperation(value = "test")
+	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+	public ApiResponseData<String> test() {
+		CosClient client = cosClientBuilder.build(cosProperties.getCos().getRegion(), cosProperties.getCos().getBucket().getName(), cosProperties.getCos().getBucket().getPath());
+		return new ApiResponseData<>("ok");
+	}
 }

@@ -30,7 +30,6 @@
 	 <dependency>
      <groupId>com.gzmpc.exframework</groupId>
      <artifactId>cos-spring-boot-starter</artifactId>
-     <version>0.6.2</version>
    </dependency>
 	</dependencies>
 

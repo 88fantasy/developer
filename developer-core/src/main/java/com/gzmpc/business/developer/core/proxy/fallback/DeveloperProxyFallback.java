@@ -65,8 +65,8 @@ public class DeveloperProxyFallback implements FallbackFactory<ConfigProxy> {
 			}
 
 			@Override
-			public ApiResponseData<List<ParamDTO>> findParamByKeys(@NotEmpty String appCode, List<String> keys) {
-				return new ApiResponseData<>(ResultCode.SERVICE_UNAVAILABLE, msg, new ArrayList<ParamDTO>());
+			public ApiResponseData<Map<String,ParamDTO>> findParamByKeys(@NotEmpty String appCode, List<String> keys) {
+				return new ApiResponseData<>(ResultCode.SERVICE_UNAVAILABLE, msg, new ConcurrentHashMap<>());
 			}
 
 			@Override

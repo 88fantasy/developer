@@ -40,6 +40,7 @@ tencentcloud:
   secret:
     id: AKIDqjhP0AmHx70dIhnsdDqGRUGo43tlxm44
     key: tMYTTDg4D6E5gJfmoc9TYMUTBRSDqDKW
+  deverloper: sssss
 
 montnets:
   accounts:

@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -91,17 +93,20 @@ public class ParamService {
 		return list;
 	}
 
-	public List<ParamDTO> findByKeys(String appCode, String... keys) {
+	public Map<String,ParamDTO> findByKeys(String appCode, String... keys) {
+		Map<String,ParamDTO> result = new ConcurrentHashMap<>();
 		List<Param> params = paramMapper.selectList(
 				Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).in(Param::getParamKey, Arrays.asList(keys)));
 		List<Param> globalParams = paramMapper.selectList(Wrappers.<Param>lambdaQuery()
 				.eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true).in(Param::getParamKey, Arrays.asList(keys)));
 		// 去重,优先app配置
-		globalParams.removeIf(entity -> params.stream().anyMatch(p -> p.getParamKey().equals(entity.getParamKey())));
-		List<ParamDTO> list = new ArrayList<ParamDTO>();
-		list.addAll(params.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
-		list.addAll(globalParams.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
-		return list;
+		globalParams.forEach(row -> {
+			result.put(row.getParamKey(), toDTO(row));
+		});
+		params.forEach(row -> {
+			result.put(row.getParamKey(), toDTO(row));
+		});
+		return result;
 	}
 
 //	public boolean putValue(String key, String name, String value) {

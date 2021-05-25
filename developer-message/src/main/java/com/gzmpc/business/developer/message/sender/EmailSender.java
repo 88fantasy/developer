@@ -37,7 +37,7 @@ import com.gzmpc.business.developer.message.entity.MessageUnion.SendState;
 import com.gzmpc.business.developer.message.exception.MessageException;
 import com.gzmpc.business.developer.message.mapper.MessageUnionMapper;
 import com.gzmpc.business.developer.message.service.Sender;
-import com.gzmpc.support.cos.client.CosClient;
+import com.gzmpc.spring.boot.autoconfigure.cos.CosClient;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
 import com.gzmpc.support.rest.exception.ApiException;

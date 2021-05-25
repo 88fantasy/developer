@@ -43,7 +43,7 @@ public interface ConfigProxy {
 	 * @return
 	 */
 	@RequestMapping(value = ConfigApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<String> getParamValue(@NotEmpty @PathVariable("appCode") String appCode,
+	public ApiResponseData<String> getParamValue(@NotEmpty @PathVariable(value = "appCode") String appCode,
 			@PathVariable("key") String key);
 
 	/**
@@ -54,7 +54,7 @@ public interface ConfigProxy {
 	 * @return
 	 */
 	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<List<ParamDTO>> findParamByKeys(@NotEmpty @PathVariable("appCode") String appCode,
+	public ApiResponseData<Map<String,ParamDTO>> findParamByKeys(@PathVariable(value = "appCode") String appCode,
 			@RequestBody List<String> keys);
 
 	/**
@@ -64,7 +64,7 @@ public interface ConfigProxy {
 	 * @return
 	 */
 	@RequestMapping(value = ConfigApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<List<ParamDTO>> findAllParams(@NotEmpty @PathVariable("appCode") String appCode);
+	public ApiResponseData<List<ParamDTO>> findAllParams(@NotEmpty @PathVariable(value = "appCode") String appCode);
 
 	/**
 	 * 获取字典
@@ -86,7 +86,7 @@ public interface ConfigProxy {
 	 */
 	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<List<DictionaryDTO>> findDictionaryByKeys(
-			@PathVariable(required = true) String appCode,
+			@PathVariable(value = "appCode", required = true) String appCode,
 			@RequestBody(required = true) List<String> keys);
 
 	/**
@@ -108,7 +108,7 @@ public interface ConfigProxy {
 	 */
 	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ApiResponseData<String> getAccountParamValue(@PathVariable("appCode") String appCode,
-			@PathVariable("key") String key, @PathVariable("account") String account);
+			@PathVariable(value = "key") String key, @PathVariable(value = "account") String account);
 
 	/**
 	 * 获取指定帐号参数
