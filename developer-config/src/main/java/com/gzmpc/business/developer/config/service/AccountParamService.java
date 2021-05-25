@@ -59,7 +59,7 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 		}
 		
 		List<AccountParamDTO> list = findByAppCodeAndAccount(appCode, account);
-		Map<String,String> values = list.stream().collect(Collectors.toMap(AccountParamDTO::getKey, AccountParamDTO::getValue));
+		Map<String,String> values = list.stream().collect(Collectors.toMap(AccountParamDTO::getParamKey, AccountParamDTO::getValue));
 		redisTemplate.opsForHash().putAll(redisKey, values);
 		return values.get(key);
 	}
@@ -82,9 +82,9 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 	public boolean putValue(@Valid AccountParamDTO dto) {
 		AccountParam entity = new AccountParam();
 		entity.setAppCode(dto.getAppCode());
-		entity.setParamKey(dto.getKey());
+		entity.setParamKey(dto.getParamKey());
 		entity.setAccount(dto.getAccount());
-		entity.setParamName(dto.getName());
+		entity.setParamName(dto.getParamName());
 		entity.setValue(dto.getValue());
 		return putParam(entity);
 	}

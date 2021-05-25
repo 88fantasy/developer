@@ -17,33 +17,33 @@ public class ParamDTO extends GlobalDTO {
 
 	@ApiModelProperty(value = "键", required = true)
 	@NotNull
-	private String key;
+	private String paramKey;
 
 	@ApiModelProperty(value = "名称", required = true)
 	@NotNull
-	private String name;
+	private String paramName;
 	
 	@ApiModelProperty(value = "值", required = true)
 	@NotNull
 	private String value;
 
 	@ApiModelProperty(value = "继承")
-	private boolean inherited;
+	private Boolean inherited;
 
-	public String getKey() {
-		return key;
+	public String getParamKey() {
+		return paramKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setParamKey(String paramKey) {
+		this.paramKey = paramKey;
 	}
 
-	public String getName() {
-		return name;
+	public String getParamName() {
+		return paramName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
 	}
 
 	public String getValue() {
@@ -54,11 +54,11 @@ public class ParamDTO extends GlobalDTO {
 		this.value = value;
 	}
 
-	public boolean getInherited() {
+	public Boolean getInherited() {
 		return inherited;
 	}
 
-	public void setInherited(boolean inherited) {
+	public void setInherited(Boolean inherited) {
 		this.inherited = inherited;
 	}
 

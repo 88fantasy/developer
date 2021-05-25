@@ -111,8 +111,8 @@ public class ParamService {
 	public boolean putValue(ParamDTO param) {
 		Param entity = new Param();
 		entity.setAppCode(param.getAppCode());
-		entity.setParamKey(param.getKey());
-		entity.setParamName(param.getName());
+		entity.setParamKey(param.getParamKey());
+		entity.setParamName(param.getParamName());
 		entity.setValue(param.getValue());
 		entity.setInherited(param.getInherited());
 		return putParam(entity);
