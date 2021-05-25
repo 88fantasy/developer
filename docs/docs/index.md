@@ -5,6 +5,8 @@ hero:
   actions:
     - text: 消息平台
       link: /message
+    - text:  对象存储
+      link: /cos
 footer: 阮伟儿 | Copyright © 2021
 ---
 

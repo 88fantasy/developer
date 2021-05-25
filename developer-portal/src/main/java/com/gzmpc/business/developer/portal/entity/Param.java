@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -19,45 +20,45 @@ public class Param extends Global implements Serializable {
 
 	private static final long serialVersionUID = 7083780975464797162L;
 
-	@TableId
-	private String id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 	
 	@TableField
 	@NotNull
-	private String key;
+	private String paramKey;
 	
 	@TableField
-	private String name;
+	private String paramName;
 
 	@TableField
 	@NotNull
 	private String value;
 
 	@TableField
-	private boolean inherited;
+	private Boolean inherited;
 
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getParamKey() {
+		return paramKey;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setParamKey(String paramKey) {
+		this.paramKey = paramKey;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
 	}
 
 	public String getValue() {
@@ -68,11 +69,11 @@ public class Param extends Global implements Serializable {
 		this.value = value;
 	}
 
-	public boolean isInherited() {
+	public Boolean getInherited() {
 		return inherited;
 	}
 
-	public void setInherited(boolean inherited) {
+	public void setInherited(Boolean inherited) {
 		this.inherited = inherited;
 	}
 
