@@ -3,6 +3,7 @@ package com.gzmpc.business.developer.portal.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.gzmpc.support.jdbc.dao.CUTimeMetaObjectHandler;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -32,4 +33,6 @@ public class DeveloperConfig {
 				.build();
 		return docket;
 	}
+	
+	
 }

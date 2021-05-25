@@ -50,6 +50,12 @@ public class WechatApp extends Editable {
 	 */
 	@TableField
 	private String paySecret;
+	
+	/**
+	 * 小程序
+	 */
+	@TableField
+	private Boolean miniprogram;
 
 	public String getAppId() {
 		return appId;
@@ -89,6 +95,14 @@ public class WechatApp extends Editable {
 
 	public void setPaySecret(String paySecret) {
 		this.paySecret = paySecret;
+	}
+
+	public Boolean getMiniprogram() {
+		return miniprogram;
+	}
+
+	public void setMiniprogram(Boolean miniprogram) {
+		this.miniprogram = miniprogram;
 	}
 
 }

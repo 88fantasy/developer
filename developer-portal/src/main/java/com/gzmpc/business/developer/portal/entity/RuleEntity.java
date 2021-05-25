@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.portal.dependency;
+package com.gzmpc.business.developer.portal.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,10 +9,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gzmpc.portal.metadata.dict.Dictionary;
-import com.gzmpc.portal.metadata.dict.DictionaryEnum;
-import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
-import com.gzmpc.portal.metadata.entity.EntityClass;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 
 /**
  * @author rwe
@@ -20,9 +18,8 @@ import com.gzmpc.portal.metadata.entity.EntityClass;
  * 规则
  */
 
-@EntityClass
 @TableName(value = "rule", autoResultMap = true)
-public class RuleEntity implements Serializable, DictionaryEnumClass {
+public class RuleEntity implements Serializable {
 
 	private static final long serialVersionUID = 1164183277078920803L;
 
@@ -42,6 +39,7 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 	 * 描述
 	 */
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String description;
 
 	/**
@@ -73,18 +71,21 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 	 */
 	@TableField
 	@EnumValue
+	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleType type;
 
 	/**
 	 * 条件表达式(SPEL或MVEL)
 	 */
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String expression;
 
 	/**
 	 * 执行代码(SPEL或MVEL)
 	 */
 	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
 	private List<String> action;
 	
 
@@ -187,8 +188,7 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 		this.action = action;
 	}
 
-	@Dictionary(value = "ruleType", name = "规则类型")
-	public enum RuleType implements DictionaryEnum {
+	public enum RuleType {
 
 		/**
 		 * 程序规则
@@ -224,9 +224,4 @@ public class RuleEntity implements Serializable, DictionaryEnumClass {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Class<? extends DictionaryEnum>[] enums() {
-		return new Class[] { RuleType.class };
-	}
 }

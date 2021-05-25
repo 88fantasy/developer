@@ -3,6 +3,7 @@ package com.gzmpc.business.developer.portal.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
-import com.gzmpc.business.developer.portal.dependency.RulePackage;
+import com.gzmpc.business.developer.portal.annotation.AutoCurrentAccount;
 
 /**
 * @author rwe
@@ -32,6 +33,10 @@ public class RulePackageVersion implements Serializable, Version {
 	@TableField(typeHandler = FastjsonTypeHandler.class)
 	@ColumnType(value = MySqlTypeConstant.JSON)
 	private RulePackage entity;
+	
+	@AutoCurrentAccount
+	@TableField(fill = FieldFill.INSERT)
+	private String creator;
 	
 	@TableField
 	private Integer version;
@@ -72,6 +77,14 @@ public class RulePackageVersion implements Serializable, Version {
 
 	public void setEntity(RulePackage entity) {
 		this.entity = entity;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 	public Integer getVersion() {

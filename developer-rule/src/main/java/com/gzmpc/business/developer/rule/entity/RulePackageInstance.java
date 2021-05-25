@@ -10,8 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import com.gzmpc.business.developer.rule.enums.RuleStatus;
 
 /**
@@ -51,15 +49,12 @@ public class RulePackageInstance implements Serializable {
 	
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleStatus status;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date startTime;
 	
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
 	
 	@TableField
@@ -69,11 +64,9 @@ public class RulePackageInstance implements Serializable {
 	private String sourceId;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> input;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> output;
 
 	public Long getId() {

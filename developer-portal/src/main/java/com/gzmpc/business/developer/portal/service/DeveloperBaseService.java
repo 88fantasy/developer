@@ -1,13 +1,11 @@
 package com.gzmpc.business.developer.portal.service;
 
-import java.util.Date;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gzmpc.business.developer.portal.entity.Editable;
 import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 import com.gzmpc.support.jdbc.service.ExBaseService;
 
@@ -36,21 +34,6 @@ public class DeveloperBaseService<M extends ExBaseMapper<T>, T> extends ExBaseSe
 
 	protected Class<T> mapperClass = currentMapperClass();
 
-	Consumer<T> beforeSave =  entity -> {
-		if(Editable.class.isAssignableFrom(entity.getClass())) {
-			Editable editable = (Editable) entity;
-			editable.setCreateDate(new Date());
-			editable.setCreatorId("admin");
-		}
-	};
-	
-	Consumer<T> beforeUpdate =  entity -> {
-		if(Editable.class.isAssignableFrom(entity.getClass())) {
-			Editable editable = (Editable) entity;
-			editable.setUpdateDate(new Date());
-			editable.setUpdateId("");
-		}
-	};
 	
 	public boolean saveOrUpdateDTO(Object dto) {
 		return saveOrUpdateDTO(dto, null);
@@ -68,6 +51,6 @@ public class DeveloperBaseService<M extends ExBaseMapper<T>, T> extends ExBaseSe
 		else {
 			BeanUtils.copyProperties(dto, t);
 		}
-		return saveOrUpdateBeforeAndAfter(t, beforeSave, beforeUpdate, after);
+		return saveOrUpdateBeforeAndAfter(t, null, null, after);
 	}
 }

@@ -1,6 +1,6 @@
 package com.gzmpc.business.developer.portal.mapper;
 
-import com.gzmpc.business.developer.portal.dependency.RulePackageInstance;
+import com.gzmpc.business.developer.portal.entity.RulePackageInstance;
 import com.gzmpc.support.jdbc.mapper.ExBaseMapper;
 
 /**

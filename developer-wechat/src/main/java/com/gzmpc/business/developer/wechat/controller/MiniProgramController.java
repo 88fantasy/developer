@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.wechat.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gzmpc.business.developer.core.constant.WeChatMiniProgramApiConstants;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientRequest;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.service.miniprogram.MiniProgramService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.exception.ApiException;
@@ -21,7 +26,8 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * @author rwe
- * @version 创建时间：Sep 23, 2020 10:52:32 AM 预售活动 接口类
+ * @version 创建时间：Sep 23, 2020 10:52:32 AM 预售活动 
+ * 接口类
  */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.OPTIONS, RequestMethod.POST })
@@ -42,5 +48,12 @@ public class MiniProgramController {
 			throw new ApiException(result.getMessage());
 		}
 	}
+	
+	@ApiOperation(value = "获取留存数据")
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_GET_RETAIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<GetRetainClientResponse> getRetainResponse(@ApiParam(required = true) @Valid @RequestBody GetRetainRequest request) throws ApiException {
+		return miniprogramService.getRetain(request);
+	}
+	
 	
 }

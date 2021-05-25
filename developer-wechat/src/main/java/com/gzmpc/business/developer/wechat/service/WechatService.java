@@ -106,7 +106,7 @@ public class WechatService  implements Buildable {
 		if (token == null || "".equals(token)) {
 			GetTokenResponse response = weChatClient.getAccessToken(appId, appInfo.getAppSecret());
 			Integer errcode = response.getErrcode();
-			if (errcode == 0) {
+			if (errcode == null || errcode == 0) {
 				String accessToken = response.getAccessToken();
 				Long expires = response.getExpiresIn();
 				redisTemplate.opsForValue().setIfAbsent(key, accessToken, expires - 60, TimeUnit.SECONDS);

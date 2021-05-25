@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.portal.dependency;
+package com.gzmpc.business.developer.portal.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +10,12 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleStatus;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
+import com.gzmpc.portal.metadata.dict.Dictionary;
+import com.gzmpc.portal.metadata.dict.DictionaryEnum;
+import com.gzmpc.portal.metadata.dict.DictionaryEnumClass;
+import com.gzmpc.portal.metadata.entity.EntityClass;
 
 /**
 * @author rwe
@@ -19,7 +24,8 @@ import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleSt
 */
 
 @TableName(value = "rule_instance", autoResultMap = true)
-public class RuleInstance  implements Serializable {
+@EntityClass
+public class RuleInstance  implements Serializable, DictionaryEnumClass {
 
 	private static final long serialVersionUID = -1670268842529871692L;
 
@@ -40,18 +46,23 @@ public class RuleInstance  implements Serializable {
 	
 	@TableField
 	@EnumValue
+	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleStatus status;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date startTime;
 	
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.DATETIME)
 	private Date endTime;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> input;
 	
 	@TableField(typeHandler = FastjsonTypeHandler.class)
+	@ColumnType(value = MySqlTypeConstant.JSON)
 	private Map<String,Object> output;
 
 	public Long getId() {
@@ -134,5 +145,50 @@ public class RuleInstance  implements Serializable {
 		this.output = output;
 	}
 	
-	
+	@Dictionary( value = "accountDataSource", name = "帐号来源")
+	public enum RuleStatus implements DictionaryEnum {
+
+		/**
+		 *  开始
+		 */
+		START("开始"),
+		
+		/**
+		 * 不执行
+		 */
+		NEEDNOT("不执行"),
+
+		/**
+		 * 进行中
+		 */
+		PROCESSING("进行中"),
+
+		/**
+		 * 完成
+		 */
+		FINISHED("完成"),
+		
+		/**
+		 * 失败
+		 */
+		FAILED("失败"),
+
+		;
+
+		private String label;
+
+		private RuleStatus(String label) {
+				this.label = label;
+			}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
+
+	@Override
+	public Class<? extends DictionaryEnum>[] enums() {
+		return new Class[] {RuleStatus.class};
+	}
 }

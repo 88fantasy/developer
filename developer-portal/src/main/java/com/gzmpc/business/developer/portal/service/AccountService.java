@@ -103,7 +103,4 @@ public class AccountService {
 		return ldapTemplate.authenticate(person.getId(), new EqualsFilter("cn", person.getCommonName()).encode(), pwd);
 	}
 	
-	public void test() {
-		
-	}
 }

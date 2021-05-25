@@ -37,6 +37,11 @@ public class WechatAppDTO {
 	 * 商户密钥
 	 */
 	private String paySecret;
+	
+	/**
+	 * 是否小程序
+	 */
+	private Boolean miniprogram;
 
 	public String getAppId() {
 		return appId;
@@ -76,6 +81,14 @@ public class WechatAppDTO {
 
 	public void setPaySecret(String paySecret) {
 		this.paySecret = paySecret;
+	}
+
+	public Boolean getMiniprogram() {
+		return miniprogram;
+	}
+
+	public void setMiniprogram(Boolean miniprogram) {
+		this.miniprogram = miniprogram;
 	}
 
 }

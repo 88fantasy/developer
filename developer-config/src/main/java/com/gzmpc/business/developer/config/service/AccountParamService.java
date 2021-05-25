@@ -71,7 +71,7 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 				.eq(Param::getInherited, true)
 				.eq(AccountParam::getAccount, account));
 		//去重,优先app配置
-		globalList.removeIf(entity -> params.stream().anyMatch(p -> p.getKey().equals(entity.getKey())));
+		globalList.removeIf(entity -> params.stream().anyMatch(p -> p.getParamKey().equals(entity.getParamKey())));
 		List<AccountParamDTO> list = new ArrayList<AccountParamDTO>();
 		list.addAll(params.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
 		list.addAll(globalList.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
@@ -82,9 +82,9 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 	public boolean putValue(@Valid AccountParamDTO dto) {
 		AccountParam entity = new AccountParam();
 		entity.setAppCode(dto.getAppCode());
-		entity.setKey(dto.getKey());
+		entity.setParamKey(dto.getKey());
 		entity.setAccount(dto.getAccount());
-		entity.setName(dto.getName());
+		entity.setParamName(dto.getName());
 		entity.setValue(dto.getValue());
 		return putParam(entity);
 	}
@@ -92,9 +92,9 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 	private boolean putParam(@Valid AccountParam entity) {
 		// to-do 权限?
 		String appCode = entity.getAppCode();
-		String key = entity.getKey();
+		String key = entity.getParamKey();
 		String account = entity.getAccount();
-		AccountParam old = accountParamMapper.selectOne(Wrappers.<AccountParam>lambdaQuery().eq(AccountParam::getAppCode, appCode).eq(AccountParam::getAccount, account).eq(AccountParam::getKey, key));
+		AccountParam old = accountParamMapper.selectOne(Wrappers.<AccountParam>lambdaQuery().eq(AccountParam::getAppCode, appCode).eq(AccountParam::getAccount, account).eq(AccountParam::getParamKey, key));
 		if(old != null) {
 			entity.setId(old.getId());
 			accountParamMapper.updateById(entity);

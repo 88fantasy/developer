@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gzmpc.business.developer.portal.dependency.RulePackage;
 import com.gzmpc.business.developer.portal.dto.RuleDTO;
 import com.gzmpc.business.developer.portal.dto.RuleInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageInstanceDescriptionsResponse;
@@ -22,6 +21,7 @@ import com.gzmpc.business.developer.portal.dto.RulePackageInstanceListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageListResponse;
 import com.gzmpc.business.developer.portal.dto.RulePackageSaveDTO;
 import com.gzmpc.business.developer.portal.dto.RuleStatisticResponse;
+import com.gzmpc.business.developer.portal.entity.RulePackage;
 import com.gzmpc.business.developer.portal.service.DeveloperRuleService;
 import com.gzmpc.portal.web.dto.PostConditionQueryRequest;
 import com.gzmpc.support.common.entity.FilterCondition;

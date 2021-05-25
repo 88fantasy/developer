@@ -3,19 +3,21 @@ package com.gzmpc.business.developer.wechat.service.miniprogram;
 import java.text.MessageFormat;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.service.WechatService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
@@ -45,11 +47,10 @@ public class MiniProgramService {
 		String appid = request.getAppid();
 		String jscode = request.getJsCode();
 		
-		if(!StringUtils.isEmpty(appid) && !StringUtils.isEmpty(jscode)) {
+		if(!StringUtils.hasText(appid) && !StringUtils.hasText(jscode)) {
 			WechatAppDTO appInfo = weChatService.getAppInfo(appid);
 			
 			if(appInfo != null) {
-			
 				String secret = appInfo.getAppSecret();
 				String key = MessageFormat.format(WeChatMiniProgramConstants.WECHAT_MP_SESSION_BASE, appid, secret, jscode);
 				Code2SessionResponse session = (Code2SessionResponse) redisTemplate.opsForValue().get(key);
@@ -81,5 +82,19 @@ public class MiniProgramService {
 		}
 	}
 	
-	
+	public ApiResponseData<GetRetainClientResponse> getRetain(GetRetainRequest request) {
+		if(StringUtils.hasText(request.getAppId())) { 
+			WechatAppDTO appInfo = weChatService.getAppInfo(request.getAppId());
+			switch(request.getType()) {
+				case DAILY:
+					return new ApiResponseData<>(weChatMiniprogramClient.getDailyRetain(appInfo.getAppId(), request.getRequest()));
+				case WEEKLY:
+					return new ApiResponseData<>(weChatMiniprogramClient.getWeeklyRetain(appInfo.getAppId(), request.getRequest()));
+				case MONTHLY:
+					return new ApiResponseData<>(weChatMiniprogramClient.getMonthlyRetain(appInfo.getAppId(), request.getRequest()));
+			}
+			
+		}
+		return ApiResponseData.paramError();
+	}
 }

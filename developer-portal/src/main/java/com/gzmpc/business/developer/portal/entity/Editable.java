@@ -3,7 +3,11 @@ package com.gzmpc.business.developer.portal.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.gzmpc.business.developer.portal.annotation.AutoCurrentAccount;
+import com.gzmpc.support.jdbc.annotation.AutoCreateTime;
+import com.gzmpc.support.jdbc.annotation.AutoUpdateTime;
 
 /**
 * @author rwe
@@ -15,49 +19,52 @@ public class Editable implements Serializable {
 
 	private static final long serialVersionUID = -8322825586742977459L;
 
-	@TableField
-  private String creatorId;
+	@AutoCurrentAccount
+	@TableField(fill = FieldFill.INSERT)
+  private String creator;
 
-	@TableField
-  private Date createDate;
+	@AutoCreateTime
+	@TableField(fill = FieldFill.INSERT)
+  private Date createTime;
 
-	@TableField
-  private String updateId;
+	@AutoCurrentAccount
+	@TableField(fill = FieldFill.UPDATE)
+  private String updator;
 
-	@TableField
-  private Date updateDate;
+	@AutoUpdateTime
+	@TableField(fill = FieldFill.UPDATE)
+  private Date updateTime;
 
-	public String getCreatorId() {
-		return creatorId;
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getUpdateId() {
-		return updateId;
+	public String getUpdator() {
+		return updator;
 	}
 
-	public void setUpdateId(String updateId) {
-		this.updateId = updateId;
+	public void setUpdator(String updator) {
+		this.updator = updator;
 	}
 
-	public Date getUpdateDate() {
-		return updateDate;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
-	
 }

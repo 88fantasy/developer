@@ -15,9 +15,9 @@ import com.gzmpc.support.jdbc.annotation.TableEntityScan;
 	    },
 		exclude = DruidDataSourceAutoConfigure.class
 	)
-@MapperScan(basePackages = {"com.gzmpc.business.developer.rule.mapper", "com.gzmpc.business.developer.rule.rules.mapper"})
+@MapperScan(basePackages = {"com.gzmpc.business.developer.rule.mapper", "com.gzmpc.business.developer.rule.rules.mapper", })
 @TableEntityScan({"com.gzmpc.business.developer.rule.entity", "com.gzmpc.business.developer.rule.rules.entity"})
-@EnableFeignClients(basePackages = { "com.gzmpc.*" }) // 使用Feign微服务调用时请启用
+@EnableFeignClients(basePackages = { "com.gzmpc.*" }) 
 @EnableTsf
 /**
  * 微服务 启动类

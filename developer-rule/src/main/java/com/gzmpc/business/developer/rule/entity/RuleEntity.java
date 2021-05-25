@@ -9,8 +9,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 
 /**
  * @author rwe
@@ -39,7 +37,6 @@ public class RuleEntity implements Serializable {
 	 * 描述
 	 */
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String description;
 
 	/**
@@ -71,21 +68,18 @@ public class RuleEntity implements Serializable {
 	 */
 	@TableField
 	@EnumValue
-	@ColumnType(value = MySqlTypeConstant.VARCHAR)
 	private RuleType type;
 
 	/**
 	 * 条件表达式(SPEL或MVEL)
 	 */
 	@TableField
-	@ColumnType(value = MySqlTypeConstant.TEXT)
 	private String expression;
 
 	/**
 	 * 执行代码(SPEL或MVEL)
 	 */
 	@TableField(typeHandler = FastjsonTypeHandler.class)
-	@ColumnType(value = MySqlTypeConstant.JSON)
 	private List<String> action;
 	
 

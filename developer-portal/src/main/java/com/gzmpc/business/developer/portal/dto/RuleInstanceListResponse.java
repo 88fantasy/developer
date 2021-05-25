@@ -2,7 +2,8 @@ package com.gzmpc.business.developer.portal.dto;
 
 import java.util.Date;
 
-import com.gzmpc.business.developer.portal.dependency.RulePackageInstance.RuleStatus;
+import com.gzmpc.business.developer.portal.entity.RuleInstance.RuleStatus;
+
 
 /**
 * @author rwe

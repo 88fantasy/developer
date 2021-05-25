@@ -62,14 +62,14 @@ public class ParamService {
 			}
 		}
 		;
-		Param entity = paramMapper.selectOne(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).eq(Param::getKey, key));
+		Param entity = paramMapper.selectOne(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).eq(Param::getParamKey, key));
 		if (entity != null) {
 			String value = entity.getValue();
 			redisTemplate.opsForValue().set(redisKey, entity, ConfigConstants.oneMinuteDuration);
 			return value;
 		} else {
 			Param globalEntity = paramMapper.selectOne(Wrappers.<Param>lambdaQuery()
-					.eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true).eq(Param::getKey, key));
+					.eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true).eq(Param::getParamKey, key));
 			if (globalEntity != null) {
 				String value = globalEntity.getValue();
 				redisTemplate.opsForValue().set(redisKey, globalEntity);
@@ -84,7 +84,7 @@ public class ParamService {
 		List<Param> params = paramMapper.selectList(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode));
 		List<Param> globalParams = paramMapper.selectList(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true));
 		// 去重,优先app配置
-		globalParams.removeIf(entity -> params.stream().anyMatch(p -> p.getKey().equals(entity.getKey())));
+		globalParams.removeIf(entity -> params.stream().anyMatch(p -> p.getParamKey().equals(entity.getParamKey())));
 		List<ParamDTO> list = new ArrayList<ParamDTO>();
 		list.addAll(params.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
 		list.addAll(globalParams.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
@@ -93,11 +93,11 @@ public class ParamService {
 
 	public List<ParamDTO> findByKeys(String appCode, String... keys) {
 		List<Param> params = paramMapper.selectList(
-				Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).in(Param::getKey, Arrays.asList(keys)));
+				Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).in(Param::getParamKey, Arrays.asList(keys)));
 		List<Param> globalParams = paramMapper.selectList(Wrappers.<Param>lambdaQuery()
-				.eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true).in(Param::getKey, Arrays.asList(keys)));
+				.eq(Param::getAppCode, DeveloperConstants.GLOBAL_APPLICATION_CODE).eq(Param::getInherited, true).in(Param::getParamKey, Arrays.asList(keys)));
 		// 去重,优先app配置
-		globalParams.removeIf(entity -> params.stream().anyMatch(p -> p.getKey().equals(entity.getKey())));
+		globalParams.removeIf(entity -> params.stream().anyMatch(p -> p.getParamKey().equals(entity.getParamKey())));
 		List<ParamDTO> list = new ArrayList<ParamDTO>();
 		list.addAll(params.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
 		list.addAll(globalParams.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
@@ -111,8 +111,8 @@ public class ParamService {
 	public boolean putValue(ParamDTO param) {
 		Param entity = new Param();
 		entity.setAppCode(param.getAppCode());
-		entity.setKey(param.getKey());
-		entity.setName(param.getName());
+		entity.setParamKey(param.getKey());
+		entity.setParamName(param.getName());
 		entity.setValue(param.getValue());
 		entity.setInherited(param.getInherited());
 		return putParam(entity);
@@ -121,8 +121,8 @@ public class ParamService {
 	private boolean putParam(@Valid Param entity) {
 		// to-do 权限?
 		String appCode = entity.getAppCode();
-		String key = entity.getKey();
-		Param old = paramMapper.selectOne(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).eq(Param::getKey, key));
+		String key = entity.getParamKey();
+		Param old = paramMapper.selectOne(Wrappers.<Param>lambdaQuery().eq(Param::getAppCode, appCode).eq(Param::getParamKey, key));
 		if (old != null) {
 			entity.setId(old.getId());
 			paramMapper.updateById(entity);

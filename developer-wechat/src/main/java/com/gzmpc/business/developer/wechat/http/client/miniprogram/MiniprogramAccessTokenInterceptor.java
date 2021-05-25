@@ -34,6 +34,10 @@ public class MiniprogramAccessTokenInterceptor implements Interceptor<Object> {
 	@Override
 	public boolean beforeExecute(ForestRequest request) {
 		Map<String, Object> data = new ConcurrentHashMap<String, Object>();
+		Map<String,Object> queryMap = request.getQueryMap();
+		for(Map.Entry<String,Object> entry : queryMap.entrySet()) {
+			data.put(entry.getKey(), entry.getValue());
+		}
 		List<ForestRequestBody> bodies = request.getBody();
 		for (ForestRequestBody body : bodies) {
 			switch (body.getType()) {
@@ -51,7 +55,7 @@ public class MiniprogramAccessTokenInterceptor implements Interceptor<Object> {
 			String message = MessageFormat.format("add token [{0}] for request url: {1}", token, request.getUrl());
 			log.debug(message);
 			request.addQuery("access_token", token);
-			
+
 		}
 		return true;
 	}
