@@ -33,7 +33,7 @@ public interface WeChatMiniProgramConstants {
 
 	String WECHAT_MP_API_ANALYSIS_VISIT_DISTRIBUTION = WECHAT_MP_BASE+"/datacube/getweanalysisappidvisitdistribution?appid=${appid}";
 
-	String WECHAT_MP_API_ANALYSIS_USER_PORTRAIT = WECHAT_MP_BASE+"/datacube/getweanalysisappidvisitdistribution?appid=${appid}";
+	String WECHAT_MP_API_ANALYSIS_USER_PORTRAIT = WECHAT_MP_BASE+"/datacube/getweanalysisappiduserportrait?appid=${appid}";
 
 	String WECHAT_MP_API_ANALYSIS_PERFORMANCE_DATA = WECHAT_MP_BASE+"/datacube/getweanalysisappidvisitdistribution?appid=${appid}";
 
