@@ -13,12 +13,14 @@ import org.springframework.util.StringUtils;
 
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.AppDateRangeRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetVisitPageResponse;
 import com.gzmpc.business.developer.wechat.service.WechatService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.enums.ResultCode;
@@ -93,7 +95,14 @@ public class MiniProgramService {
 				case MONTHLY:
 					return new ApiResponseData<>(weChatMiniprogramClient.getMonthlyRetain(appInfo.getAppId(), request.getRequest()));
 			}
-			
+		}
+		return ApiResponseData.paramError();
+	}
+	
+	public ApiResponseData<GetVisitPageResponse> getVisitPage(AppDateRangeRequest request) {
+		if(StringUtils.hasText(request.getAppId())) { 
+			WechatAppDTO appInfo = weChatService.getAppInfo(request.getAppId());
+			return new ApiResponseData<>(weChatMiniprogramClient.getVisitPage(appInfo.getAppId(), request.getRequest()));
 		}
 		return ApiResponseData.paramError();
 	}

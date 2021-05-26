@@ -2,7 +2,7 @@ package com.gzmpc.business.developer.wechat.dto.miniprogram;
 
 import javax.validation.constraints.NotNull;
 
-import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientRequest;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.DateRange;
 
 /**
 * @author rwe
@@ -10,32 +10,11 @@ import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRet
 * 类说明
 */
 
-public class GetRetainRequest {
-
-	@NotNull
-	private String appId;
-	
-	@NotNull
-	private GetRetainClientRequest request;
+public class GetRetainRequest extends AppDateRangeRequest {
 
 	@NotNull
 	private RetainType type;
 	
-	public String getAppId() {
-		return appId;
-	}
-
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
-
-	public GetRetainClientRequest getRequest() {
-		return request;
-	}
-
-	public void setRequest(GetRetainClientRequest request) {
-		this.request = request;
-	}
 	
 	public RetainType getType() {
 		return type;

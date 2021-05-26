@@ -5,10 +5,10 @@ import javax.validation.constraints.NotNull;
 /**
 * @author rwe
 * @version 创建时间：2021年5月23日 上午10:41:35
-* 获取留存请求
+* 日期范围
 */
 
-public class GetRetainClientRequest {
+public class DateRange {
 	
 	@NotNull
 	private String begin_date;

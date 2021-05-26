@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gzmpc.business.developer.core.constant.WeChatMiniProgramApiConstants;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.AppDateRangeRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
-import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetVisitPageResponse;
 import com.gzmpc.business.developer.wechat.service.miniprogram.MiniProgramService;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.exception.ApiException;
@@ -55,5 +56,10 @@ public class MiniProgramController {
 		return miniprogramService.getRetain(request);
 	}
 	
+	@ApiOperation(value = "获取页面访问数据")
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getVisitPage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<GetVisitPageResponse> getVisitPageResponse(@ApiParam(required = true) @Valid @RequestBody AppDateRangeRequest request) throws ApiException {
+		return miniprogramService.getVisitPage(request);
+	}
 	
 }

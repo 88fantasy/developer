@@ -11,7 +11,7 @@ import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetOcr
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetPaidUnionResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetPerformanceDataRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetPerformanceDataResponse;
-import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientRequest;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.DateRange;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetUserPortraitResponse;
@@ -40,34 +40,34 @@ public interface WeChatMiniprogramClient {
 	GetOcrBankCardResponse ocrBankCard(@DataVariable("appid") String appid, @DataVariable("url") String imgUrl);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_DAILY_RETAIN, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetRetainClientResponse getDailyRetain(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetRetainClientResponse getDailyRetain(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_WEEKLY_RETAIN, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetRetainClientResponse getWeeklyRetain(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetRetainClientResponse getWeeklyRetain(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_MONTHLY_RETAIN, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetRetainClientResponse getMonthlyRetain(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetRetainClientResponse getMonthlyRetain(@DataVariable("appid") String appid, @Body DateRange request);
 
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_DAILY_SUMMARY, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetDailySummaryResponse getDailySummary(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetDailySummaryResponse getDailySummary(@DataVariable("appid") String appid, @Body DateRange request);
 
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_VISIT_PAGE, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetVisitPageResponse getVisitPage(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetVisitPageResponse getVisitPage(@DataVariable("appid") String appid, @Body DateRange request);
 
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_VISIT_DISTRIBUTION, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetVisitDistributionResponse getVisitDistribution(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetVisitDistributionResponse getVisitDistribution(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_USER_PORTRAIT, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetUserPortraitResponse getUserPortrait(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetUserPortraitResponse getUserPortrait(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_DAILY_VISIT_TREND, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetVisitTrendResponse getDailyVisitTrend(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetVisitTrendResponse getDailyVisitTrend(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_WEEKLY_VISIT_TREND, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetVisitTrendResponse getWeeklyVisitTrend(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetVisitTrendResponse getWeeklyVisitTrend(@DataVariable("appid") String appid, @Body DateRange request);
 	
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_MONTHLY_VISIT_TREND, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
-	GetVisitTrendResponse getMonthlyVisitTrend(@DataVariable("appid") String appid, @Body GetRetainClientRequest request);
+	GetVisitTrendResponse getMonthlyVisitTrend(@DataVariable("appid") String appid, @Body DateRange request);
 
 	@Post(url = WeChatMiniProgramConstants.WECHAT_MP_API_ANALYSIS_PERFORMANCE_DATA, contentType = "application/json", dataType = "json", interceptor = MiniprogramAccessTokenInterceptor.class )
 	GetPerformanceDataResponse getPerformanceData(@DataVariable("appid") String appid, @Body GetPerformanceDataRequest request);
