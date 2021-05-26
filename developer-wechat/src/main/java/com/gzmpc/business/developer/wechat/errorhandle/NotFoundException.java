@@ -1,4 +1,4 @@
-package com.gzmpc.business.developer.wechat.entity;
+package com.gzmpc.business.developer.wechat.errorhandle;
 
 /**
 * @author rwe

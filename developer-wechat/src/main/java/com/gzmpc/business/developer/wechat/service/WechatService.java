@@ -20,7 +20,7 @@ import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
 import com.gzmpc.business.developer.wechat.constant.WeChatConstants;
 import com.gzmpc.business.developer.wechat.constant.WeChatMiniProgramConstants;
 import com.gzmpc.business.developer.wechat.entity.GetTokenResponse;
-import com.gzmpc.business.developer.wechat.entity.NotFoundException;
+import com.gzmpc.business.developer.wechat.errorhandle.NotFoundException;
 import com.gzmpc.business.developer.wechat.http.client.WeChatClient;
 import com.gzmpc.business.developer.wechat.http.client.entity.GetLoginCallBackTokenResponse;
 import com.gzmpc.support.common.annotation.BuildComponent;

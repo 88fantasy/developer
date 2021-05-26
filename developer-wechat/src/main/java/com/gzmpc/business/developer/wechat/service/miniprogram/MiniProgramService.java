@@ -1,8 +1,15 @@
 package com.gzmpc.business.developer.wechat.service.miniprogram;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +25,9 @@ import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.DateRange;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetDailySummary;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetDailySummaryResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetSessionResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetVisitPageResponse;
@@ -103,6 +113,45 @@ public class MiniProgramService {
 		if(StringUtils.hasText(request.getAppId())) { 
 			WechatAppDTO appInfo = weChatService.getAppInfo(request.getAppId());
 			return new ApiResponseData<>(weChatMiniprogramClient.getVisitPage(appInfo.getAppId(), request.getRequest()));
+		}
+		return ApiResponseData.paramError();
+	}
+	
+	public ApiResponseData<GetDailySummaryResponse> getDailySummary(AppDateRangeRequest request) {
+		if(StringUtils.hasText(request.getAppId())) { 
+			WechatAppDTO appInfo = weChatService.getAppInfo(request.getAppId());
+			
+			DateRange range = request.getRequest();
+			try {
+				Date begin = DateUtils.parseDate(range.getBegin_date(), "yyyyMMdd");
+				Date end = DateUtils.parseDate(range.getEnd_date(), "yyyyMMdd");
+				if (begin.after(end)){
+					return new ApiResponseData<>(ResultCode.BAD_REQUEST, "开始日期大于结束日期", null);
+				}
+				else {
+					List<GetDailySummary> summaries = new ArrayList<>(); 
+					GetDailySummaryResponse reponse = new GetDailySummaryResponse();
+					reponse.setList(summaries);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					Date today = DateUtils.truncate(new Date(), Calendar.DATE);
+					for(end = DateUtils.addDays(end, 1); !DateUtils.isSameDay(begin, end) && begin.before(today) && !DateUtils.isSameDay(begin, today); begin = DateUtils.addDays(begin, 1)) {
+						DateRange newRange = new DateRange();
+						String day = sdf.format(begin);
+						newRange.setBegin_date(day);
+						newRange.setEnd_date(day);
+						GetDailySummaryResponse daily = weChatMiniprogramClient.getDailySummary(appInfo.getAppId(), newRange);
+						if(daily.checkSuccess()) {
+							summaries.addAll(daily.getList());
+						}
+					}
+					return new ApiResponseData<>(reponse);
+				}
+				
+				
+			} catch (ParseException e) {
+				LOG.error("日期格式错误:"+e.getMessage(), e);
+				return new ApiResponseData<>(ResultCode.BAD_REQUEST, "日期格式错误", null);
+			}
 		}
 		return ApiResponseData.paramError();
 	}

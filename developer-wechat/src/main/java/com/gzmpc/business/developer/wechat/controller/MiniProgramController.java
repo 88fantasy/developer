@@ -15,6 +15,7 @@ import com.gzmpc.business.developer.wechat.dto.miniprogram.AppDateRangeRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
+import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetDailySummaryResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetVisitPageResponse;
 import com.gzmpc.business.developer.wechat.service.miniprogram.MiniProgramService;
@@ -62,4 +63,9 @@ public class MiniProgramController {
 		return miniprogramService.getVisitPage(request);
 	}
 	
+	@ApiOperation(value = "获取用户访问数据")
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getDailySummary", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ApiResponseData<GetDailySummaryResponse> getDailySummary(@ApiParam(required = true) @Valid @RequestBody AppDateRangeRequest request) throws ApiException {
+		return miniprogramService.getDailySummary(request);
+	}
 }
