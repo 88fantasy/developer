@@ -25,6 +25,7 @@ import com.gzmpc.business.developer.wechat.dto.miniprogram.AppDateRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.GetUserPortraitRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.WeChatMiniprogramClient;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.DateRange;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetDailySummary;
@@ -46,6 +47,8 @@ import com.gzmpc.support.rest.enums.ResultCode;
 public class MiniProgramService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
+	private  final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	@Autowired
 	WeChatMiniprogramClient weChatMiniprogramClient;
@@ -144,13 +147,20 @@ public class MiniProgramService {
 
 	}
 	
-	public ApiResponseData<GetUserPortraitResponse> getUserPortrait(AppDateRequest request) {
+	public ApiResponseData<GetUserPortraitResponse> getUserPortrait(GetUserPortraitRequest request) {
 		if (StringUtils.hasText(request.getAppId())) {
 			WechatAppDTO appInfo = weChatService.getAppInfo(request.getAppId());
-			DateRange range = new DateRange();
-			range.setBegin_date(request.getDate());
-			range.setEnd_date(request.getDate());
-			return new ApiResponseData<>(weChatMiniprogramClient.getUserPortrait(appInfo.getAppId(), range));
+			String date = request.getDate();
+			int range = request.getRange();
+			DateRange dateRange = new DateRange();
+			try {
+				Date begin = DateUtils.addDays(DateUtils.parseDate(date, "yyyyMMdd"), -(range-1));
+				dateRange.setBegin_date(sdf.format(begin));
+				dateRange.setEnd_date(date);
+				return new ApiResponseData<>(weChatMiniprogramClient.getUserPortrait(appInfo.getAppId(), dateRange));
+			} catch (ParseException e) {
+				return ApiResponseData.paramError();
+			}
 		}
 		return ApiResponseData.paramError();
 	}
@@ -162,7 +172,6 @@ public class MiniProgramService {
 			throw new ParseException("开始日期大于结束日期", 0);
 		} else {
 			List<DateRange> ranges = new ArrayList<>();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			Date today = DateUtils.truncate(new Date(), Calendar.DATE);
 			for (end = DateUtils.addDays(end, 1); !DateUtils.isSameDay(begin, end) && begin.before(today)
 					&& !DateUtils.isSameDay(begin, today); begin = DateUtils.addDays(begin, 1)) {

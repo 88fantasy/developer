@@ -16,6 +16,7 @@ import com.gzmpc.business.developer.wechat.dto.miniprogram.AppDateRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionRequest;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.Code2SessionResponse;
 import com.gzmpc.business.developer.wechat.dto.miniprogram.GetRetainRequest;
+import com.gzmpc.business.developer.wechat.dto.miniprogram.GetUserPortraitRequest;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetDailySummaryResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetRetainClientResponse;
 import com.gzmpc.business.developer.wechat.http.client.miniprogram.entity.GetUserPortraitResponse;
@@ -73,7 +74,7 @@ public class MiniProgramController {
 	
 	@ApiOperation(value = "获取用户画像数据")
 	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getUserPortrait", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponseData<GetUserPortraitResponse> getUserPortrait(@ApiParam(required = true) @Valid @RequestBody AppDateRequest request) throws ApiException {
+	public ApiResponseData<GetUserPortraitResponse> getUserPortrait(@ApiParam(required = true) @Valid @RequestBody GetUserPortraitRequest request) throws ApiException {
 		return miniprogramService.getUserPortrait(request);
 	}
 }
