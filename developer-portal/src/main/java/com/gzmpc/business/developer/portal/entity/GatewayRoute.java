@@ -8,6 +8,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 
 /**
 * @author rwe
@@ -36,6 +39,7 @@ public class GatewayRoute extends Editable implements Serializable {
   private String predicates;
 
 	@TableField
+	@ColumnType(value = MySqlTypeConstant.JSON)
   private String filters;
 
 //	@TableField("")

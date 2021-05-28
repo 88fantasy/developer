@@ -1,9 +1,11 @@
 package com.gzmpc.business.developer.gateway.entity;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.gateway.filter.FilterDefinition;
@@ -146,16 +148,29 @@ public class GatewayRoute {
 		RouteDefinition definition = new RouteDefinition();
 		Map<String, String> predicateParams = new HashMap<>(8);
 		PredicateDefinition predicate = new PredicateDefinition();
-		FilterDefinition filterDefinition = new FilterDefinition();
+		List<FilterDefinition> filters = new ArrayList<>();
 		Map<String, String> filterParams = new HashMap<>(8);
 
 		URI uri = null;
 		if (getUri().startsWith("http")) {
 			// http地址
 			uri = UriComponentsBuilder.fromHttpUrl(getUri()).build().toUri();
+			FilterDefinition filterDefinition = new FilterDefinition();
+			// 名称是固定的, 路径去前缀
+			filterDefinition.setName("StripPrefix");
+			filterParams.put("_genkey_0", "1");
+			filterDefinition.setArgs(filterParams);
+			filters.add(filterDefinition);
 		} else {
 			// 注册中心
 			uri = UriComponentsBuilder.fromUriString("lb://" + getUri()).build().toUri();
+
+			FilterDefinition filterDefinition = new FilterDefinition();
+			// 名称是固定的, 路径去前缀
+			filterDefinition.setName("StripPrefix");
+			filterParams.put("_genkey_0", "2");
+			filterDefinition.setArgs(filterParams);
+			filters.add(filterDefinition);
 		}
 
 		definition.setId(getServiceId());
@@ -164,13 +179,9 @@ public class GatewayRoute {
 		predicateParams.put("pattern", getPredicates());
 		predicate.setArgs(predicateParams);
 
-		// 名称是固定的, 路径去前缀
-		filterDefinition.setName("StripPrefix");
-		filterParams.put("_genkey_0", "2");
-		filterDefinition.setArgs(filterParams);
 
 		definition.setPredicates(Arrays.asList(predicate));
-		definition.setFilters(Arrays.asList(filterDefinition));
+		definition.setFilters(filters);
 		definition.setUri(uri);
 //		definition.setOrder(getOrder());
 

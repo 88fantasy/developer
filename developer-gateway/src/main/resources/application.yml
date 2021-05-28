@@ -32,6 +32,8 @@ spring:
           enabled: true
           lower-case-service-id: false
       httpclient:
+        ssl:
+          useInsecureTrustManager: true
         # The connect timeout in millis, the default is 45s.
         connectTimeout: 200
         responseTimeout: 10s
