@@ -1,5 +1,7 @@
 package com.gzmpc.business.developer.core.dto.wechat;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,9 +15,11 @@ import io.swagger.annotations.ApiModelProperty;
 public class BindOpenIdRequest {
 
 	@ApiModelProperty(value = "统一帐号")
+	@NotNull
 	private String uaccount;
 	
 	@ApiModelProperty(value = "微信openid")
+	@NotNull
 	private String openid;
 
 	public String getUaccount() {

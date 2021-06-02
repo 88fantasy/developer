@@ -15,15 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gzmpc.business.developer.common.dto.WechatAppDTO;
 import com.gzmpc.business.developer.core.constant.WeChatApiConstants;
 import com.gzmpc.business.developer.core.dto.wechat.BindOpenIdRequest;
-import com.gzmpc.business.developer.core.dto.wechat.GetTokenResponse;
-import com.gzmpc.business.developer.core.dto.wechat.GetUaccountByOpenidResponse;
-import com.gzmpc.business.developer.core.dto.wechat.GlobalResponse;
-import com.gzmpc.business.developer.core.dto.wechat.TokenRequest;
 import com.gzmpc.business.developer.core.dto.wechat.WechatLoginUserInfo;
-import com.gzmpc.business.developer.wechat.dto.GetAppInfoResponse;
 import com.gzmpc.business.developer.wechat.service.AuthService;
 import com.gzmpc.business.developer.wechat.service.WechatService;
-import com.gzmpc.support.rest.exception.ApiException;
+import com.gzmpc.support.rest.entity.ApiResponseData;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,58 +41,38 @@ public class WeChatController {
 
 	@ApiOperation(value = "绑定openid")
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_BIND_OPENID, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public GlobalResponse bindOpenid(@ApiParam(value = "登录", required = true) @RequestBody BindOpenIdRequest request)
-			throws ApiException {
+	public ApiResponseData<Boolean> bindOpenid(
+			@Valid @ApiParam(value = "登录", required = true) @RequestBody BindOpenIdRequest request) {
 		Boolean success = authService.bindOpenid(request.getOpenid(), request.getUaccount());
-		if (success) {
-			GlobalResponse reponse = new GlobalResponse();
-			reponse.setErrcode(0);
-			return reponse;
-		} else {
-			throw new ApiException("绑定失败,请稍后重试");
-		}
+		return new ApiResponseData<>(success);
 	}
 
 	@ApiOperation(value = "根据openid获取统一账号")
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_UACCOUNT_BY_OPENID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public GetUaccountByOpenidResponse getUaccountByOpenid(
-			@ApiParam(value = "openid", required = true) @PathVariable String openid) throws ApiException {
-		GetUaccountByOpenidResponse response = new GetUaccountByOpenidResponse();
+	public ApiResponseData<String> getUaccountByOpenid(
+			@Valid @ApiParam(value = "openid", required = true) @PathVariable("openid") String openid) {
 		if (!StringUtils.isEmpty(openid)) {
 			String uaccount = authService.getUaccountByOpenid(openid);
 			if (!StringUtils.isEmpty(uaccount)) {
-				response.setErrcode(0);
-				response.setUaccount(uaccount);
+				return new ApiResponseData<>(uaccount);
 			} else {
-				response.setErrcode(404);
-				response.setErrmsg("获取失败,请稍后重试");
+				return ApiResponseData.notFound("找不到此帐号");
 			}
 		} else {
-			response.setErrcode(404);
-			response.setErrmsg("缺少必要参数");
+			return ApiResponseData.notEnough();
 		}
-		return response;
 	}
 
 	@ApiOperation(value = "获取微信app信息")
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_APPINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public GetAppInfoResponse getAppInfo(@ApiParam(value = "appid", required = true) @PathVariable String appId)
-			throws ApiException {
-		GetAppInfoResponse response = new GetAppInfoResponse();
-		if (!StringUtils.isEmpty(appId)) {
-			WechatAppDTO appInfo = weChatService.getAppInfo(appId);
-			if (appInfo != null) {
-				response.setErrcode(0);
-				response.setAppInfo(appInfo);
-			} else {
-				response.setErrcode(404);
-				response.setErrmsg("找不到此id");
-			}
+	public ApiResponseData<WechatAppDTO> getAppInfo(
+			@Valid @ApiParam(value = "appid", required = true) @PathVariable(value = "appId", required = true) String appId) {
+		WechatAppDTO appInfo = weChatService.getAppInfo(appId);
+		if (appInfo != null) {
+			return new ApiResponseData<>(appInfo);
 		} else {
-			response.setErrcode(400);
-			response.setErrmsg("缺少必要参数");
+			return ApiResponseData.notFound("找不到此id");
 		}
-		return response;
 	}
 
 //	@ApiOperation(value = "获取token")
@@ -105,12 +80,12 @@ public class WeChatController {
 //	public GetTokenResponse getToken(@ApiParam(value = "tenantId", required = true) @Valid TokenRequest request) {
 //		return authService.getToken(request);
 //	}
-	
+
 	@ApiOperation(value = "微信登录获取信息")
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public WechatLoginUserInfo getUserinfo(@Valid 
-			@ApiParam(value = "appid", required = true) @PathVariable String appid, 
+	public ApiResponseData<WechatLoginUserInfo> getUserinfo(
+			@Valid @ApiParam(value = "appid", required = true) @PathVariable String appid,
 			@ApiParam(value = "code", required = true) @PathVariable String code) {
-		return weChatService.getUserInfo(appid, code);
+		return new ApiResponseData<>(weChatService.getUserInfo(appid, code));
 	}
 }

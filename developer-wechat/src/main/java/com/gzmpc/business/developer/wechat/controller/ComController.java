@@ -40,73 +40,37 @@ public class ComController {
 	
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_CODE2SESSION, notes = "登录")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_CODE2SESSION, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Code2SessionResponse code2Session(@ApiParam(value = "登录", required = true) @RequestBody Code2SessionRequest request) throws ApiException {
-		ApiResponseData<Code2SessionResponse> result = comService.code2Session(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<Code2SessionResponse> code2Session(@ApiParam(value = "登录", required = true) @RequestBody Code2SessionRequest request) throws ApiException {
+		return comService.code2Session(request);
 	}
 
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXT, notes = "发送文本信息")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendText(@ApiParam(value = "消息", required = true) @RequestBody SendTextMessageRequest request) throws ApiException {
-		ApiResponseData<SendMessageResponse> result = comService.sendText(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<SendMessageResponse> sendText(@ApiParam(value = "消息", required = true) @RequestBody SendTextMessageRequest request) throws ApiException {
+		return comService.sendText(request);
 	}
 	
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXTCARD, notes = "发送文本卡片消息")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXTCARD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendTextcard(@ApiParam(value = "消息", required = true) @RequestBody SendTextcardMessageRequest request) throws ApiException {
-		ApiResponseData<SendMessageResponse> result = comService.sendTextcard(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<SendMessageResponse> sendTextcard(@ApiParam(value = "消息", required = true) @RequestBody SendTextcardMessageRequest request) throws ApiException {
+		return comService.sendTextcard(request);
 	}
 	
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_SEND_IMAGE, notes = "发送图片消息")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendImage(@ApiParam(value = "消息", required = true) @RequestBody SendImageMessageRequest request) throws ApiException {
-		ApiResponseData<SendMessageResponse> result = comService.sendImage(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<SendMessageResponse> sendImage(@ApiParam(value = "消息", required = true) @RequestBody SendImageMessageRequest request) throws ApiException {
+		return comService.sendImage(request);
 	}
 	
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_SEND_NEWS, notes = "发送图文消息")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_NEWS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendNews(@ApiParam(value = "消息", required = true) @RequestBody SendNewsMessageRequest request) throws ApiException {
-		ApiResponseData<SendMessageResponse> result = comService.sendNews(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<SendMessageResponse> sendNews(@ApiParam(value = "消息", required = true) @RequestBody SendNewsMessageRequest request) throws ApiException {
+		return comService.sendNews(request);
 	}
 	
 	@ApiOperation(value = WeChatComApiConstants.WECHAT_COM_API_SEND_MINIPROGRAM, notes = "发送小程序消息")
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_MINIPROGRAM, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendMiniProgram(@ApiParam(value = "消息", required = true) @RequestBody SendMiniProgramMessageRequest request) throws ApiException {
-		ApiResponseData<SendMessageResponse> result = comService.sendMiniProgram(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<SendMessageResponse> sendMiniProgram(@ApiParam(value = "消息", required = true) @RequestBody SendMiniProgramMessageRequest request) throws ApiException {
+		return comService.sendMiniProgram(request);
 	}
 }

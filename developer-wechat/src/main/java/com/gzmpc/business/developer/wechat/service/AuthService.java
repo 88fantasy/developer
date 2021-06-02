@@ -24,8 +24,7 @@ import com.gzmpc.business.developer.wechat.http.client.jsapi.WeChatJsClient;
 
 /**
  * @author rwe
- * @version 创建时间：Feb 10, 2020 8:53:13 PM 
- * 微信相关服务
+ * @version 创建时间：Feb 10, 2020 8:53:13 PM 微信相关服务
  */
 @Service
 public class AuthService {
@@ -36,7 +35,7 @@ public class AuthService {
 	WeChatJsClient weChatJsClient;
 
 	@Autowired
-  RedisTemplate<String, Object> redisTemplate;
+	RedisTemplate<String, Object> redisTemplate;
 
 //	private final String ACCESS_TOKEN_KEY = KEY_PREFIX.concat("access-token");
 //	private final String JSAPI_TICKET_KEY = KEY_PREFIX.concat("jsapi-ticket");
@@ -56,7 +55,6 @@ public class AuthService {
 //		return or;
 //	}
 
-
 	/**
 	 * 根据 openid 获取统一帐号
 	 * 
@@ -73,16 +71,12 @@ public class AuthService {
 	}
 
 	public boolean bindOpenid(String openid, String uaccount) {
-		if (!StringUtils.isEmpty(openid)) {
-			String key = MessageFormat.format(WeChatConstants.WECHAT_OPENID_BASE, openid);
-			if (StringUtils.isEmpty(uaccount)) {
-				redisTemplate.delete(key);
-				return true;
-			} else {
-				return redisTemplate.opsForValue().setIfAbsent(key, uaccount);
-			}
+		String key = MessageFormat.format(WeChatConstants.WECHAT_OPENID_BASE, openid);
+		if (StringUtils.isEmpty(uaccount)) {
+			redisTemplate.delete(key);
+			return true;
 		} else {
-			return false;
+			return redisTemplate.opsForValue().setIfAbsent(key, uaccount);
 		}
 	}
 
@@ -92,11 +86,10 @@ public class AuthService {
 		String tenantId = request.getTenantId();
 		String secret = request.getSecret();
 		String key = MessageFormat.format(WeChatConstants.WECHAT_TENANT_TOKEN_BASE, tenantId);
-		if(redisTemplate.hasKey(key)) {
+		if (redisTemplate.hasKey(key)) {
 			token = (String) redisValue().get(key);
 			expire = redisTemplate.getExpire(key);
-		}
-		else {
+		} else {
 			try {
 				// 过期时间
 				Date date = new Date(System.currentTimeMillis() + (WeChatConstants.EXPIRE_DATE * 1000));
@@ -111,10 +104,10 @@ public class AuthService {
 						.withExpiresAt(date).sign(algorithm);
 				redisValue().setIfAbsent(key, token, expire, TimeUnit.SECONDS);
 			} catch (Exception e) {
-				LOG.error(e.getMessage(),e);
+				LOG.error(e.getMessage(), e);
 				GetTokenResponse response = new GetTokenResponse();
 				response.setErrcode(500);
-				response.setErrmsg("生成 token 失败:"+e.getMessage());
+				response.setErrmsg("生成 token 失败:" + e.getMessage());
 				return response;
 			}
 		}
@@ -206,7 +199,7 @@ public class AuthService {
 		AuthService s = new AuthService();
 		System.out.print(s.getSHA1(str));
 	}
-	
+
 	private ValueOperations<String, Object> redisValue() {
 		return redisTemplate.opsForValue();
 	}

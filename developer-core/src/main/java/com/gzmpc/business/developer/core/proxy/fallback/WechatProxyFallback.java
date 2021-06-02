@@ -12,6 +12,8 @@ import com.gzmpc.business.developer.core.dto.wechat.com.message.SendNewsMessageR
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextMessageRequest;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextcardMessageRequest;
 import com.gzmpc.business.developer.core.proxy.WechatProxy;
+import com.gzmpc.support.rest.entity.ApiResponseData;
+import com.gzmpc.support.rest.enums.ResultCode;
 import com.gzmpc.support.rest.exception.ApiException;
 
 import feign.hystrix.FallbackFactory;
@@ -32,41 +34,36 @@ public class WechatProxyFallback implements FallbackFactory<WechatProxy> {
 	public WechatProxy create(Throwable cause) {
 		String msg = "WechatProxy接口不可用,错误处理接管:"+ (cause == null ? "" : cause.getMessage());
     LOG.error(msg, cause);
-    final SendMessageResponse fallbackResponse = new SendMessageResponse();
-    fallbackResponse.setErrcode(-1);
-    fallbackResponse.setErrmsg(msg);
+    final ApiResponseData<SendMessageResponse> fallbackResponse = new ApiResponseData<>(ResultCode.INTERNAL_SERVER_ERROR, msg, null);
     return new WechatProxy() {
 			@Override
-			public SendMessageResponse sendText(SendTextMessageRequest request) throws ApiException {
+			public ApiResponseData<SendMessageResponse> sendText(SendTextMessageRequest request) throws ApiException {
 				return fallbackResponse;
 			}
 
 			@Override
-			public SendMessageResponse sendTextcard(SendTextcardMessageRequest request) throws ApiException {
+			public ApiResponseData<SendMessageResponse> sendTextcard(SendTextcardMessageRequest request) throws ApiException {
 				return fallbackResponse;
 			}
 
 			@Override
-			public SendMessageResponse sendImage(SendImageMessageRequest request) throws ApiException {
+			public ApiResponseData<SendMessageResponse> sendImage(SendImageMessageRequest request) throws ApiException {
 				return fallbackResponse;
 			}
 
 			@Override
-			public SendMessageResponse sendNews(SendNewsMessageRequest request) throws ApiException {
+			public ApiResponseData<SendMessageResponse> sendNews(SendNewsMessageRequest request) throws ApiException {
 				return fallbackResponse;
 			}
 
 			@Override
-			public SendMessageResponse sendMiniProgram(SendMiniProgramMessageRequest request) throws ApiException {
+			public ApiResponseData<SendMessageResponse> sendMiniProgram(SendMiniProgramMessageRequest request) throws ApiException {
 				return fallbackResponse;
 			}
 
 			@Override
-			public WechatLoginUserInfo getUserinfo(String appid, String code) {
-				WechatLoginUserInfo info = new WechatLoginUserInfo();
-				info.setErrcode(-9999);
-				info.setErrmsg(msg);
-				return info;
+			public ApiResponseData<WechatLoginUserInfo> getUserinfo(String appid, String code) {
+				return new ApiResponseData<>(ResultCode.INTERNAL_SERVER_ERROR, msg, null);
 			}
     	
     };

@@ -17,9 +17,8 @@ import com.gzmpc.business.developer.core.dto.wechat.com.message.SendNewsMessageR
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextMessageRequest;
 import com.gzmpc.business.developer.core.dto.wechat.com.message.SendTextcardMessageRequest;
 import com.gzmpc.business.developer.core.proxy.fallback.WechatProxyFallback;
+import com.gzmpc.support.rest.entity.ApiResponseData;
 import com.gzmpc.support.rest.exception.ApiException;
-
-import io.swagger.annotations.ApiParam;
 
 
 /**
@@ -39,7 +38,7 @@ public interface WechatProxy {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendText(SendTextMessageRequest request) throws ApiException;
+	public ApiResponseData<SendMessageResponse> sendText(SendTextMessageRequest request) throws ApiException;
 	
 	/**
 	 * 发送文本卡片消息
@@ -48,7 +47,7 @@ public interface WechatProxy {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXTCARD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendTextcard(SendTextcardMessageRequest request) throws ApiException;
+	public ApiResponseData<SendMessageResponse> sendTextcard(SendTextcardMessageRequest request) throws ApiException;
 	
 	/**
 	 * 发送图片消息
@@ -57,7 +56,7 @@ public interface WechatProxy {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendImage(SendImageMessageRequest request) throws ApiException;
+	public ApiResponseData<SendMessageResponse> sendImage(SendImageMessageRequest request) throws ApiException;
 	
 	/**
 	 * 发送图文消息
@@ -66,7 +65,7 @@ public interface WechatProxy {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_NEWS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendNews(SendNewsMessageRequest request) throws ApiException;
+	public ApiResponseData<SendMessageResponse> sendNews(SendNewsMessageRequest request) throws ApiException;
 	
 	/**
 	 * 发送小程序消息
@@ -75,7 +74,7 @@ public interface WechatProxy {
 	 * @throws ApiException
 	 */
 	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_MINIPROGRAM, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public SendMessageResponse sendMiniProgram(SendMiniProgramMessageRequest request) throws ApiException;
+	public ApiResponseData<SendMessageResponse> sendMiniProgram(SendMiniProgramMessageRequest request) throws ApiException;
 
 	/**
 	 * 获取微信登录用户信息
@@ -84,7 +83,7 @@ public interface WechatProxy {
 	 * @return
 	 */
 	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public WechatLoginUserInfo getUserinfo(@PathVariable("appid") String appid, @PathVariable("code") String code);
+	public ApiResponseData<WechatLoginUserInfo> getUserinfo(@PathVariable("appid") String appid, @PathVariable("code") String code);
 
 }
 

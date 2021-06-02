@@ -44,14 +44,8 @@ public class MiniProgramController {
 
 	@ApiOperation(value = "登录")
 	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_CODE2SESSION, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Code2SessionResponse code2Session(@ApiParam(value = "登录", required = true) @RequestBody Code2SessionRequest request) throws ApiException {
-		ApiResponseData<Code2SessionResponse> result = miniprogramService.code2Session(request);
-		if(result.isStatus()) {
-			return result.getData();
-		}
-		else {
-			throw new ApiException(result.getMessage());
-		}
+	public ApiResponseData<Code2SessionResponse> code2Session(@ApiParam(value = "登录", required = true) @RequestBody Code2SessionRequest request) throws ApiException {
+		return miniprogramService.code2Session(request);
 	}
 	
 	@ApiOperation(value = "获取留存数据")
