@@ -63,7 +63,7 @@ public class MiniProgramService {
 		String appid = request.getAppid();
 		String jscode = request.getJsCode();
 
-		if (!StringUtils.hasText(appid) && !StringUtils.hasText(jscode)) {
+		if (StringUtils.hasText(appid) && StringUtils.hasText(jscode)) {
 			WechatAppDTO appInfo = weChatService.getAppInfo(appid);
 
 			if (appInfo != null) {
