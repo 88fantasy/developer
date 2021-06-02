@@ -11,7 +11,6 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.query.LdapQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import com.gzmpc.business.developer.portal.dto.CurrentUserResponse;
 import com.gzmpc.business.developer.portal.dto.LoginRequest;
 import com.gzmpc.business.developer.portal.dto.LoginResponse;
 import com.gzmpc.business.developer.portal.entity.DeveloperAccount;

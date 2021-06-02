@@ -2,7 +2,6 @@ package com.gzmpc.business.developer.gateway.entity;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -146,8 +145,7 @@ public class GatewayRoute {
 
 	public RouteDefinition toDefinition() {
 		RouteDefinition definition = new RouteDefinition();
-		Map<String, String> predicateParams = new HashMap<>(8);
-		PredicateDefinition predicate = new PredicateDefinition();
+		List<PredicateDefinition> predicates = new ArrayList<>();
 		List<FilterDefinition> filters = new ArrayList<>();
 		Map<String, String> filterParams = new HashMap<>(8);
 
@@ -174,13 +172,17 @@ public class GatewayRoute {
 		}
 
 		definition.setId(getServiceId());
+
+		PredicateDefinition predicate = new PredicateDefinition();
 		// 名称是固定的，spring gateway会根据名称找对应的PredicateFactory
 		predicate.setName("Path");
+		Map<String, String> predicateParams = new HashMap<>(8);
 		predicateParams.put("pattern", getPredicates());
 		predicate.setArgs(predicateParams);
+		predicates.add(predicate);
 
 
-		definition.setPredicates(Arrays.asList(predicate));
+		definition.setPredicates(predicates);
 		definition.setFilters(filters);
 		definition.setUri(uri);
 //		definition.setOrder(getOrder());

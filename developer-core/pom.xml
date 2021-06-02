@@ -19,18 +19,17 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 		</plugins>
-
 	</build>
-	
+
 	<dependencies>
-	 <dependency>
-	   <groupId>com.gzmpc.business.developer</groupId>
-	   <artifactId>developer-common</artifactId>
-	 </dependency>
-	 <dependency>
-     <groupId>com.gzmpc.exframework</groupId>
-     <artifactId>cos-spring-boot-starter</artifactId>
-   </dependency>
+		<dependency>
+			<groupId>com.gzmpc.business.developer</groupId>
+			<artifactId>developer-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gzmpc.exframework</groupId>
+			<artifactId>cos-spring-boot-starter</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

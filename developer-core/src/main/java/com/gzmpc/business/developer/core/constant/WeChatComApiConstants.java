@@ -7,7 +7,7 @@ package com.gzmpc.business.developer.core.constant;
  */
 public interface WeChatComApiConstants {
 	
-	public String WECHAT_COM_API_BASE = "v1/wechat/com";
+	public String WECHAT_COM_API_BASE = "v1/com";
 	
 	public String WECHAT_COM_API_CODE2SESSION = WECHAT_COM_API_BASE+"/code2Session";
 
