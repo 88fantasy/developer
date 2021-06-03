@@ -58,10 +58,10 @@ public class DeveloperRuleApplicationTest {
 	 */
 	@Test
 	public void test() throws Exception {
-		Facts facts = new Facts();
-    facts.put("supplyid", 111389l);
-    String json = JSON.toJSONString(facts.asMap());
-    String result = ruleService.submit(UUID.randomUUID().toString(),"SuContract", json);
-    logger.info(result);
+//		Facts facts = new Facts();
+//    facts.put("supplyid", 111389l);
+//    String json = JSON.toJSONString(facts.asMap());
+//    String result = ruleService.submit(UUID.randomUUID().toString(),"SuContract", json);
+//    logger.info(result);
 	}
 }
