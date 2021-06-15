@@ -32,7 +32,7 @@ import com.gzmpc.business.developer.rule.util.FactsUtil;
 public class CheckManageRangeRule {
 	
 	@Autowired
-    FactsUtil factsUtil;
+  FactsUtil factsUtil;
 	
 	@Autowired
 	SysCpMapper sysCpMapper;

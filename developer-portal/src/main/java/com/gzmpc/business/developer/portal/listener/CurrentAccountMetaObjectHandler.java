@@ -31,13 +31,12 @@ public class CurrentAccountMetaObjectHandler implements MetaObjectHandler {
 	}
 
 	private void setAccount(MetaObject metaObject, Class<? extends Annotation> clazz) {
-		DeveloperAccount account = SpringContextUtils.getBeanByClass(DeveloperLoginService.class).currentPerson();
 		Object o = metaObject.getOriginalObject();
 		ReflectionUtils.doWithFields(o.getClass(), new ReflectionUtils.FieldCallback() {
 			@Override
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 //				ReflectionUtils.makeAccessible(field);
-				// 如果字段添加了我们自定义注解
+				DeveloperAccount account = SpringContextUtils.getBeanByClass(DeveloperLoginService.class).currentPerson();
 				setFieldValByName(field.getName(), account.getAccount(),metaObject);
 			}
 		}, new ReflectionUtils.FieldFilter() {

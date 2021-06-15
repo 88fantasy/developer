@@ -28,4 +28,10 @@ public interface DeveloperConstants {
 	String SERVICE_NAME_MESSAGE = "developer-message";
 	
 	String SERVICE_NAME_RULE = "developer-rule";
+	
+	String MQ_EXCHANGE_REQUEST_LOG = "topic.request.log";
+	
+	String MQ_ROUTING_REQUEST_LOG = "routing.request.log";
+	
+	String MQ_QUEUE_REQUEST_LOG = "topic.request.log";
 }

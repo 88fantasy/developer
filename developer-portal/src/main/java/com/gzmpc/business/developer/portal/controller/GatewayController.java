@@ -1,13 +1,10 @@
 package com.gzmpc.business.developer.portal.controller;
 
 
-import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.bus.BusProperties;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gzmpc.business.developer.common.bus.GatewayRouteEvent;
 import com.gzmpc.business.developer.portal.constant.DeveloperGatewayApiConstants;
 import com.gzmpc.business.developer.portal.dto.GatewayRouteDTO;
 import com.gzmpc.business.developer.portal.dto.GatewayRouteDeleteDTO;

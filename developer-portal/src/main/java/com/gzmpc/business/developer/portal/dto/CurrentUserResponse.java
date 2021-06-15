@@ -1,6 +1,9 @@
 package com.gzmpc.business.developer.portal.dto;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.gzmpc.business.developer.portal.entity.DeveloperAccount;
@@ -33,6 +36,9 @@ public class CurrentUserResponse {
 	@ApiModelProperty(value = "组织架构")
 	private String group;
 	
+	@ApiModelProperty(value = "权限集")
+	private List<String> permissions;
+	
 	
 	public CurrentUserResponse() {
 		
@@ -45,17 +51,24 @@ public class CurrentUserResponse {
 	
 	
 	public CurrentUserResponse(@NotNull String userid, String name, String email, String title, String group) {
+		this(userid, name, email, title, group, null);
+	}
+
+	public CurrentUserResponse(@NotNull String userid, String name, String email, String title, String group,
+			List<String> permissions) {
 		this.userid = userid;
 		this.name = name;
 		this.email = email;
 		this.title = title;
 		this.group = group;
+		this.permissions = permissions;
 	}
 
 	public CurrentUserResponse(DeveloperAccount account) {
 		this.userid = account.getAccount();
 		this.name = account.getAccountName();
 		this.email = account.getEmail();
+		this.permissions = Arrays.asList("admin");
 	}
 
 	public String getUserid() {
@@ -96,6 +109,14 @@ public class CurrentUserResponse {
 
 	public void setGroup(String group) {
 		this.group = group;
+	}
+
+	public List<String> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
 	}
 
 	

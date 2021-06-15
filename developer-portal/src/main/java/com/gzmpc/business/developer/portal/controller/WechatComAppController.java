@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiParam;
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
 @RequestMapping("/wechat-com-app")
 @Api(value = "wechat-com-app", tags = "企业微信应用")
-public class WechatComAppController extends BaseController<WechatComAppService, WechatComAppDTO, WechatComApp> {
+public class WechatComAppController extends QueryAndGetController<WechatComAppService, WechatComAppDTO, WechatComApp> {
 
 	@Autowired
 	WechatComAppService wechatComAppService;

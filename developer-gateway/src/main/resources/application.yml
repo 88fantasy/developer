@@ -46,3 +46,7 @@ logging:
   level:
     root: INFO
     com.tencent.tsf: INFO
+    
+    
+loggingfilter:
+  excludedSuffix: css|js|html|htm|jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc

@@ -1,11 +1,8 @@
 package com.gzmpc.business.developer.portal.listener;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

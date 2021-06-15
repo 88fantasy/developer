@@ -19,7 +19,7 @@ import com.gzmpc.support.doc.annotation.TableFieldDoc;
 */
 
 @TableDoc("帐号")
-@TableName( value = "account", excludeProperty = {"permissions", "modules"})
+@TableName(value = "account", excludeProperty = {"permissions", "modules"})
 @EntityClass
 public class DeveloperAccount extends AccountDO {
 

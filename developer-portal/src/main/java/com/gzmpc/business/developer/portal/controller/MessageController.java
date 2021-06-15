@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
 @RequestMapping("/message")
 @Api(value = "message", tags = "消息")
-public class MessageController extends BaseController<MessageService, MessageDTO, MessageUnion> {
+public class MessageController extends QueryAndGetController<MessageService, MessageDTO, MessageUnion> {
 
 	@Autowired
 	MessageService messageService;

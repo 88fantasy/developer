@@ -6,6 +6,6 @@ package com.gzmpc.business.developer.core.constant;
  */
 
 public interface ConfigApiConstants extends 
-		ConfigParamApiConstants, ConfigDictionaryApiConstants {
+		ConfigParamApiConstants, ConfigDictionaryApiConstants, ConfigAccountParamApiConstants {
 
 }

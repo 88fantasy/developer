@@ -43,7 +43,7 @@ import io.swagger.annotations.ApiParam;
 		RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE })
 @RequestMapping("/rule")
 @Api(value = "rule", tags = "规则")
-public class RuleController extends BaseController<DeveloperRuleService, RulePackageListResponse, RulePackage> {
+public class RuleController extends QueryAndGetController<DeveloperRuleService, RulePackageListResponse, RulePackage> {
 
 	@Autowired
 	DeveloperRuleService developerRuleService;

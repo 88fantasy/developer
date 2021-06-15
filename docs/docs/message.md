@@ -14,56 +14,12 @@ nav:
 
 ## 包含服务
 
-- [x] 短信接口
-- [x] 邮件接口
-- [ ] OTRS
+| 服务  | 接口地址 | 服务描述 |
+| ------- | ----------- | ------------ |
+| 发送邮件 | `sendEmail` | 发送邮件到指定邮箱(可复数) |
+| 发送短信 | `sendSns` | 发送短信到指定收集(可群发) |
 
-## 快速上手(微服务)
-
-我们将通过一个简单的 Demo 来阐述如何使用消息平台，在此之前，我们假设您已经：
-
-- 拥有 Java 开发环境以及相应 IDE
-- 熟悉 Spring Boot
-- 熟悉 Maven
-
----
-
-### 初始化工程
-
-创建一个空的 Spring Boot 工程
-
-> Tips
->  
-> 可以使用 [代码生成器](https://start.spring.io/) 快速初始化一个 Spring Boot 工程
-
-### 为 pom.xml 引入源
-
-> 如已设置 `profile` 可跳过
-
-```xml
-<repository>
- <id>gzmpc-public</id>
- <name>gzmpc public maven</name>
- <url>http://maven.gzmpc.com/repository/maven-public/</url>
- <snapshots>
- <enabled>false</enabled>
- </snapshots>
- <releases>
- </releases>
-</repository>
-```
-
-### 添加依赖
-
-引入 开发者中心微服务 工程依赖：
-
-```xml
-<dependency>
-    <groupId>com.gzmpc.business.developer</groupId>
-    <artifactId>developer-core</artifactId>
-    <version>最新版请查看pom</version>
-</dependency>
-```
+## 使用方式
 
 ### 注入`proxy`进行调用
 
@@ -85,4 +41,3 @@ public class DemoService {
 
 ```
 
-## Restful 接口

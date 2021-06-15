@@ -137,6 +137,10 @@
 			<groupId>com.gzmpc.exframework</groupId>
 			<artifactId>exframework-support-jdbc-mysql</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.gzmpc.exframework</groupId>
+			<artifactId>exframework-portal-admin</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.usthe.sureness</groupId>
@@ -157,6 +161,12 @@
 			<groupId>org.jeasy</groupId>
 			<artifactId>easy-rules-mvel</artifactId>
 			<version>${easy-rules.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mobile</artifactId>
+		    <version>1.5.22.RELEASE</version>
 		</dependency>
 
 	</dependencies>

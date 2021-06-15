@@ -22,7 +22,7 @@ import com.gzmpc.business.developer.core.constant.ConfigApiConstants;
 import com.gzmpc.business.developer.core.constant.ConfigDictionaryApiConstants;
 import com.gzmpc.business.developer.core.constant.ConfigParamApiConstants;
 import com.gzmpc.business.developer.core.constant.ServiceNameConstants;
-import com.gzmpc.business.developer.core.proxy.fallback.DeveloperProxyFallback;
+import com.gzmpc.business.developer.core.proxy.fallback.ConfigProxyFallback;
 import com.gzmpc.support.rest.entity.ApiResponseData;
 
 
@@ -32,7 +32,7 @@ import com.gzmpc.support.rest.entity.ApiResponseData;
  * @author pro
  *
  */
-@FeignClient(name = ServiceNameConstants.SERVICE_NAME_CONFIG, fallbackFactory = DeveloperProxyFallback.class)
+@FeignClient(name = ServiceNameConstants.SERVICE_NAME_CONFIG, fallbackFactory = ConfigProxyFallback.class)
 public interface ConfigProxy {
 
 	/**

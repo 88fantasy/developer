@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiParam;
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.GET, RequestMethod.OPTIONS, RequestMethod.POST })
 @RequestMapping("/project")
 @Api(value = "project", tags = "项目")
-public class ProjectController extends BaseController<ProjectService, ProjectResponse, Project> {
+public class ProjectController extends QueryAndGetController<ProjectService, ProjectResponse, Project> {
 
 	@Autowired
 	ProjectService projectService;

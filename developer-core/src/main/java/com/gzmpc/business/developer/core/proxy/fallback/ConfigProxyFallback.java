@@ -28,9 +28,9 @@ import feign.hystrix.FallbackFactory;
 */
 
 @Component
-public class DeveloperProxyFallback implements FallbackFactory<ConfigProxy> {
+public class ConfigProxyFallback implements FallbackFactory<ConfigProxy> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DeveloperProxyFallback.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ConfigProxyFallback.class);
 	
 	@Override
 	public ConfigProxy create(Throwable cause) {
