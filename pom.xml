@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.gzmpc.exframework</groupId>
-		<artifactId>exframework-support-tsf</artifactId>
-		<version>0.6.2</version>
+		<groupId>org.exframework</groupId>
+		<artifactId>exframework-support-alibaba</artifactId>
+		<version>0.7</version>
 	</parent>
 	<artifactId>developer-parent</artifactId>
-	<groupId>com.gzmpc.business.developer</groupId>
+	<groupId>org.exframework.business.developer</groupId>
 	<name>developer-parent</name>
 	<packaging>pom</packaging>
 
@@ -26,69 +26,60 @@
 		</plugins>
 	</build>
 
-	<version>1.3.3</version>
+	<version>1.4</version>
 
 	<repositories>
 		<repository>
-			<id>gzmpc-public</id>
-			<name>gzmpc public maven</name>
-			<url>http://maven.gzmpc.com/repository/maven-public/</url>
+			<id>ali-releases</id>
+			<url>https://packages.aliyun.com/maven/repository/2000957-release-5hAP6n/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<releases>
-			</releases>
 		</repository>
 	</repositories>
+
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-gateway</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-portal</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-wechat</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-message</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.gzmpc.business.developer</groupId>
+				<groupId>org.exframework.business.developer</groupId>
 				<artifactId>developer-rule</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework.amqp</groupId>
-				<artifactId>spring-amqp</artifactId>
-				<version>2.2.2.RELEASE</version>
-			</dependency>
 
-			<dependency>
-				<groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
-				<artifactId>mybatis-enhance-actable</artifactId>
-				<version>1.4.9.RELEASE</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<modules>

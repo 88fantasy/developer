@@ -1,5 +1,5 @@
 server:
-    port: 80
+    port: 81
     
 logging:
     file: /gzmpc-cloud-logs/${spring.application.name}/root.log

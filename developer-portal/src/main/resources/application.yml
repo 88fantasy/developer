@@ -22,16 +22,14 @@ spring:
       base: dc=gzmpc,dc=com
       username: "uid=admin,ou=system"
       password: gzmpcldap
-    
-        
-tsf:
-    swagger: 
-        enabled: true
-        basePackage: com.gzmpc.microservice.config.controller
-        
+
+dubbo:
+  cloud:
+    subscribed-services: "@artifactId@"
+
 feign: 
-  hystrix: 
-    enabled: true
+  sentinel: 
+    enabled: true    
 
 actable:
   table:
@@ -47,9 +45,6 @@ actable:
     
 mybatis-plus:
   mapper-locations: classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml
-#  configuration:
- #   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  
-#exframework: 
-#  config: 
-#    enable: true
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
