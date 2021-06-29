@@ -116,8 +116,15 @@ public class LoginLog implements Serializable, DictionaryEnumClass {
 	
 	@Dictionary( value = "platformType", name = "消息类型")
 	public enum PlatformType implements DictionaryEnum {
+		/**
+		 * 网页端
+		 */
+		Web("网页端"),
 
-		Web("网页端"), Mobile("移动端")
+		/**
+		 * 移动端
+		 */
+		Mobile("移动端")
 		;
 
 		private String label;

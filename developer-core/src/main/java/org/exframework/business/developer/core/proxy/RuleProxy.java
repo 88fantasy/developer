@@ -1,6 +1,7 @@
 package org.exframework.business.developer.core.proxy;
 
 
+import com.alibaba.cloud.dubbo.annotation.DubboTransported;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.exframework.support.rest.entity.ApiResponseData;
 
 @FeignClient(name = ServiceNameConstants.SERVICE_NAME_RULE, fallbackFactory = RuleProxyFallback.class, configuration = {
 		FeignHeaderConfiguration.class })
+@DubboTransported
 public interface RuleProxy {
 
 	/**

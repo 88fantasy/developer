@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.alibaba.cloud.dubbo.annotation.DubboTransported;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ import org.exframework.support.rest.entity.ApiResponseData;
  */
 @FeignClient(name = ServiceNameConstants.SERVICE_NAME_CONFIG, fallbackFactory = ConfigProxyFallback.class, configuration = {
 		FeignHeaderConfiguration.class })
+@DubboTransported
 public interface ConfigProxy {
 
 	/**

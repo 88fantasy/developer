@@ -402,7 +402,20 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 	@Dictionary( value = "messageType", name = "消息类型")
 	public enum MessageType implements DictionaryEnum {
 
-		SNS("短信"), EMAIL("邮件"), OTRS("OTRS工单"), WECHAT_COM("企业微信推送"),
+		/**
+		 * "短信
+		 */
+		SNS("短信"),
+
+		/**
+		 * 邮件
+		 */
+		EMAIL("邮件"),
+
+		/**
+		 * 企业微信推送
+		 */
+		WECHAT_COM("企业微信推送"),
 
 		;
 
@@ -421,7 +434,20 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 	@Dictionary( value = "sendState", name = "发送状态")
 	public enum SendState implements DictionaryEnum {
 
-		WAITING("等待中"), SUCCESS("已发送"), FAIL("发送失败")
+		/**
+		 * 等待中
+		 */
+		WAITING("等待中"),
+
+		/**
+		 * 已发送
+		 */
+		SUCCESS("已发送"),
+
+		/**
+		 * 发送失败
+		 */
+		FAIL("发送失败")
 		;
 
 

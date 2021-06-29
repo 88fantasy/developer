@@ -82,7 +82,7 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 
 		List<String> ownRole = Arrays.asList("admin");
 		String jwt = "Bearer "
-				+ JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), username, "developer-portal", 3600l, ownRole);
+				+ JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), username, "developer-portal", 3600L, ownRole);
 		response.setAuthority(ownRole);
 		response.setToken(jwt);
 		response.setStatus("ok");
