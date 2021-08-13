@@ -43,31 +43,31 @@ public class MiniProgramController {
 	MiniProgramService miniprogramService;
 
 	@ApiOperation(value = "登录")
-	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_CODE2SESSION, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_CODE2SESSION, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Code2SessionResponse> code2Session(@ApiParam(value = "登录", required = true) @RequestBody Code2SessionRequest request) throws ApiException {
 		return miniprogramService.code2Session(request);
 	}
 	
 	@ApiOperation(value = "获取留存数据")
-	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_GET_RETAIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_GET_RETAIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<GetRetainClientResponse> getRetainResponse(@ApiParam(required = true) @Valid @RequestBody GetRetainRequest request) throws ApiException {
 		return miniprogramService.getRetain(request);
 	}
 	
 	@ApiOperation(value = "获取页面访问数据")
-	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getVisitPage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getVisitPage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<GetVisitPageResponse> getVisitPageResponse(@ApiParam(required = true) @Valid @RequestBody AppDateRequest request) throws ApiException {
 		return miniprogramService.getVisitPage(request);
 	}
 	
 	@ApiOperation(value = "获取用户访问数据")
-	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getDailySummary", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getDailySummary", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<GetDailySummaryResponse> getDailySummary(@ApiParam(required = true) @Valid @RequestBody AppDateRangeRequest request) throws ApiException {
 		return miniprogramService.getDailySummary(request);
 	}
 	
 	@ApiOperation(value = "获取用户画像数据")
-	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getUserPortrait", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatMiniProgramApiConstants.WECHAT_MP_API_BASE+"/getUserPortrait", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<GetUserPortraitResponse> getUserPortrait(@ApiParam(required = true) @Valid @RequestBody GetUserPortraitRequest request) throws ApiException {
 		return miniprogramService.getUserPortrait(request);
 	}

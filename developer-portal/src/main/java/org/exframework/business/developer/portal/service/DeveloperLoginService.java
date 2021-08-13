@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
+import org.exframework.business.developer.portal.entity.User;
 import org.exframework.business.developer.portal.exception.NeedLoginException;
 import org.exframework.business.developer.portal.exception.ForbiddenException;
 import org.exframework.business.developer.portal.sureness.processor.RefreshExpiredTokenException;
@@ -38,9 +38,9 @@ public class DeveloperLoginService {
 	private HttpServletRequest request;
 
 	@Autowired
-	AdminAccountService accountService;
+    AdminUserService accountService;
 
-	public DeveloperAccount currentPerson() throws NeedLoginException, ForbiddenException {
+	public User currentPerson() throws NeedLoginException, ForbiddenException {
 		try {
 			SubjectSum subject = SurenessSecurityManager.getInstance().checkIn(request);
 			// You can consider using SurenessContextHolder to bind subject in threadLocal

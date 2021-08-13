@@ -40,12 +40,12 @@ public class AccountParamController {
 	AccountParamService accountParamService;
 	
 	@ApiOperation(value = "获取用户参数配置")
-	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> getParamValue(
 			@ApiParam(value = "系统编号", required = true) @PathVariable("appCode") String appCode,
 			@ApiParam(value = "参数键值", required = true) @PathVariable("key") String key,
 			@ApiParam(value = "帐号", required = true) @PathVariable("account") String account) {
-		if (!StringUtils.isEmpty(appCode) && !StringUtils.isEmpty(key) && !StringUtils.isEmpty(account)) {
+		if (!StringUtils.hasText(appCode) && !StringUtils.hasText(key) && !StringUtils.hasText(account)) {
 			return new ApiResponseData<String>(accountParamService.getValue(appCode, key, account));
 		} else {
 			return new ApiResponseData<String>(ResultCode.BAD_REQUEST, GlobalControllerExceptionControllerAdvice.PARAMS_ERROR, null);
@@ -53,14 +53,14 @@ public class AccountParamController {
 	}
 	
 	@ApiOperation(value = "保存用户参数配置")
-	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> putValue(
 			@ApiParam(value = "保存dto", required = true) @Valid @RequestBody AccountParamDTO dto) {
 		return new ApiResponseData<Boolean>(accountParamService.putValue(dto));
 	}
 	
 	@ApiOperation(value = "获取app参数")
-	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<AccountParamDTO>> findAll(@ApiParam(value = "系统编号", required = true) @PathVariable(value = "appCode", required = true) String appCode,
 			@ApiParam(value = "帐号", required = true) @PathVariable(value = "account", required = true) String account) {
 		return new ApiResponseData<List<AccountParamDTO>>(accountParamService.findByAppCodeAndAccount(appCode, account));

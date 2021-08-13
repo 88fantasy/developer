@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.exframework.business.developer.portal.dto.GroupSaveDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,24 +40,31 @@ public class AdminPermissionController {
 
 	@Autowired
 	AdminPermissionService adminPermissionService;
+
+
+	@ApiOperation(value = "新增用户组")
+	@RequestMapping(value = "/group/add", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ApiResponseData<GroupListResponse> addGroup(@ApiParam(value = "保存dto") @Valid @RequestBody GroupSaveDTO group) {
+		return adminPermissionService.addGroup(group);
+	}
 	
 	@ApiOperation(value = "用户组列表")
-	@RequestMapping(value = "/group/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/group/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<GroupListResponse>> listGroup() {
 		return adminPermissionService.listGroup();
 	}
 	
 	@ApiOperation(value = "用户组关联帐号分页查询")
-	@RequestMapping(value = "/group/queryAccount/{code}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/group/queryAccount/{code}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponsePage<DeveloperAccountListResponse> queryAccount(
-			@ApiParam(value = "code", required = true)  @PathVariable( value = "code", required = true) String code,
-			@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
+			@ApiParam(value = "code", required = true)  @PathVariable( value = "code") String code,
+			@ApiParam(value = "查询dto") @Valid @RequestBody PostConditionQueryRequest request) {
 		return adminPermissionService.queryAccount(code, request);
 	}
 	
-//	@ApiOperation(value = "权限集合列表")
-//	@RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public ApiResponseData<List<DeveloperPermissionListResponse>> listPermissions() {
-//		return adminPermissionService.listPermissions();
-//	}
+	@ApiOperation(value = "权限集合列表")
+	@RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ApiResponseData<List<DeveloperPermissionListResponse>> listPermissions() {
+		return adminPermissionService.listPermissions();
+	}
 }

@@ -1,20 +1,18 @@
 package org.exframework.business.developer.portal.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.usthe.sureness.provider.annotation.WithoutAuth;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.exframework.business.developer.portal.dto.ActivitiesResponse;
+import org.exframework.support.rest.entity.ApiResponseData;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.exframework.business.developer.portal.dto.ActivitiesResponse;
-import org.exframework.support.rest.entity.ApiResponseData;
-import com.usthe.sureness.provider.annotation.WithoutAuth;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.Collections;
+import java.util.List;
 
 /**
 * @author rwe
@@ -29,8 +27,8 @@ public class DashboardController {
 	
 	@WithoutAuth(mapping = "/activities", method = "get")
 	@ApiOperation(value = "获取当前登录人动态")
-	@RequestMapping(value = "/activities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/activities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<ActivitiesResponse>> activities() {
-			return new ApiResponseData<>(Arrays.asList());
+			return new ApiResponseData<>(Collections.emptyList());
 	}
 }

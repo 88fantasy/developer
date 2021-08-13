@@ -46,7 +46,7 @@ public interface ConfigProxy {
 	 * @param key     键值
 	 * @return
 	 */
-	@RequestMapping(value = ConfigApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> getParamValue(@NotEmpty @PathVariable(value = "appCode") String appCode,
 			@PathVariable("key") String key);
 
@@ -57,7 +57,7 @@ public interface ConfigProxy {
 	 * @param keys    键值数组
 	 * @return
 	 */
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Map<String, ParamDTO>> findParamByKeys(@PathVariable(value = "appCode") String appCode,
 			@RequestBody Collection<String> keys);
 
@@ -67,7 +67,7 @@ public interface ConfigProxy {
 	 * @param appCode 应用 code
 	 * @return
 	 */
-	@RequestMapping(value = ConfigApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<ParamDTO>> findAllParams(@NotEmpty @PathVariable(value = "appCode") String appCode);
 
 	/**
@@ -77,7 +77,7 @@ public interface ConfigProxy {
 	 * @param key     键值
 	 * @return
 	 */
-	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Map<String, String>> getDictionaryValue(
 			@PathVariable(value = "appCode", required = true) String appCode,
 			@PathVariable(value = "key", required = true) String key);
@@ -88,7 +88,7 @@ public interface ConfigProxy {
 	 * @param appCode 应用 code
 	 * @return
 	 */
-	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<DictionaryDTO>> findDictionaryByKeys(
 			@PathVariable(value = "appCode", required = true) String appCode,
 			@RequestBody(required = true) Collection<String> keys);
@@ -99,7 +99,7 @@ public interface ConfigProxy {
 	 * @param appCode 应用 code
 	 * @return
 	 */
-//	@RequestMapping(value = ConfigApiConstants.API_DATAITEM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	@RequestMapping(value = ConfigApiConstants.API_DATAITEM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public ApiResponseData<List<DataItem>> findAllDataItems(@NotEmpty @PathVariable("appCode") String appCode);
 
 	/**
@@ -110,7 +110,7 @@ public interface ConfigProxy {
 	 * @param account 帐号
 	 * @return
 	 */
-	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> getAccountParamValue(@PathVariable("appCode") String appCode,
 			@PathVariable(value = "key") String key, @PathVariable(value = "account") String account);
 
@@ -121,7 +121,7 @@ public interface ConfigProxy {
 	 * @param account
 	 * @return
 	 */
-	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigAccountParamApiConstants.API_ACCOUNT_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<AccountParamDTO>> findAllAccountParams(
 			@PathVariable(value = "appCode", required = true) String appCode,
 			@PathVariable(value = "account", required = true) String account);
@@ -132,6 +132,6 @@ public interface ConfigProxy {
 	 * @param dto
 	 * @return
 	 */
-	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperAccountParamApiConstants.API_ACCOUNT_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> saveAccountParam(@NotNull @RequestBody AccountParamDTO dto);
 }

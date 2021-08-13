@@ -5,26 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.exframework</groupId>
-		<artifactId>exframework-support-alibaba</artifactId>
-		<version>0.7</version>
+		<artifactId>exframework-spring-cloud-alibaba</artifactId>
+		<version>0.7.5</version>
 	</parent>
 	<artifactId>developer-parent</artifactId>
 	<groupId>org.exframework.business.developer</groupId>
 	<name>developer-parent</name>
 	<packaging>pom</packaging>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-archetype-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 	<version>1.4</version>
 
@@ -98,4 +85,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 	</dependencies>
+
+	<properties>
+		<maven.compiler.release>11</maven.compiler.release>
+	</properties>
 </project>

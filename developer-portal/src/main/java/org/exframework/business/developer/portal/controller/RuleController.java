@@ -48,53 +48,54 @@ public class RuleController extends QueryAndGetController<DeveloperRuleService, 
 	@Autowired
 	DeveloperRuleService developerRuleService;
 	
+	@Override
 	@ApiOperation(value = "获取")
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<RulePackageSaveDTO> getById(
 			@ApiParam(value = "Id", required = true)  @PathVariable( value = "id", required = true) String id) {
 			return new ApiResponseData<>(developerRuleService.get(id));
 	}
 	
 	@ApiOperation(value = "分页查询规则库")
-	@RequestMapping(value = "/queryRules", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/queryRules", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponsePage<RuleDTO> queryRules(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryRules(request);
 	}
 	
 	@ApiOperation(value = "分页查询规则集实例")
-	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/queryPackageInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponsePage<RulePackageInstanceListResponse> queryPackageInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryPackageInstances(request);
 	}
 	
 	@ApiOperation(value = "获取规则集实例详情")
-	@RequestMapping(value = "/getPackageInstance/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/getPackageInstance/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<RulePackageInstanceDescriptionsResponse> getPackageInstance(
 			@ApiParam(value = "Id", required = true)  @PathVariable( value = "id", required = true) Long id) {
 		return developerRuleService.getPackageInstance(id);
 	}
 	
 	@ApiOperation(value = "分页查询规则实例")
-	@RequestMapping(value = "/queryRuleInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/queryRuleInstances", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponsePage<RuleInstanceListResponse> queryRuleInstances(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return developerRuleService.queryRuleInstances(request);
 	}
 	
 	@ApiOperation(value = "查询规则实例")
-	@RequestMapping(value = "/listRuleInstances/{packgeInstanceId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/listRuleInstances/{packgeInstanceId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<RuleInstanceListResponse>> listRuleInstances(
 			@ApiParam(value = "执行记录Id", required = true)  @PathVariable( value = "packgeInstanceId", required = true) Long packgeInstanceId) {
 		return developerRuleService.listRuleInstances(packgeInstanceId);
 	}
 	
 	@ApiOperation(value = "按规则分类统计规则")
-	@RequestMapping(value = "/postRuleStatistic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/postRuleStatistic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<RuleStatisticResponse> postRuleStatistic(@ApiParam(value = "查询条件")  @RequestBody List<FilterCondition> conditions) {
 		return developerRuleService.postRuleStatistic(conditions);
 	}
 	
 	@ApiOperation(value = "保存规则集")
-	@RequestMapping(value = "saveRulePackage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "saveRulePackage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) RulePackageSaveDTO request) {
 		developerRuleService.saveRulePackage(request);
 		return new ApiResponseData<>(true);

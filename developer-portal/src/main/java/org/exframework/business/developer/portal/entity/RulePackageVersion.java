@@ -87,18 +87,22 @@ public class RulePackageVersion implements Serializable, Version {
 		this.creator = creator;
 	}
 
+	@Override
 	public Integer getVersion() {
 		return version;
 	}
 
+	@Override
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
 
+	@Override
 	public Date getVersionTime() {
 		return versionTime;
 	}
 
+	@Override
 	public void setVersionTime(Date versionTime) {
 		this.versionTime = versionTime;
 	}

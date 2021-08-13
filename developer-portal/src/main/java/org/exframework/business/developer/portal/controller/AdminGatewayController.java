@@ -41,34 +41,34 @@ public class AdminGatewayController {
 	GatewayRouteService gatewayRouteService;
 	
 	@ApiOperation(value = "获取路由信息")
-	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<GatewayRouteDTO> getById(
 			@ApiParam(value = "路由Id", required = true)  @PathVariable( value = "id", required = true) String id) {
 			return new ApiResponseData<>(BeanUtils.copyTo(gatewayRouteService.getById(id), GatewayRouteDTO.class));
 	}
 	
 	@ApiOperation(value = "保存路由信息")
-	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> update(
 			@ApiParam(required = true) @Valid @RequestBody(required = true) GatewayRouteDTO dto) {
 		return new ApiResponseData<Boolean>(gatewayRouteService.saveOrUpdate(dto));
 	}
 	
 	@ApiOperation(value = "删除路由信息")
-	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> delete(
 			@ApiParam(required = true) @Valid @RequestBody(required = true) GatewayRouteDeleteDTO dto) {
 		return new ApiResponseData<Boolean>(gatewayRouteService.delete(dto));
 	}
 	
 	@ApiOperation(value = "分页查询路由信息")
-	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_QUERYLIST, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_QUERYLIST, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponsePage<GatewayRouteDTO> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
 		return new ApiResponsePage<GatewayRouteDTO>(gatewayRouteService.getBaseMapper().query(request.getConditions(), request.getPage(), GatewayRouteDTO.class));
 	}
 	
 	@ApiOperation(value = "刷新路由")
-	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_REFRESH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = DeveloperGatewayApiConstants.API_GATEWAY_REFRESH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String refresh() {
 		gatewayRouteService.reload();
 		return "success";

@@ -39,7 +39,7 @@ public class DictionaryController {
 	DictionaryService dictionaryService;
 
 	@ApiOperation(value = "获取字典配置")
-	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Map<String, String>> getDictionaryValue(
 			@ApiParam(value = "系统编号", required = true) @PathVariable(value = "appCode", required = true) String appCode,
 			@ApiParam(value = "参数键值", required = true) @PathVariable(value = "key", required = true) String key) {
@@ -47,13 +47,13 @@ public class DictionaryController {
 	}
 
 	@ApiOperation(value = "保存字典配置")
-	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_SAVE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> postValue(@ApiParam(value = "保存dto", required = true) @Valid @RequestBody(required = true) DictionaryDTO dto) {
 		return new ApiResponseData<>(dictionaryService.putValue(dto));
 	}
 
 	@ApiOperation(value = "获取指定字典")
-	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigDictionaryApiConstants.API_DICTIONARY_FINDALL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<DictionaryDTO>> findKeys(
 			@ApiParam(value = "系统编号", required = true) @PathVariable(required = true) String appCode,
 			@RequestBody(required = true) List<String> keys) {

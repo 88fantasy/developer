@@ -35,13 +35,13 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 
 	@Autowired
 	AccountParamMapper accountParamMapper;
-	
+
 	/**
 	 * 获取配置项
-	 * 
-	 * @param key
-	 * @param forceFlush
-	 * @return value or null if key not exists
+	 * @param appCode 应用码
+	 * @param key 参数 key
+	 * @param account 关联帐号
+	 * @return value or null if not exists
 	 */
 	@Nullable
 	public String getValue(String appCode, String key, String account) {
@@ -72,9 +72,9 @@ public class AccountParamService extends ConfigBaseService<AccountParamMapper, A
 				.eq(AccountParam::getAccount, account));
 		//去重,优先app配置
 		globalList.removeIf(entity -> params.stream().anyMatch(p -> p.getParamKey().equals(entity.getParamKey())));
-		List<AccountParamDTO> list = new ArrayList<AccountParamDTO>();
-		list.addAll(params.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
-		list.addAll(globalList.stream().map(row -> toDTO(row)).collect(Collectors.toList()));
+		List<AccountParamDTO> list = new ArrayList<>();
+		list.addAll(params.stream().map(this::toDTO).collect(Collectors.toList()));
+		list.addAll(globalList.stream().map(this::toDTO).collect(Collectors.toList()));
 		return list;
 	}
 

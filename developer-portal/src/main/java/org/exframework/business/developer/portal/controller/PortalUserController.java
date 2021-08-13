@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.exframework.business.developer.portal.dto.CurrentUserResponse;
-import org.exframework.business.developer.portal.service.AdminAccountService;
+import org.exframework.business.developer.portal.service.AdminUserService;
 import org.exframework.business.developer.portal.service.DeveloperLoginService;
 import org.exframework.support.rest.entity.ApiResponseData;
 
@@ -30,10 +30,10 @@ public class PortalUserController {
 	DeveloperLoginService loginService;
 	
 	@Autowired
-	AdminAccountService accountService;
+    AdminUserService accountService;
 	
 	@ApiOperation(value = "当前登录信息")
-	@RequestMapping(value = "/currentUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/currentUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<CurrentUserResponse> currentUser() {
 		return new ApiResponseData<>(new CurrentUserResponse(loginService.currentPerson()));
 	}

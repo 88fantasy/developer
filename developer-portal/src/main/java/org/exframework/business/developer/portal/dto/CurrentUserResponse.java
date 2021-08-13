@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
+import org.exframework.business.developer.portal.entity.User;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -64,9 +64,9 @@ public class CurrentUserResponse {
 		this.permissions = permissions;
 	}
 
-	public CurrentUserResponse(DeveloperAccount account) {
+	public CurrentUserResponse(User account) {
 		this.userid = account.getAccount();
-		this.name = account.getAccountName();
+		this.name = account.getUserName();
 		this.email = account.getEmail();
 		this.permissions = Arrays.asList("admin");
 	}

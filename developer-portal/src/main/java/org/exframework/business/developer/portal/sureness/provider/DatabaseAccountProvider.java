@@ -1,6 +1,6 @@
 package org.exframework.business.developer.portal.sureness.provider;
 
-import org.exframework.business.developer.portal.service.AdminAccountService;
+import org.exframework.business.developer.portal.service.AdminUserService;
 import com.usthe.sureness.provider.SurenessAccount;
 import com.usthe.sureness.provider.SurenessAccountProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class DatabaseAccountProvider implements SurenessAccountProvider {
 
     @Autowired
-    AdminAccountService accountService;
+    AdminUserService accountService;
 
     @Override
     public SurenessAccount loadAccount(String account) {

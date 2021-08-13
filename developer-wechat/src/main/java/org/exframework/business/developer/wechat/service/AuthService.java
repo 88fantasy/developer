@@ -62,7 +62,7 @@ public class AuthService {
 	 * @return uaccount or null if not exists
 	 */
 	public String getUaccountByOpenid(String openid) {
-		if (!StringUtils.isEmpty(openid)) {
+		if (!StringUtils.hasText(openid)) {
 			String key = MessageFormat.format(WeChatConstants.WECHAT_OPENID_BASE, openid);
 			return (String) redisValue().get(key);
 		} else {
@@ -72,7 +72,7 @@ public class AuthService {
 
 	public boolean bindOpenid(String openid, String uaccount) {
 		String key = MessageFormat.format(WeChatConstants.WECHAT_OPENID_BASE, openid);
-		if (StringUtils.isEmpty(uaccount)) {
+		if (StringUtils.hasText(uaccount)) {
 			redisTemplate.delete(key);
 			return true;
 		} else {
@@ -174,7 +174,7 @@ public class AuthService {
 //		return ticket;
 //	}
 
-	private String getSHA1(String signstr) {
+	private String getSha1(String signstr) {
 		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 		try {
 			MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
@@ -197,7 +197,7 @@ public class AuthService {
 	public static void main(String[] args) {
 		String str = "jsapi_ticket=30_SH8TV36Mpcqnw1HF1VGU8f0_7R31_5oFISZDhB_y6uybd2vtdSFbVolXmqqkRJQdyyIYR_DMAqSLeMzsK0o6Zj8ctt04Iw4Lnr2ofCDPpvlvtepL_uXzWvCai2p6Xd1cLi4PvyGrJRSZmKDbEILlCBAIMP&noncestr=gJxFju8hpMgiGyuf&timestamp=1581563422&url=http://cloud.wechat.gzmpc.com/sale";
 		AuthService s = new AuthService();
-		System.out.print(s.getSHA1(str));
+		System.out.print(s.getSha1(str));
 	}
 
 	private ValueOperations<String, Object> redisValue() {

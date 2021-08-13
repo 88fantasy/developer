@@ -39,7 +39,7 @@ public class ConfigParamController {
 	ParamService paramService;
 
 	@ApiOperation(value = "获取参数配置")
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_GET_VALUE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> getParamValue(
 			@ApiParam(value = "系统编号", required = true) @PathVariable(required = true) String appCode,
 			@ApiParam(value = "参数键值", required = true) @PathVariable(required = true) String key) {
@@ -47,7 +47,7 @@ public class ConfigParamController {
 	}
 
 	@ApiOperation(value = "保存参数配置")
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_SAVE_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> putValue(
 			@ApiParam(value = "保存dto", required = true) @Valid @RequestBody(required = true) ParamDTO dto) {
 		return new ApiResponseData<Boolean>(
@@ -55,14 +55,14 @@ public class ConfigParamController {
 	}
 
 	@ApiOperation(value = "获取app参数")
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<ParamDTO>> findAll(
 			@ApiParam(value = "系统编号", required = true) @PathVariable("appCode") String appCode) {
 		return new ApiResponseData<List<ParamDTO>>(paramService.findByAppCode(appCode));
 	}
 
 	@ApiOperation(value = "获取app指定参数")
-	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = ConfigParamApiConstants.API_PARAM_FINDKEYS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Map<String,ParamDTO>> findKeys(
 			@ApiParam(value = "系统编号", required = true) @PathVariable(required = true) String appCode,
 			@RequestBody(required = true) List<String> keys) {

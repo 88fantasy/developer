@@ -54,7 +54,7 @@ public class ParamInitListener implements ApplicationListener<ApplicationReadyEv
 	@Autowired
 	ConfigProxy configProxy;
 
-	private ReflectionUtils.FieldFilter paramValueFilter = (Field field) -> field.isAnnotationPresent(ParamValue.class);
+	private final ReflectionUtils.FieldFilter paramValueFilter = (Field field) -> field.isAnnotationPresent(ParamValue.class);
 	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -64,14 +64,11 @@ public class ParamInitListener implements ApplicationListener<ApplicationReadyEv
 		for (String beanName : ac.getBeanDefinitionNames()) {
 			Object bean = ac.getBean(beanName);
 
-			ReflectionUtils.doWithFields(bean.getClass(), new ReflectionUtils.FieldCallback() {
-				@Override
-				public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-					ParamValue pv = field.getAnnotation(ParamValue.class);
-					String key = pv.value();
-					if(!keys.contains(key)) {
-						keys.add(key);
-					}
+			ReflectionUtils.doWithFields(bean.getClass(), field -> {
+				ParamValue pv = field.getAnnotation(ParamValue.class);
+				String key = pv.value();
+				if(!keys.contains(key)) {
+					keys.add(key);
 				}
 			}, paramValueFilter);
 		}
@@ -90,34 +87,31 @@ public class ParamInitListener implements ApplicationListener<ApplicationReadyEv
 			for (String beanName : ac.getBeanDefinitionNames()) {
 				Object bean = ac.getBean(beanName);
 
-				ReflectionUtils.doWithFields(bean.getClass(), new ReflectionUtils.FieldCallback() {
-					@Override
-					public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-						ReflectionUtils.makeAccessible(field);
-						Object value = field.get(bean);
-						try {
-							ParamValue pv = field.getAnnotation(ParamValue.class);
-							String key = pv.value();
-							ConfigParamValueTypeEnum type = pv.type();
-							Class<?> cls = pv.cls();
-							String defaultValue = pv.defaultValue();
+				ReflectionUtils.doWithFields(bean.getClass(), field -> {
+					ReflectionUtils.makeAccessible(field);
+					Object value = field.get(bean);
+					try {
+						ParamValue pv = field.getAnnotation(ParamValue.class);
+						String key = pv.value();
+						ConfigParamValueTypeEnum type = pv.type();
+						Class<?> cls = pv.cls();
+						String defaultValue = pv.defaultValue();
 
-							if (!caches.containsKey(key)) {
-								String proxyValue = configProxy.getParamValue(appCode, key).getDataOrElse(defaultValue);
-								if (StringUtils.hasText(proxyValue)) {
-									caches.putIfAbsent(key, proxyValue);
-								}
+						if (!caches.containsKey(key)) {
+							String proxyValue = configProxy.getParamValue(appCode, key).getDataOrElse(defaultValue);
+							if (StringUtils.hasText(proxyValue)) {
+								caches.putIfAbsent(key, proxyValue);
 							}
-							String valueString = caches.get(key);
-							if (StringUtils.hasText(valueString)) {
-								value = getParamObject(valueString, type, cls);
-							} else {
-								log.error(field.getName() + "未找到配置项[" + key + "]或服务器失效,并没有指定默认值,不进行配置");
-							}
-							field.set(bean, value);
-						} catch (Exception e) {
-							log.error(MessageFormat.format("设置配置项[{0}]失败: {1}", field.getName(), e.getMessage()), e);
 						}
+						String valueString = caches.get(key);
+						if (StringUtils.hasText(valueString)) {
+							value = getParamObject(valueString, type, cls);
+						} else {
+							log.error(field.getName() + "未找到配置项[" + key + "]或服务器失效,并没有指定默认值,不进行配置");
+						}
+						field.set(bean, value);
+					} catch (Exception e) {
+						log.error(MessageFormat.format("设置配置项[{0}]失败: {1}", field.getName(), e.getMessage()), e);
 					}
 				}, paramValueFilter);
 			}
@@ -125,12 +119,10 @@ public class ParamInitListener implements ApplicationListener<ApplicationReadyEv
 	}
 
 	private Object getParamObject(String value, ConfigParamValueTypeEnum type, Class<?> cls)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws IOException {
 		switch (type) {
-		case STRING:
-			return value;
-		case LONG:
-			return new Long(value);
+			case LONG:
+			return Long.parseLong(value);
 		case BIGDECIMAL:
 			return new BigDecimal(value);
 		case MAP:
@@ -140,7 +132,8 @@ public class ParamInitListener implements ApplicationListener<ApplicationReadyEv
 		case BEAN:
 			return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true).readValue(value,
 					cls);
-		default:
+			case STRING:
+			default:
 			return value;
 		}
 	}

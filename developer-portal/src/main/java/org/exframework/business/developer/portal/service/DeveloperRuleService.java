@@ -84,7 +84,7 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 				RuleDTO rule = BeanUtils.copyTo(entity, RuleDTO.class);
 				rule.setType(e.getType());
 				return rule;
-			}, RuleDTO.class);
+			});
 			rules.sort((rule1, rule2) -> {
 				Integer priority1 = tactics.indexOf(rule1.getCode()), priority2 = tactics.indexOf(rule2.getCode());
 				return priority1.compareTo(priority2);
@@ -217,7 +217,7 @@ public class DeveloperRuleService extends ExBaseService<RulePackageMapper, RuleP
 	
 	public ApiResponseData<List<RuleInstanceListResponse>> listRuleInstances(Long packgeInstanceId) {
 		return new ApiResponseData<>(ruleInstanceMapper.list(Arrays.asList(new FilterCondition("packageInstanceId",FilterConditionOper.EQUAL, packgeInstanceId)), Arrays.asList("priority+"),
-				ruleInstanceTranslator,  RuleInstanceListResponse.class));
+				ruleInstanceTranslator));
 	}
 
 	public ApiResponseData<RuleStatisticResponse> postRuleStatistic(List<FilterCondition> conditions) {

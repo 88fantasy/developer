@@ -2,8 +2,8 @@ package org.exframework.business.developer.portal.dto;
 
 import java.util.Date;
 
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
-import org.exframework.business.developer.portal.entity.DeveloperAccount.AccountDataSource;
+import org.exframework.business.developer.portal.entity.User;
+import org.exframework.business.developer.portal.entity.User.AccountDataSource;
 import org.exframework.portal.metadata.sys.Account.AccountStatusTypeEnum;
 
 /**
@@ -28,9 +28,9 @@ public class DeveloperAccountListResponse {
 	
 	}
 	
-	public DeveloperAccountListResponse(DeveloperAccount account) {
+	public DeveloperAccountListResponse(User account) {
 		this.account = account.getAccount();
-		this.accountName = account.getAccountName();
+		this.accountName = account.getUserName();
 		this.lastLoginDate = account.getLastLoginDate();
 		this.source = account.getDataSource();
 		this.accountStatus = account.getAccountStatus();

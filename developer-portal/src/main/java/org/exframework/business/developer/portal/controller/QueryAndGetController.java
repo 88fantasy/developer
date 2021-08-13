@@ -22,7 +22,7 @@ public class QueryAndGetController<S extends ExBaseService<?,T>, D, T> extends Q
 
 
 	@ApiOperation(value = "获取")
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<?> getById(
 			@ApiParam(value = "Id", required = true)  @PathVariable( value = "id", required = true) String id) {
 			return new ApiResponseData<>(BeanUtils.copyTo(exBaseService.getById(id), entityClass));

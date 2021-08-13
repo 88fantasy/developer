@@ -46,7 +46,7 @@ public class MessageController extends QueryAndGetController<MessageService, Mes
 	
 	
 //	@ApiOperation(value = "删除路由信息")
-//	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	@RequestMapping(value = DeveloperWechatAppApiConstants.API_WECHAT_APP_DELETE, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public ApiResponseData<Boolean> delete(
 //			@ApiParam(required = true) @Valid @RequestBody(required = true) GatewayRouteDeleteDTO dto) {
 //		return new ApiResponseData<Boolean>(wechatAppService.delete(dto));

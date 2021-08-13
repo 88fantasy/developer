@@ -15,9 +15,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import org.exframework.portal.metadata.dict.Dictionary;
-import org.exframework.portal.metadata.dict.DictionaryEnum;
 import org.exframework.portal.metadata.dict.DictionaryEnumClass;
 import org.exframework.portal.metadata.entity.EntityClass;
+import org.exframework.support.common.enums.DictionaryEnum;
 import org.exframework.support.doc.annotation.TableDoc;
 import org.exframework.support.doc.annotation.TableFieldDoc;
 
@@ -426,6 +426,7 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 		}
 
 
+		@Override
 		public String getLabel() {
 			return label;
 		}
@@ -457,6 +458,7 @@ public class MessageUnion implements Serializable, DictionaryEnumClass {
 			this.label = label;
 		}
 
+		@Override
 		public String getLabel() {
 			return label;
 		}

@@ -38,7 +38,7 @@ public class SnsController {
 	
 
 	@ApiOperation(value = "发送短信接口")
-	@RequestMapping(value = MessageApiConstants.MESSAGE_SNS_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = MessageApiConstants.MESSAGE_SNS_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<MessageResponse> send (@ApiParam(required = true) @Valid @RequestBody SendSnsRequest request) {
 		request.setIp(req.getRemoteHost());
 		request.setMessageType(MessageType.SNS);

@@ -30,7 +30,7 @@ public interface RuleProxy {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = RuleApiConstants.RULE_SUBMIT_INSTANCE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = RuleApiConstants.RULE_SUBMIT_INSTANCE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> submit(RuleSubmitRequest request);
 
 }

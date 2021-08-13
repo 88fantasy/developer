@@ -36,14 +36,14 @@ public class WechatAppController extends QueryAndGetController<WechatAppService,
 	WechatAppService wechatAppService;
 	
 	@ApiOperation(value = "保存微信小程序")
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> update(
 			@ApiParam(required = true) @Valid @RequestBody(required = true) WechatAppDTO dto) {
 		return new ApiResponseData<Boolean>(wechatAppService.saveOrUpdateDTO(dto,null, wechatAppService.getConsumer()));
 	}
 	
 	@ApiOperation(value = "刷新配置")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String refresh() {
 		wechatAppService.reload();
 		return "success";

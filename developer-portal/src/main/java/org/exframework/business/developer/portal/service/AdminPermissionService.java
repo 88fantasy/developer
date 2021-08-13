@@ -1,29 +1,24 @@
 package org.exframework.business.developer.portal.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.exframework.business.developer.portal.dto.DeveloperAccountListResponse;
-import org.exframework.business.developer.portal.dto.DeveloperPermissionListResponse;
-import org.exframework.business.developer.portal.dto.GroupListResponse;
-import org.exframework.business.developer.portal.mapper.DeveloperAccountMapper;
+import org.exframework.business.developer.portal.dto.*;
+import org.exframework.business.developer.portal.entity.UserGroup;
+import org.exframework.business.developer.portal.mapper.UserGroupMapper;
+import org.exframework.business.developer.portal.mapper.UserMapper;
 import org.exframework.portal.jdbc.entity.AccountRoleDO;
 import org.exframework.portal.jdbc.mapper.AccountRoleMapper;
-import org.exframework.portal.metadata.sys.Role;
-import org.exframework.portal.service.sys.PermissionService;
-import org.exframework.portal.service.sys.RoleService;
+import org.exframework.portal.service.sys.PortalCorePermissionService;
 import org.exframework.portal.web.dto.PostConditionQueryRequest;
 import org.exframework.support.common.entity.FilterCondition;
 import org.exframework.support.common.entity.FilterCondition.FilterConditionOper;
+import org.exframework.support.common.util.BeanUtils;
 import org.exframework.support.rest.entity.ApiResponseData;
 import org.exframework.support.rest.entity.ApiResponsePage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author rwe
@@ -34,27 +29,33 @@ import org.exframework.support.rest.entity.ApiResponsePage;
 public class AdminPermissionService {
 
 	@Autowired
-	PermissionService permissionService;
+	PortalCorePermissionService portalCorePermissionService;
 
 	@Autowired
-	RoleService roleService;
-
-	@Autowired
-	AdminAccountService adminAccountService;
+	AdminUserService adminUserService;
 
 	@Autowired
 	AccountRoleMapper accountRoleMapper;
 
 	@Autowired
-	DeveloperAccountMapper developerAccountMapper;
+	UserMapper userMapper;
+
+	@Autowired
+	UserGroupMapper userGroupMapper;
+
+	public ApiResponseData<GroupListResponse> addGroup(GroupSaveDTO group) {
+		UserGroup userGroup = BeanUtils.copyTo(group, UserGroup.class);
+		userGroupMapper.insert(userGroup);
+		return new ApiResponseData<>(BeanUtils.copyTo(userGroup, GroupListResponse.class));
+	}
 
 	public ApiResponseData<List<GroupListResponse>> listGroup() {
-		Map<String, Role> roles = roleService.getAllRoles();
-		return new ApiResponseData<>(roles.values().stream().map(role -> {
+		List<UserGroup> groups = userGroupMapper.selectList(Wrappers.emptyWrapper());
+		return new ApiResponseData<>(groups.stream().map(g -> {
 			GroupListResponse group = new GroupListResponse();
-			group.setGroupId(role.getCode());
-			group.setName(role.getName());
-//			group.setCreateTime(role.);
+			group.setId(g.getId());
+			group.setName(g.getName());
+			group.setCreateTime(g.getCreateTime());
 			return group;
 		}).collect(Collectors.toList()));
 	}
@@ -70,24 +71,23 @@ public class AdminPermissionService {
 			}
 			conditions.add(new FilterCondition("account", FilterConditionOper.IN, accounts));
 			return new ApiResponsePage<>(
-					developerAccountMapper.query(conditions.toArray(new FilterCondition[conditions.size()]), request.getPage(),
-							request.getSorts(), account -> {
-								return new DeveloperAccountListResponse(adminAccountService.loadAccount(account.getAccount()));
-							}, DeveloperAccountListResponse.class));
+					userMapper.query(conditions.toArray(new FilterCondition[0]), request.getPage(),
+							request.getSorts(), account -> new DeveloperAccountListResponse(adminUserService.loadAccount(account.getAccount())), DeveloperAccountListResponse.class));
 		} else {
-			return ApiResponsePage.EMPTY;
+			return ApiResponsePage.empltyPage();
 		}
 	}
 
-//	public ApiResponseData<List<DeveloperPermissionListResponse>> listPermissions() {
-//		Map<String, Role> roles = roleService.getAllRoles();
-//		return new ApiResponseData<>(roles.values().stream().map(role -> {
-//			GroupListResponse group = new GroupListResponse();
-//			group.setGroupId(role.getCode());
-//			group.setName(role.getName());
-////			group.setCreateTime(role.);
-//			return group;
+	public ApiResponseData<List<DeveloperPermissionListResponse>> listPermissions() {
+//		Map<String, PermissionGroup> groups = portalCorePermissionService.getPermissionGroups();
+//		return new ApiResponseData<>(groups.values().stream().map(g -> {
+//			DeveloperPermissionListResponse permission = new DeveloperPermissionListResponse();
+//			permission.setCode(g.getCode());
+//			permission.setTitle(g.getName());
+//			permission.setPermissions(g.getPermissions().stream().map(PermissionDTO::new).collect(Collectors.toList()));
+//			return permission;
 //		}).collect(Collectors.toList()));
-//	}
+		return new ApiResponseData<>(Collections.emptyList());
+	}
 
 }

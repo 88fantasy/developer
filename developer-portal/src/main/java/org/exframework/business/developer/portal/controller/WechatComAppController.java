@@ -37,14 +37,14 @@ public class WechatComAppController extends QueryAndGetController<WechatComAppSe
 	WechatComAppService wechatComAppService;
 	
 	@ApiOperation(value = "保存企业微信应用")
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> update(
 			@ApiParam(required = true) @Valid @RequestBody(required = true) WechatComAppDTO dto) {
 		return new ApiResponseData<>(wechatComAppService.saveOrUpdateDTO(dto,null, wechatComAppService.getConsumer()));
 	}
 	
 	@ApiOperation(value = "刷新配置")
-	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String refresh() {
 		wechatComAppService.reload();
 		return "success";

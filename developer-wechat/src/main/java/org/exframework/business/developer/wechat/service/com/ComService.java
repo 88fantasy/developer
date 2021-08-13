@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +40,7 @@ import org.exframework.support.common.exception.BuildException;
 import org.exframework.support.rest.entity.ApiResponseData;
 import org.exframework.support.rest.enums.ResultCode;
 import org.exframework.support.rest.exception.ServerException;
+import org.springframework.util.StringUtils;
 
 /**
 * @author rwe
@@ -108,7 +108,7 @@ public class ComService implements Buildable {
 		Integer agentId = request.getAgentId();
 		String jscode = request.getJsCode();
 		
-		if(agentId != null && !StringUtils.isEmpty(jscode)) {
+		if(agentId != null && !StringUtils.hasText(jscode)) {
 			String agentIdString = String.valueOf(agentId);
 			String secret = coms.get(agentIdString);
 			

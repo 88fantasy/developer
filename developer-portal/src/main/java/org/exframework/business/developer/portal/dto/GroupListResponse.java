@@ -15,20 +15,20 @@ import io.swagger.annotations.ApiModelProperty;
 public class GroupListResponse {
 
 	@ApiModelProperty(value = "用户组Id")
-	private String groupId;
+	private Long id;
 	
-	@ApiModelProperty(value = " 用户组名称")
+	@ApiModelProperty(value = "用户组名称")
 	private String name;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
 
-	public String getGroupId() {
-		return groupId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

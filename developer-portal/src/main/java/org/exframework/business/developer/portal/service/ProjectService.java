@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.exframework.business.developer.portal.dto.ProjectResponse;
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
+import org.exframework.business.developer.portal.entity.User;
 import org.exframework.business.developer.portal.entity.Project;
 import org.exframework.business.developer.portal.entity.ProjectMember;
 import org.exframework.business.developer.portal.mapper.ProjectMapper;
@@ -38,14 +38,14 @@ public class ProjectService extends ExBaseService<ProjectMapper, Project> {
 	ProjectMemberMapper projectMemberMapper;
 	
 	@Autowired
-	AdminAccountService accountService;
+    AdminUserService accountService;
 		
 	public ApiResponsePage<ProjectResponse> pageProjectsByCurrent(PostConditionQueryRequest request) {
-		DeveloperAccount account = developerLoginService.currentPerson();
+		User account = developerLoginService.currentPerson();
 		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account.getAccount()));
 		if(members.size() > 0) {
 			List<String> projectIds = members.stream().map(ProjectMember::getProjectId).collect(Collectors.toList());
-			PageModel<ProjectResponse> model = getBaseMapper().query(request.getPage(), Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator, ProjectResponse.class);
+			PageModel<ProjectResponse> model = getBaseMapper().query(request.getPage(), Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator);
 			return new ApiResponsePage<>(model);
 		}
 		else {
@@ -54,11 +54,11 @@ public class ProjectService extends ExBaseService<ProjectMapper, Project> {
 	}
 	
 	public ApiResponseData<List<ProjectResponse>> getProjectsByCurrent() {
-		DeveloperAccount account = developerLoginService.currentPerson();
+		User account = developerLoginService.currentPerson();
 		List<ProjectMember> members = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getAccount, account.getAccount()));
 		if(members.size() > 0) {
 			List<String> projectIds = members.stream().map(ProjectMember::getProjectId).collect(Collectors.toList());
-			return new ApiResponseData<>(getBaseMapper().list(Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator, ProjectResponse.class));
+			return new ApiResponseData<>(getBaseMapper().list(Wrappers.<Project>lambdaQuery().in(Project::getId, projectIds), translator));
 		}
 		else {
 			return new ApiResponseData<>(Arrays.asList());
@@ -72,7 +72,7 @@ public class ProjectService extends ExBaseService<ProjectMapper, Project> {
 			List<ProjectMember> pms = projectMemberMapper.selectList(Wrappers.<ProjectMember>lambdaQuery().eq(ProjectMember::getProjectId, id));
 			List<String> members = pms.stream().map(pm -> {
 				String account = pm.getAccount();
-				return accountService.loadAccount(account).getAccountName();
+				return accountService.loadAccount(account).getUserName();
 			}).collect(Collectors.toList());
 			dto.setMembers(members);
 			return dto;

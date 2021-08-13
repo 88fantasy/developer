@@ -1,6 +1,6 @@
 package org.exframework.business.developer.portal.mapper;
 
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
+import org.exframework.business.developer.portal.entity.User;
 import org.exframework.support.jdbc.mapper.ExBaseMapper;
 
 /**
@@ -9,6 +9,6 @@ import org.exframework.support.jdbc.mapper.ExBaseMapper;
 * 帐号映射类
 */
 
-public interface DeveloperAccountMapper extends ExBaseMapper<DeveloperAccount> {
+public interface UserMapper extends ExBaseMapper<User> {
 
 }

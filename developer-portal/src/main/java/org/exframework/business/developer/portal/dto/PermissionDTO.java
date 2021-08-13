@@ -1,5 +1,7 @@
 package org.exframework.business.developer.portal.dto;
 
+import org.exframework.portal.metadata.sys.Permission;
+
 /**
 * @author rwe
 * @version 创建时间：2021年6月18日 下午4:50:50
@@ -15,6 +17,21 @@ public class PermissionDTO {
 	private Boolean disabled;
 	
 	private Boolean checked;
+
+	public PermissionDTO() {
+
+	}
+
+	public PermissionDTO(Permission permission) {
+		this(permission.getCode(), permission.getName(), permission.isValid(), false);
+	}
+
+	public PermissionDTO(String code, String title, Boolean disabled, Boolean checked) {
+		this.code = code;
+		this.title = title;
+		this.disabled = disabled;
+		this.checked = checked;
+	}
 
 	public String getCode() {
 		return code;

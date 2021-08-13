@@ -48,7 +48,7 @@ public class MiniProgramService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
-	private  final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	@Autowired
 	WeChatMiniprogramClient weChatMiniprogramClient;

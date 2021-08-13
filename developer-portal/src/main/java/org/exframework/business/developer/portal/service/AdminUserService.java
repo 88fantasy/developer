@@ -19,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.exframework.business.developer.portal.dto.LoginRequest;
 import org.exframework.business.developer.portal.dto.LoginResponse;
-import org.exframework.business.developer.portal.entity.DeveloperAccount;
+import org.exframework.business.developer.portal.entity.User;
 import org.exframework.business.developer.portal.entity.Person;
-import org.exframework.business.developer.portal.entity.DeveloperAccount.AccountDataSource;
+import org.exframework.business.developer.portal.entity.User.AccountDataSource;
 import org.exframework.business.developer.portal.entity.LoginLog;
 import org.exframework.business.developer.portal.entity.LoginLog.PlatformType;
-import org.exframework.business.developer.portal.mapper.DeveloperAccountMapper;
+import org.exframework.business.developer.portal.mapper.UserMapper;
 import org.exframework.business.developer.portal.mapper.LoginLogMapper;
 import org.exframework.portal.metadata.sys.Account.AccountStatusTypeEnum;
 import org.exframework.support.jdbc.service.ExBaseService;
@@ -39,13 +39,13 @@ import com.usthe.sureness.util.JsonWebTokenUtil;
  */
 
 @Service
-public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, DeveloperAccount> {
+public class AdminUserService extends ExBaseService<UserMapper, User> {
 
 	@Autowired
 	HttpServletRequest request;
 
 	@Autowired
-	DeveloperAccountMapper developerAccountMapper;
+	UserMapper userMapper;
 
 	@Autowired
 	LoginLogMapper loginLogMapper;
@@ -54,9 +54,9 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 	private LdapTemplate ldapTemplate;
 
 	public SurenessAccount loadSurenessAccount(String account) {
-		DeveloperAccount developerAccount = loadAccount(account);
-		DefaultAccount defaultAccount = DefaultAccount.builder(developerAccount.getAccount())
-				.setOwnRoles(Arrays.asList("admin")).setPassword(developerAccount.getPassword()).build();
+		User user = loadAccount(account);
+		DefaultAccount defaultAccount = DefaultAccount.builder(user.getAccount())
+				.setOwnRoles(Arrays.asList("admin")).setPassword(user.getPassword()).build();
 		return defaultAccount;
 	}
 
@@ -68,7 +68,7 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 	public LoginResponse login(String username, String password) {
 		LoginResponse response = new LoginResponse();
 		response.setStatus("error");
-		DeveloperAccount account = loadAccount(username);
+		User account = loadAccount(username);
 		// 帐号不存在时读取ldap创建帐号
 		if (account == null) {
 			Person person = loadPerson(username);
@@ -93,7 +93,7 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 		String ip = getIpAddr(request);
 		LoginLog loginLog = new LoginLog();
 		loginLog.setAccount(username);
-		loginLog.setAccountName(account.getAccountName());
+		loginLog.setAccountName(account.getUserName());
 		loginLog.setIpaddress(ip);
 		loginLog.setPlatform(device.isMobile()? PlatformType.Mobile : PlatformType.Web);
 		loginLog.setDevice(userAgent);
@@ -101,7 +101,7 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 		
 		account.setLastLoginIp(ip);
 		account.setLastLoginDate(new Date());
-		developerAccountMapper.updateById(account);
+		userMapper.updateById(account);
 
 		return response;
 	}
@@ -114,18 +114,18 @@ public class AdminAccountService extends ExBaseService<DeveloperAccountMapper, D
 		}
 	}
 
-	public DeveloperAccount loadAccount(String account) {
-		return developerAccountMapper.selectById(account);
+	public User loadAccount(String account) {
+		return userMapper.selectById(account);
 	}
 
-	public DeveloperAccount generateByLdap(Person person) {
-		DeveloperAccount entity = new DeveloperAccount();
+	public User generateByLdap(Person person) {
+		User entity = new User();
 		entity.setAccount(person.getCommonName());
-		entity.setAccountName(person.getDescription());
+		entity.setUserName(person.getDescription());
 		entity.setDataSource(AccountDataSource.LDAP);
 		entity.setEmail(person.getMail());
 		entity.setAccountStatus(AccountStatusTypeEnum.VALID);
-		developerAccountMapper.insert(entity);
+		userMapper.insert(entity);
 		return entity;
 	}
 

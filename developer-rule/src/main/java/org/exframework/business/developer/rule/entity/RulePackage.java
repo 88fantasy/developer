@@ -1,17 +1,13 @@
 package org.exframework.business.developer.rule.entity;
 
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
+import org.exframework.support.jdbc.annotation.AutoCurrentTime;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
-import org.exframework.support.jdbc.annotation.AutoCreateTime;
-import org.exframework.support.jdbc.annotation.AutoUpdateTime;
 
 /**
 * @author rwe
@@ -51,15 +47,15 @@ public class RulePackage implements Serializable {
 	@TableField
 	private String creator;
 	
-	@AutoCreateTime
-	@TableField
+	@AutoCurrentTime
+	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 	
 	@TableField
 	private String updator;
 	
-	@AutoUpdateTime
-	@TableField
+	@AutoCurrentTime
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 
 	public String getCode() {

@@ -33,7 +33,7 @@ public interface MessageProxy {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = MessageApiConstants.MESSAGE_EMAIL_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = MessageApiConstants.MESSAGE_EMAIL_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<MessageResponse> sendEmail(SendEmailRequest request);
 	
 	/**
@@ -41,7 +41,7 @@ public interface MessageProxy {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = MessageApiConstants.MESSAGE_SNS_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = MessageApiConstants.MESSAGE_SNS_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<MessageResponse> sendSns(SendSnsRequest request);
 }
 

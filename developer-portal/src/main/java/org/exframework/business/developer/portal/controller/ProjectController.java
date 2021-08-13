@@ -37,7 +37,7 @@ public class ProjectController extends QueryAndGetController<ProjectService, Pro
 
 	@RequiresRoles(roles = {"admin"}, mapping = "/project/notice", method = "get") 
 	@ApiOperation(value = "获取当前帐号项目列表")
-	@RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/notice", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<List<ProjectResponse>> notice() {
 			return projectService.getProjectsByCurrent();
 	}

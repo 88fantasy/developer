@@ -93,7 +93,7 @@ public class DictionaryInitListener implements ApplicationListener<ApplicationRe
 							Dictionary pv = field.getAnnotation(Dictionary.class);
 							String key = pv.key();
 							Class<? extends DictionaryEnum> c = pv.enums();
-							if(StringUtils.isEmpty(key)) {
+							if(StringUtils.hasText(key)) {
 								key = c.getName();
 							}
 //							long sync = pv.sync();

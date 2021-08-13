@@ -12,7 +12,7 @@ import org.exframework.support.jdbc.annotation.TableEntityScan;
 @SpringBootApplication(scanBasePackages = { "org.exframework.*",
 		"com.gitee.sunchenbin.mybatis.actable.manager.*" }, exclude = { DruidDataSourceAutoConfigure.class })
 @EnableFeignClients(basePackages = { "org.exframework.*" }) // 使用Feign微服务调用时请启用
-@MapperScan(basePackages = { "org.exframework.business.developer.portal.mapper", "org.exframework.portal.jdbc.mapper.*",
+@MapperScan(basePackages = { "org.exframework.business.developer.portal.mapper", "org.exframework.portal.jdbc.mapper",
 		"com.gitee.sunchenbin.mybatis.actable.dao.*" })
 @EntityScan({ "org.exframework.portal.metadata", "org.exframework.portal.web.entity.*", "org.exframework.portal.admin.entity.*",
 		"org.exframework.business.developer.portal.*" })

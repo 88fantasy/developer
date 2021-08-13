@@ -40,7 +40,7 @@ public class WeChatController {
 	WechatService weChatService;
 
 	@ApiOperation(value = "绑定openid")
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_BIND_OPENID, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_BIND_OPENID, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<Boolean> bindOpenid(
 			@Valid @ApiParam(value = "登录", required = true) @RequestBody BindOpenIdRequest request) {
 		Boolean success = authService.bindOpenid(request.getOpenid(), request.getUaccount());
@@ -48,12 +48,12 @@ public class WeChatController {
 	}
 
 	@ApiOperation(value = "根据openid获取统一账号")
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_UACCOUNT_BY_OPENID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_UACCOUNT_BY_OPENID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<String> getUaccountByOpenid(
 			@Valid @ApiParam(value = "openid", required = true) @PathVariable("openid") String openid) {
-		if (!StringUtils.isEmpty(openid)) {
+		if (!StringUtils.hasText(openid)) {
 			String uaccount = authService.getUaccountByOpenid(openid);
-			if (!StringUtils.isEmpty(uaccount)) {
+			if (!StringUtils.hasText(uaccount)) {
 				return new ApiResponseData<>(uaccount);
 			} else {
 				return ApiResponseData.notFound("找不到此帐号");
@@ -64,7 +64,7 @@ public class WeChatController {
 	}
 
 	@ApiOperation(value = "获取微信app信息")
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_APPINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_APPINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<WechatAppDTO> getAppInfo(
 			@Valid @ApiParam(value = "appid", required = true) @PathVariable(value = "appId", required = true) String appId) {
 		WechatAppDTO appInfo = weChatService.getAppInfo(appId);
@@ -76,13 +76,13 @@ public class WeChatController {
 	}
 
 //	@ApiOperation(value = "获取token")
-//	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_TOKEN, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	@RequestMapping(value = WeChatApiConstants.WECHAT_API_GET_TOKEN, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public GetTokenResponse getToken(@ApiParam(value = "tenantId", required = true) @Valid TokenRequest request) {
 //		return authService.getToken(request);
 //	}
 
 	@ApiOperation(value = "微信登录获取信息")
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<WechatLoginUserInfo> getUserinfo(
 			@Valid @ApiParam(value = "appid", required = true) @PathVariable String appid,
 			@ApiParam(value = "code", required = true) @PathVariable String code) {

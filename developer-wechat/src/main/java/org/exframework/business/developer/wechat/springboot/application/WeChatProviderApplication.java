@@ -1,10 +1,10 @@
 package org.exframework.business.developer.wechat.springboot.application;
 
+import com.dtflys.forest.springboot.annotation.ForestScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-import com.thebeastshop.forest.springboot.annotation.ForestScan;
 
 
 @SpringBootApplication(scanBasePackages = { "org.exframework.*" })

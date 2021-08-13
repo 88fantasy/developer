@@ -33,3 +33,7 @@ hs_err_pid*
 .settings
 target
 .DS_Store
+
+# idea exclude
+.idea
+*.iml

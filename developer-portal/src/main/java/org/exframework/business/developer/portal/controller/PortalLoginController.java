@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.exframework.business.developer.portal.dto.LoginRequest;
 import org.exframework.business.developer.portal.dto.LoginResponse;
-import org.exframework.business.developer.portal.service.AdminAccountService;
+import org.exframework.business.developer.portal.service.AdminUserService;
 import org.exframework.support.rest.entity.ApiResponseData;
 
 import io.swagger.annotations.Api;
@@ -33,10 +33,10 @@ import io.swagger.annotations.ApiParam;
 public class PortalLoginController {
 
 	@Autowired
-	AdminAccountService accountService;
+	AdminUserService accountService;
 	
 	@ApiOperation(value = "登录接口")
-	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<LoginResponse> login(@Valid
 			@ApiParam(required = true)  @RequestBody(required = true) LoginRequest request) {
 			return new ApiResponseData<>(accountService.login(request));

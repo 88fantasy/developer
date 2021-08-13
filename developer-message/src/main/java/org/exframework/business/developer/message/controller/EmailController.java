@@ -42,7 +42,7 @@ public class EmailController {
 	MessageService messageService;
 
 	@ApiOperation(value = "发送邮件")
-	@RequestMapping(value = MessageApiConstants.MESSAGE_EMAIL_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = MessageApiConstants.MESSAGE_EMAIL_SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<MessageResponse> send(@ApiParam(required = true) @Valid @RequestBody SendEmailRequest request) {
 		request.setIp(req.getRemoteHost());
 		request.setMessageType(MessageType.EMAIL);

@@ -23,7 +23,8 @@ import io.swagger.annotations.ApiParam;
 * @version 创建时间：2021年3月30日 上午12:17:11
 * 类说明
  * @param <T>
- * @param <M>
+ * @param <S>
+ * @param <D>
 */
 
 public class QueryController<S extends ExBaseService<?,T>, D, T> {
@@ -35,12 +36,12 @@ public class QueryController<S extends ExBaseService<?,T>, D, T> {
 
 	@SuppressWarnings("unchecked")
 	private Class<D> currentModelClass() {
-		 return (Class<D>) ReflectionKit.getSuperClassGenericType(getClass(), entityClass, 1);
+		 return (Class<D>) ReflectionKit.getSuperClassGenericType(getClass(), QueryController.class, 1);
 	}
 	
 	@ApiOperation(value = "分页查询")
-	@RequestMapping(value = "/query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ApiResponsePage<?> query(@ApiParam(value = "查询dto")@Valid @RequestBody(required = true) PostConditionQueryRequest request) {
+	@RequestMapping(value = "/query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ApiResponsePage<?> query(@ApiParam(value = "查询dto")@Valid @RequestBody PostConditionQueryRequest request) {
 		return new ApiResponsePage<>(exBaseService.getBaseMapper().query(request.getConditions(), request.getPage(), getTranslator(), entityClass));
 	}
 	

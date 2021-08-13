@@ -41,7 +41,7 @@ public interface WechatProxy {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<SendMessageResponse> sendText(SendTextMessageRequest request) throws ApiException;
 
 	/**
@@ -51,7 +51,7 @@ public interface WechatProxy {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXTCARD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_TEXTCARD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<SendMessageResponse> sendTextcard(SendTextcardMessageRequest request) throws ApiException;
 
 	/**
@@ -61,7 +61,7 @@ public interface WechatProxy {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<SendMessageResponse> sendImage(SendImageMessageRequest request) throws ApiException;
 
 	/**
@@ -71,7 +71,7 @@ public interface WechatProxy {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_NEWS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_NEWS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<SendMessageResponse> sendNews(SendNewsMessageRequest request) throws ApiException;
 
 	/**
@@ -81,7 +81,7 @@ public interface WechatProxy {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_MINIPROGRAM, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatComApiConstants.WECHAT_COM_API_SEND_MINIPROGRAM, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<SendMessageResponse> sendMiniProgram(SendMiniProgramMessageRequest request)
 			throws ApiException;
 
@@ -92,7 +92,7 @@ public interface WechatProxy {
 	 * @param code
 	 * @return
 	 */
-	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(value = WeChatApiConstants.WECHAT_API_LOGIN_USERINFO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<WechatLoginUserInfo> getUserinfo(@PathVariable("appid") String appid,
 			@PathVariable("code") String code);
 
