@@ -4,6 +4,7 @@ package org.exframework.business.developer.portal.controller;
 
 import javax.validation.Valid;
 
+import com.usthe.sureness.provider.annotation.WithoutAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,7 +35,8 @@ public class PortalLoginController {
 
 	@Autowired
 	AdminUserService accountService;
-	
+
+	@WithoutAuth(mapping = "/login/account", method = "post")
 	@ApiOperation(value = "登录接口")
 	@RequestMapping(value = "/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ApiResponseData<LoginResponse> login(@Valid

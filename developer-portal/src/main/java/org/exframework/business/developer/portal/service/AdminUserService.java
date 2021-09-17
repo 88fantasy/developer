@@ -1,12 +1,13 @@
 package org.exframework.business.developer.portal.service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.usthe.sureness.util.SurenessConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.ldap.core.LdapTemplate;
@@ -34,12 +35,14 @@ import com.usthe.sureness.util.JsonWebTokenUtil;
 
 /**
  * @author rwe
- * @version 创建时间：2021年4月19日 上午11:31:23 
+ * @version 创建时间：2021年4月19日 上午11:31:23
  * 帐号业务服务
  */
 
 @Service
 public class AdminUserService extends ExBaseService<UserMapper, User> {
+
+	public static final long TOKEN_EXPIRED_SECONDS = 3600;
 
 	@Autowired
 	HttpServletRequest request;
@@ -51,12 +54,12 @@ public class AdminUserService extends ExBaseService<UserMapper, User> {
 	LoginLogMapper loginLogMapper;
 
 	@Autowired
-	private LdapTemplate ldapTemplate;
+    LdapTemplate ldapTemplate;
 
 	public SurenessAccount loadSurenessAccount(String account) {
 		User user = loadAccount(account);
 		DefaultAccount defaultAccount = DefaultAccount.builder(user.getAccount())
-				.setOwnRoles(Arrays.asList("admin")).setPassword(user.getPassword()).build();
+				.setOwnRoles(permissions(user.getAccount())).setPassword(user.getPassword()).build();
 		return defaultAccount;
 	}
 
@@ -64,7 +67,7 @@ public class AdminUserService extends ExBaseService<UserMapper, User> {
 		return login(login.getUserName(), login.getPassword());
 	}
 
-	@Transactional(rollbackFor = Exception.class) 
+	@Transactional(rollbackFor = Exception.class)
 	public LoginResponse login(String username, String password) {
 		LoginResponse response = new LoginResponse();
 		response.setStatus("error");
@@ -80,13 +83,11 @@ public class AdminUserService extends ExBaseService<UserMapper, User> {
 			}
 		}
 
-		List<String> ownRole = Arrays.asList("admin");
-		String jwt = "Bearer "
-				+ JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), username, "developer-portal", 3600L, ownRole);
-		response.setAuthority(ownRole);
-		response.setToken(jwt);
+		SurenessAccount surenessAccount = loadSurenessAccount(username);
+		response.setPermissions(surenessAccount.getOwnRoles());
+		response.setToken(token(username, surenessAccount.getOwnRoles(), TOKEN_EXPIRED_SECONDS));
 		response.setStatus("ok");
-		
+
 		Device device = DeviceUtils.getCurrentDevice(request);
 		String userAgent = request.getHeader("User-Agent");
 
@@ -98,7 +99,7 @@ public class AdminUserService extends ExBaseService<UserMapper, User> {
 		loginLog.setPlatform(device.isMobile()? PlatformType.Mobile : PlatformType.Web);
 		loginLog.setDevice(userAgent);
 		loginLogMapper.insert(loginLog);
-		
+
 		account.setLastLoginIp(ip);
 		account.setLastLoginDate(new Date());
 		userMapper.updateById(account);
@@ -116,6 +117,18 @@ public class AdminUserService extends ExBaseService<UserMapper, User> {
 
 	public User loadAccount(String account) {
 		return userMapper.selectById(account);
+	}
+
+	public List<String> permissions(String account) {
+		return Arrays.asList("admin");
+	}
+
+	public String token(String user, Long period) {
+		return token(user, loadSurenessAccount(user).getOwnRoles(), period);
+	}
+
+	public String token(String user, List<String> permissions, Long period) {
+		return MessageFormat.format("{0}{1}", SurenessConstant.BEARER, JsonWebTokenUtil.issueJwt(UUID.randomUUID().toString(), user, "app-store", period, permissions));
 	}
 
 	public User generateByLdap(Person person) {

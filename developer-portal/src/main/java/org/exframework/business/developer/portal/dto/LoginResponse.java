@@ -23,32 +23,33 @@ public class LoginResponse {
 	@ApiModelProperty(value = "token")
 	private String token;
 	
-	@ApiModelProperty(value = "角色")
-	private List<String> authority;
+	@ApiModelProperty(value = "权限")
+	private List<String>  permissions;
 
 	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public LoginResponse setStatus(String status) {
 		this.status = status;
+		return this;
 	}
 
 	public String getToken() {
 		return token;
 	}
 
-	public void setToken(String token) {
+	public LoginResponse setToken(String token) {
 		this.token = token;
+		return this;
 	}
 
-	public List<String> getAuthority() {
-		return authority;
+	public List<String> getPermissions() {
+		return permissions;
 	}
 
-	public void setAuthority(List<String> authority) {
-		this.authority = authority;
+	public LoginResponse setPermissions(List<String> permissions) {
+		this.permissions = permissions;
+		return this;
 	}
-	
-	
 }

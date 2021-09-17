@@ -7,7 +7,9 @@ import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * ths provider provides path resources
@@ -29,7 +31,16 @@ public class DatabasePathTreeProvider implements PathTreeProvider {
 
     @Override
     public Set<String> provideExcludedResource() {
-        return Sets.newSet();
+        Set<String> sets = new CopyOnWriteArraySet<>();
+        sets.addAll(Arrays.asList(
+                "/**/*.html===get",
+                "/**/*.js===get",
+                "/**/*.css===get",
+                "/**/*.ico===get",
+                "/**/*.png===get",
+                "/**===options"
+        ));
+        return sets;
     }
 
 }

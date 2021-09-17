@@ -1,5 +1,6 @@
 package org.exframework.business.developer.portal.sureness.config;
 
+import com.usthe.sureness.handler.HandlerManager;
 import com.usthe.sureness.matcher.DefaultPathRoleMatcher;
 import com.usthe.sureness.matcher.PathTreeProvider;
 import com.usthe.sureness.matcher.TreePathRoleMatcher;
@@ -11,12 +12,13 @@ import com.usthe.sureness.processor.support.JwtProcessor;
 import com.usthe.sureness.processor.support.NoneProcessor;
 import com.usthe.sureness.provider.SurenessAccountProvider;
 import com.usthe.sureness.provider.annotation.AnnotationPathTreeProvider;
-import com.usthe.sureness.provider.ducument.DocumentPathTreeProvider;
 import com.usthe.sureness.subject.SubjectFactory;
 import com.usthe.sureness.subject.SurenessSubjectFactory;
 import com.usthe.sureness.subject.creater.JwtSubjectServletCreator;
 import com.usthe.sureness.subject.creater.NoneSubjectServletCreator;
 import com.usthe.sureness.util.JsonWebTokenUtil;
+import org.exframework.business.developer.portal.service.AdminUserService;
+import org.exframework.business.developer.portal.sureness.handler.JwtRefreshTokenHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +29,7 @@ import java.util.List;
 
 /**
  * sureness config
+ *
  * @author tomsun28
  * @date 22:40 2020-03-02
  */
@@ -59,15 +62,12 @@ public class SurenessConfiguration {
      */
     @Bean
     TreePathRoleMatcher pathRoleMatcher(PathTreeProvider databasePathTreeProvider) {
-        // the path tree resource load from document - sureness.yml
-        PathTreeProvider documentPathTreeProvider = new DocumentPathTreeProvider();
         // the path tree resource load form annotation - @RequiresRoles @WithoutAuth
         AnnotationPathTreeProvider annotationPathTreeProvider = new AnnotationPathTreeProvider();
         annotationPathTreeProvider.setScanPackages(Collections.singletonList("org.exframework.business.developer.portal.controller"));
         // pathRoleMatcher init
         DefaultPathRoleMatcher pathRoleMatcher = new DefaultPathRoleMatcher();
         pathRoleMatcher.setPathTreeProviderList(Arrays.asList(
-                documentPathTreeProvider,
                 annotationPathTreeProvider,
                 databasePathTreeProvider));
         pathRoleMatcher.buildTree();
@@ -87,14 +87,24 @@ public class SurenessConfiguration {
     }
 
     @Bean
+    HandlerManager handlerManager() {
+        // SubjectFactory init
+        HandlerManager handlerManager = new HandlerManager();
+        handlerManager.registerHandler(Arrays.asList(
+                new JwtRefreshTokenHandler(AdminUserService.TOKEN_EXPIRED_SECONDS)));
+        return handlerManager;
+    }
+
+    @Bean
     SurenessSecurityManager securityManager(ProcessorManager processorManager,
-                                            TreePathRoleMatcher pathRoleMatcher, SubjectFactory subjectFactory) {
+                                            TreePathRoleMatcher pathRoleMatcher, SubjectFactory subjectFactory, HandlerManager handlerManager) {
         JsonWebTokenUtil.setDefaultSecretKey(TOM_SECRET_KEY);
         // surenessSecurityManager init
         SurenessSecurityManager securityManager = SurenessSecurityManager.getInstance();
         securityManager.setPathRoleMatcher(pathRoleMatcher);
         securityManager.setSubjectFactory(subjectFactory);
         securityManager.setProcessorManager(processorManager);
+        securityManager.setHandlerManager(handlerManager);
         return securityManager;
     }
 
